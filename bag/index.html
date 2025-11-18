@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bag — Nobelian</title>
+  <meta name="description" content="Nobelian — Bags collection" />
+  <link rel="stylesheet" href="/style.css" />
+  <script src="/app.js" defer></script>
+</head>
+<body id="top">
+
+  <!-- header: ide ugyanaz a navbar kerül mint az index.html-ben -->
+  <!-- egyszerű megoldás: másold be az index.html navbar részét ide is,
+       vagy ha később build tool-t használsz -> include/templating -->
+  <header class="navbar sticky">
+    <div class="nav-left">
+      <button class="nav-btn" onclick="toggleOverlay('shop-overlay')">Shop ▾</button>
+      <button class="nav-btn" onclick="toggleOverlay('stories-overlay')">Stories ▾</button>
+    </div>
+
+    <div class="logo">
+      <a href="/"><img src="/images/nobelian_logo1.jpg" alt="Nobelian Logo" class="logo-img"></a>
+    </div>
+
+    <div class="nav-right">
+      <input type="text" class="search-bar" placeholder="Search..." />
+      <div class="dropdown">
+        <button class="nav-btn">My Account ▾</button>
+        <div class="dropdown-content">
+          <a href="#">Login</a>
+          <a href="#">Register</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <nav class="breadcrumb">
+      <a href="/">Home</a> › <a href="/bag/">Bag</a>
+    </nav>
+
+    <h

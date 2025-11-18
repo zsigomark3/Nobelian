@@ -8,6 +8,17 @@ https://alemais.com/
 
 https://www.loewe.com/eur/en/home
 
+Gucci
+Loewe
+Celine
+Chanel
+Louis Vuitton
+ZARA
+H&M
+Apple
+Shopify theme-ek
+Webflow export
+
 Missing features:
 - Mobile first
 - Backend? Node.js, PHP, Firebase, Python Flask? 
