@@ -1,0 +1,355 @@
+/* ============================================================
+   GLOBAL BASE STYLES
+   ------------------------------------------------------------
+   - Body defaults
+   - Typography setup
+   - Overall spacing consistency
+   ============================================================ */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #fdfdfd;
+  color: #333;
+  overflow-x: hidden;
+}
+
+
+
+/* ============================================================
+   NAVIGATION BAR (STICKY)
+   ------------------------------------------------------------
+   - Stays at the top while scrolling
+   - Layout: left menu, centered logo, right section
+   - Works alongside overlays (always visible)
+   ============================================================ */
+.navbar.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 200; /* Over overlays */
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 12px 24px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Left / Right navbar sections */
+.nav-left, .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Navbar menu buttons */
+.nav-btn {
+  background: none;
+  border: none;
+  font-size: 1em;
+  cursor: pointer;
+  padding: 8px 4px;
+  transition: opacity 0.2s ease;
+}
+
+.nav-btn:hover {
+  opacity: 0.6;
+}
+
+/* Logo */
+.logo-img {
+  height: 42px;
+  width: auto;
+  cursor: pointer;
+}
+
+
+
+/* ============================================================
+   SEARCH BAR
+   ============================================================ */
+.search-bar {
+  padding: 6px 10px;
+  font-size: 0.95em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+
+/* ============================================================
+   DROPDOWN (MY ACCOUNT)
+   ------------------------------------------------------------
+   - Only the "My Account" uses dropdown, not overlay
+   ============================================================ */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: #fff;
+  min-width: 120px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  right: 0;
+  top: 120%;
+  z-index: 500;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
+
+
+
+/* ============================================================
+   OVERLAY SYSTEM (MEGA MENU)
+   ------------------------------------------------------------
+   - Full-width expanded panel
+   - Columns placed on left
+   - Product / story links
+   - Right aligned image
+   ============================================================ */
+.overlay {
+  display: none; /* toggled via JS */
+  position: fixed;
+  top: 60px; /* navbar height */
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 60px);
+  background-color: #ffffff;
+  z-index: 150;
+
+  /* Smooth fade animation */
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* When JS adds .active */
+.overlay.active {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Overlay internal layout */
+.overlay-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 80px;   /* base gap */
+  padding: 60px 80px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Column layout for links */
+.overlay-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.overlay-column h3 {
+  margin-bottom: 10px;
+}
+
+/* Overlay links */
+.overlay-column a {
+  text-decoration: none;
+  padding: 4px 0;
+  color: #333;
+  font-size: 0.95em;
+}
+
+.overlay-column a:hover {
+  opacity: 0.7;
+}
+
+
+
+/* ============================================================
+   OVERLAY IMAGE (Right side)
+   ------------------------------------------------------------
+   - Slight padding inside container
+   - Moved inward for aesthetic spacing
+   ============================================================ */
+.overlay-image {
+  margin-left: auto;          /* push image to the right */
+  padding: 20px;              /* invisible border around image */
+}
+
+.overlay-image img {
+  max-height: 70vh;
+  width: auto;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+
+
+/* ============================================================
+   CLOSE BUTTON FOR OVERLAY
+   ============================================================ */
+.overlay-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background: none;
+  font-size: 28px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.65;
+}
+
+.overlay-close:hover {
+  opacity: 1;
+}
+
+
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+.main-content {
+  padding-bottom: 80px;
+}
+
+/* Hero Section */
+.hero-section {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.hero-image {
+  max-width: 90%;
+  height: auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Image Grid */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 40px 10%;
+}
+
+.image-grid img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+
+
+/* ============================================================
+   FOOTER (EXTENDED)
+   ============================================================ */
+.footer {
+  background: #fafafa;
+  padding: 40px 0;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.footer-logo img {
+  height: auto;
+  width: 140;
+  margin-bottom: 30px;
+}
+
+.footer-columns {
+  display: flex;
+  justify-content: center;
+  gap: 120px;
+  margin-top: 20px;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-col a {
+  text-decoration: none;
+  color: #333;
+}
+
+.footer-col a:hover {
+  opacity: 0.7;
+}
+
+
+
+/* ============================================================
+   RESPONSIVE ADJUSTMENTS
+   ------------------------------------------------------------
+   - Makes overlay layout stack on mobile
+   - Resizes images & nav spacing
+   ============================================================ */
+
+/* Tablets */
+@media (max-width: 1100px) {
+  .overlay-inner {
+    gap: 40px; /* Narrower gap */
+    padding: 40px 50px;
+  }
+
+  .overlay-image img {
+    max-height: 50vh;
+  }
+}
+
+/* Mobile Layout */
+@media (max-width: 768px) {
+
+  /* Navbar adjustments */
+  .nav-left, .nav-right {
+    gap: 10px;
+  }
+
+  .search-bar {
+    width: 100px;
+  }
+
+  /* Overlay stacks vertically */
+  .overlay-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px 20px;
+    gap: 30px;
+  }
+
+  .overlay-image {
+    align-self: center;
+    padding: 10px;
+  }
+
+  .overlay-image img {
+    width: 90%;
+    max-height: 40vh;
+  }
+
+  /* Footer alignment */
+  .footer-columns {
+    flex-direction: column;
+    gap: 40px;
+  }
+}
