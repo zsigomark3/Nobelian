@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scarves | Nobelian</title>
+
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+
+<body id="top">
+
+  <!-- NAVBAR -->
+  <header class="navbar sticky">
+    <div class="nav-left">
+      <button class="nav-btn" onclick="toggleOverlay('shop-overlay')">Shop</button>
+      <button class="nav-btn" onclick="toggleOverlay('stories-overlay')">Stories</button>
+    </div>
+
+    <div class="logo">
+      <a href="/"><img src="/images/nobelian_logo1.jpg" class="logo-img"></a>
+    </div>
+
+    <div class="nav-right">
+      <input type="text" class="search-bar" placeholder="Search...">
+      <div class="dropdown">
+        <button class="nav-btn">My Account</button>
+        <div class="dropdown-content">
+          <a href="/login/">Login</a>
+          <a href="/register/">Register</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SHOP OVERLAY -->
+  <div id="shop-overlay" class="overlay">
+    <div class="overlay-inner">
+      <div class="overlay-column">
+        <h3>Shop by Style</h3>
+        <a href="/bag/">Bag</a>
+        <a href="/scarf/">Scarf</a>
+        <a href="/gloves/">Gloves</a>
+        <a href="/charm/">Charm</a>
+      </div>
+      <div class="overlay-column">
+        <h3>Shop by Collection</h3>
+        <a href="/artcollection/">Art Collection</a>
+        <a href="/basiccollection/">Basic Collection</a>
+      </div>
+      <div class="overlay-image right-image">
+        <img src="/images/overlay-img1.jpg">
+      </div>
+    </div>
+    <button class="overlay-close" onclick="closeOverlay('shop-overlay')">✕</button>
+  </div>
+
+  <!-- STORIES OVERLAY -->
+  <div id="stories-overlay" class="overlay">
+    <div class="overlay-inner">
+      <div class="overlay-column">
+        <h3>Stories</h3>
+        <a href="/stories/about/">About</a>
+        <a href="/stories/material/">Material</a>
+      </div>
+      <div class="overlay-image right-image">
+        <img src="/images/overlay-img1.jpg">
+      </div>
+    </div>
+    <button class="overlay-close" onclick="closeOverlay('stories-overlay')">✕</button>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="subpage-main">
+    <section class="subpage-hero">
+      <h1>Scarves</h1>
+      <p>Premium scarves crafted with artistic detail.</p>
+      <div class="placeholder-box">Scarf hero/banner placeholder</div>
+    </section>
+
+    <section class="placeholder-content">
+      <div class="placeholder-box">Product grid coming soon.</div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer extended-footer">
+    <div class="footer-logo"><a href="#top"><img src="/images/nobelian_logo1.jpg"></a></div>
+    <div class="footer-rights"><p>&copy; 2025 Nobelian | All rights reserved.</p></div>
+    <div class="footer-columns">
+      <div class="footer-col left">
+        <a href="/contact/">Contact</a>
+        <a href="/shipping/">Shipping</a>
+        <a href="/returns/">Returns</a>
+      </div>
+      <div class="footer-col center">
+        <div class="social-icons">
+          <a href="#">📸</a>
+          <a href="#">🐦</a>
+          <a href="#">🌐</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

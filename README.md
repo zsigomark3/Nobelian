@@ -3,19 +3,13 @@
 Competitors: To-Be-Inspired
 
 https://www.gucci.com/us/en/
-
 https://alemais.com/
-
 https://www.loewe.com/eur/en/home
-
-Gucci
-Loewe
-Celine
-Chanel
-Louis Vuitton
-ZARA
+https://www.celine.com/en-us/home
+https://www.chanel.com/us/
+https://us.louisvuitton.com/eng-us/homepage
+https://www.zara.com/us/
 H&M
-Apple
 Shopify theme-ek
 Webflow export
 

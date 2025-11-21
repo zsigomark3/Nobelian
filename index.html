@@ -8,205 +8,208 @@
   <!-- Main stylesheet -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Main JS logic (overlay control, navbar interactions, etc.) -->
+  <!-- Main JS logic -->
   <script src="app.js" defer></script>
 </head>
 
 <body id="top">
+
   <!-- ===========================================================
-       STICKY NAVIGATION BAR
-       -----------------------------------------------------------
-       - Always visible at the top
-       - Contains the main menu (Shop, Stories)
-       - Centered brand logo linking back to the top of page
-       - Right side: search bar + My Account dropdown
-       =========================================================== -->
+       STICKY NAVBAR
+  =========================================================== -->
   <header class="navbar sticky">
 
-    <!-- Left-side navigation buttons (trigger overlay panels) -->
+    <!-- Left navigation buttons -->
     <div class="nav-left">
       <button class="nav-btn" onclick="toggleOverlay('shop-overlay')">Shop</button>
       <button class="nav-btn" onclick="toggleOverlay('stories-overlay')">Stories</button>
     </div>
 
-    <!-- Centered brand logo -->
+    <!-- Center logo -->
     <div class="logo">
       <a href="#top">
         <img src="images/nobelian_logo1.jpg" alt="Nobelian Logo" class="logo-img">
       </a>
     </div>
 
-    <!-- Right-side elements: Search bar + My Account -->
+    <!-- Right-side: search + account -->
     <div class="nav-right">
 
-      <!-- Search field -->
-      <input type="text" class="search-bar" placeholder="Search..." />
+      <input type="text" class="search-bar" placeholder="Search..." aria-label="Search" />
 
-      <!-- My Account dropdown (does NOT use overlay) -->
       <div class="dropdown">
         <button class="nav-btn">My Account</button>
 
+        <!-- Corrected dropdown positioning -->
         <div class="dropdown-content">
-          <a href="#">Login</a>
-          <a href="#">Register</a>
+          <a href="/login/">Login</a>
+          <a href="/register/">Register</a>
         </div>
       </div>
+
     </div>
   </header>
 
 
+
   <!-- ===========================================================
-       SHOP OVERLAY (MEGA MENU)
-       -----------------------------------------------------------
-       - Appears when the user clicks "Shop"
-       - Multi-column layout on the left
-       - Product groups + categories
-       - Large image placed to the right
-       - Fully controlled by app.js overlay logic
-       =========================================================== -->
-  <div id="shop-overlay" class="overlay" data-open="false">
+       SHOP OVERLAY
+  =========================================================== -->
+  <div id="shop-overlay" class="overlay">
 
     <div class="overlay-inner">
 
-      <!-- Left column: SHOP BY STYLE -->
+      <!-- Shop by Style -->
       <div class="overlay-column">
         <h3>Shop by Style</h3>
-        <a href="#">Bag</a>
-        <a href="#">Scarf</a>
-        <a href="#">Gloves</a>
-        <a href="#">Charm</a>
+        <a href="/bag/">Bag</a>
+        <a href="/scarf/">Scarf</a>
+        <a href="/gloves/">Gloves</a>
+        <a href="/charm/">Charm</a>
       </div>
 
-      <!-- Middle column: SHOP BY COLLECTION -->
+      <!-- Shop by Collection -->
       <div class="overlay-column">
         <h3>Shop by Collection</h3>
-        <a href="#">Art Collection</a>
-        <a href="#">Basic Collection</a>
+        <a href="/artcollection/">Art Collection</a>
+        <a href="/basiccollection/">Basic Collection</a>
       </div>
 
-      <!-- Right-side promotional image -->
+      <!-- Right-side image -->
       <div class="overlay-image right-image">
-        <img src="images/overlay-img1.jpg" alt="Overlay Image" />
+        <img src="images/overlay-img1.jpg" alt="Overlay Image">
       </div>
+
     </div>
 
-    <!-- Close button (X) -->
     <button class="overlay-close" onclick="closeOverlay('shop-overlay')">✕</button>
+
   </div>
+
 
 
   <!-- ===========================================================
        STORIES OVERLAY
-       -----------------------------------------------------------
-       - Appears when the user clicks "Stories"
-       - Simpler layout with informational navigation
-       - Reuses the same overlay structure for consistency
-       =========================================================== -->
-  <div id="stories-overlay" class="overlay" data-open="false">
+  =========================================================== -->
+  <div id="stories-overlay" class="overlay">
 
     <div class="overlay-inner">
+
       <div class="overlay-column">
         <h3>Stories</h3>
-        <a href="#">About</a>
-        <a href="#">Material</a>
+        <a href="/stories/about/">About</a>
+        <a href="/stories/material/">Material</a>
       </div>
 
-      <!-- Right-side image (same design structure as SHOP overlay) -->
       <div class="overlay-image right-image">
-        <img src="images/overlay-img1.jpg" alt="Overlay Image" />
+        <img src="images/overlay-img1.jpg" alt="Overlay Image">
       </div>
+
     </div>
 
-    <!-- Close button -->
     <button class="overlay-close" onclick="closeOverlay('stories-overlay')">✕</button>
+
   </div>
 
 
+
   <!-- ===========================================================
-       MAIN PAGE CONTENT
-       -----------------------------------------------------------
-       - Hero section with large banner image
-       - Image grid to showcase product categories
-       =========================================================== -->
+       MAIN CONTENT
+  =========================================================== -->
   <main class="main-content">
 
-    <!-- Hero image section -->
+    <!-- Hero section -->
     <section class="hero-section">
-      <img src="images/nagy-kep.jpg" alt="Main Image" class="hero-image" />
+      <img src="images/nagy-kep.jpg" alt="Main Image" class="hero-image">
     </section>
 
-    <!-- Image grid showcasing product visuals -->
+    <!-- Image grid -->
     <section class="image-grid">
       <div class="grid-item">
-        <img src="images/kep1.jpg" alt="Image 1" />
+        <a href="/bag/"><img src="images/kep1.jpg" alt="Bag preview"></a>
       </div>
 
       <div class="grid-item">
-        <img src="images/kep2.jpg" alt="Image 2" />
+        <a href="/scarf/"><img src="images/kep2.jpg" alt="Scarf preview"></a>
       </div>
     </section>
 
   </main>
 
 
+
   <!-- ===========================================================
-       EXTENDED FOOTER
-       -----------------------------------------------------------
-       - Centered large brand logo linking back to top
-       - Left column: Contact / Shipping / Returns
-       - Center icons: Social media placeholders
-       =========================================================== -->
+       NEW EXTENDED FOOTER
+  =========================================================== -->
   <footer class="footer extended-footer">
 
-    <!-- Centered logo -->
+    <!-- Centered footer logo -->
     <div class="footer-logo">
-      <a href="#top">
-        <img src="images/nobelian_logo1.jpg" alt="Nobelian Logo">
-      </a>
+      <a href="#top"><img src="/images/nobelian_logo1.jpg" alt="Nobelian Logo"></a>
     </div>
 
-    <div class="footer-rights">
-        <p>&copy; 2025 Nobelian | All rights reserved.</p>
-    </div>
+    <!-- 3-column horizontal footer row -->
+    <div class="footer-row-3col">
 
-    <!-- Footer link columns -->
-    <div class="footer-columns">
-
-      <!-- Left column: customer service links -->
-      <div class="footer-col left">
-        <a href="#">Contact</a>
-        <a href="#">Shipping</a>
-        <a href="#">Returns</a>
+      <!-- LEFT — Customer links (horizontal) -->
+      <div class="footer-left">
+        <a href="/contact/">Contact</a>
+        <span>·</span>
+        <a href="/shipping/">Shipping</a>
+        <span>·</span>
+        <a href="/returns/">Returns</a>
       </div>
 
-      <!-- Center column: social icons -->
-      <div class="footer-col center">
-        <div class="social-icons">
-          <a href="#">🌐</a>
-          <a href="#">📸</a>
-          <a href="#">▶️</a>
-        </div>
+      <!-- CENTER -->
+      <div class="footer-center">
+        © 2025 Nobelian | All rights reserved.
+      </div>
+
+      <!-- RIGHT — Minimalistic Social icons -->
+      <div class="footer-right">
+
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/atelier.nobelian" target="_blank" aria-label="Instagram">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+            <circle cx="12" cy="12" r="3.5"></circle>
+            <circle cx="17" cy="7" r="1.2"></circle>
+          </svg>
+        </a>
+
+        <!-- TikTok -->
+        <a href="https://tiktok.com/@atelier.nobelian" target="_blank" aria-label="TikTok">
+          <svg width="22" height="22" viewBox="0 0 48 48" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M32 6c0 5 4 9 9 9"></path>
+            <path d="M21 16v15a7 7 0 1 1-7-7"></path>
+            <path d="M21 16a7 7 0 0 0 7 7"></path>
+          </svg>
+        </a>
+
+        <!-- Facebook -->
+        <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 2h-3a5 5 0 0 0-5 5v3H5v4h2v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+          </svg>
+        </a>
+
       </div>
 
     </div>
+
   </footer>
 
 
+
   <!-- ===========================================================
-       INLINE JS — Only the fallback toggle logic is included here.
-       The full overlay system lives inside: app.js
-       =========================================================== -->
+       INLINE JS FALLBACK
+  =========================================================== -->
   <script>
-    // Fallback inline logic (app.js contains the full implementation)
     function toggleOverlay(id) {
       const overlay = document.getElementById(id);
-      const isOpen = overlay.style.display === 'flex';
-
-      if (isOpen) {
-        closeOverlay(id);
-      } else {
-        openOverlay(id);
-      }
+      const isOpen = overlay.classList.contains("active");
+      if (isOpen) closeOverlay(id);
+      else openOverlay(id);
     }
   </script>
 

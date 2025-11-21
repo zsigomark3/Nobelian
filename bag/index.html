@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bag — Nobelian</title>
-  <meta name="description" content="Nobelian — Bags collection" />
-  <link rel="stylesheet" href="/style.css" />
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Bag Collection | Nobelian</title>
+
+  <!-- Global styles + layout -->
+  <link rel="stylesheet" href="/style.css">
+
+  <!-- Overlay / navbar logic -->
   <script src="/app.js" defer></script>
 </head>
+
 <body id="top">
 
-  <!-- header: ide ugyanaz a navbar kerül mint az index.html-ben -->
-  <!-- egyszerű megoldás: másold be az index.html navbar részét ide is,
-       vagy ha később build tool-t használsz -> include/templating -->
+  <!-- ===========================================================
+       STICKY NAVBAR
+       =========================================================== -->
   <header class="navbar sticky">
+
     <div class="nav-left">
-      <button class="nav-btn" onclick="toggleOverlay('shop-overlay')">Shop ▾</button>
-      <button class="nav-btn" onclick="toggleOverlay('stories-overlay')">Stories ▾</button>
+      <button class="nav-btn" onclick="toggleOverlay('shop-overlay')">Shop</button>
+      <button class="nav-btn" onclick="toggleOverlay('stories-overlay')">Stories</button>
     </div>
 
     <div class="logo">
@@ -24,20 +31,203 @@
     </div>
 
     <div class="nav-right">
-      <input type="text" class="search-bar" placeholder="Search..." />
+      <input type="text" class="search-bar" placeholder="Search...">
+
       <div class="dropdown">
-        <button class="nav-btn">My Account ▾</button>
+        <button class="nav-btn">My Account</button>
         <div class="dropdown-content">
-          <a href="#">Login</a>
-          <a href="#">Register</a>
+          <a href="/login/">Login</a>
+          <a href="/register/">Register</a>
         </div>
       </div>
     </div>
+
   </header>
 
-  <main class="main-content">
-    <nav class="breadcrumb">
-      <a href="/">Home</a> › <a href="/bag/">Bag</a>
-    </nav>
 
-    <h
+
+  <!-- ===========================================================
+       SHOP OVERLAY (MEGA MENU)
+       =========================================================== -->
+  <div id="shop-overlay" class="overlay">
+
+    <div class="overlay-inner">
+
+      <div class="overlay-column">
+        <h3>Shop by Style</h3>
+        <a href="/bag/">Bag</a>
+        <a href="/scarf/">Scarf</a>
+        <a href="/gloves/">Gloves</a>
+        <a href="/charm/">Charm</a>
+      </div>
+
+      <div class="overlay-column">
+        <h3>Shop by Collection</h3>
+        <a href="/artcollection/">Art Collection</a>
+        <a href="/basiccollection/">Basic Collection</a>
+      </div>
+
+      <div class="overlay-image right-image">
+        <img src="/images/overlay-img1.jpg" alt="Overlay Image">
+      </div>
+
+    </div>
+
+    <button class="overlay-close" onclick="closeOverlay('shop-overlay')">✕</button>
+  </div>
+
+
+
+  <!-- ===========================================================
+       STORIES OVERLAY
+       =========================================================== -->
+  <div id="stories-overlay" class="overlay">
+
+    <div class="overlay-inner">
+
+      <div class="overlay-column">
+        <h3>Stories</h3>
+        <a href="/stories/about/">About</a>
+        <a href="/stories/material/">Material</a>
+      </div>
+
+      <div class="overlay-image right-image">
+        <img src="/images/overlay-img1.jpg" alt="Overlay Image">
+      </div>
+
+    </div>
+
+    <button class="overlay-close" onclick="closeOverlay('stories-overlay')">✕</button>
+  </div>
+
+
+
+  <!-- ===========================================================
+       BAG COLLECTION — MAIN PAGE
+       Gucci-style product grid (9 items)
+       =========================================================== -->
+  <main class="subpage-main">
+
+    <!-- Page title -->
+    <section class="subpage-hero">
+      <h1>Bag Collection</h1>
+      <p>Explore our curated selection of modern handcrafted bags.</p>
+    </section>
+
+
+    <!-- ==============================
+         PRODUCT GRID (9 items)
+         ============================== -->
+    <section class="product-grid">
+
+      <!-- 1 -->
+      <div class="product-card">
+        <img src="/images/products/bag1.jpg" alt="Nobelian Tote 01">
+        <h3 class="product-name">Nobelian Tote 01</h3>
+        <p class="product-subtitle">Handcrafted Leather</p>
+        <p class="product-price">$280</p>
+      </div>
+
+      <!-- 2 -->
+      <div class="product-card">
+        <img src="/images/products/bag2.jpg" alt="Structured Mini Bag">
+        <h3 class="product-name">Structured Mini Bag</h3>
+        <p class="product-subtitle">Premium Italian Craft</p>
+        <p class="product-price">$310</p>
+      </div>
+
+      <!-- 3 -->
+      <div class="product-card">
+        <img src="/images/products/bag3.jpg" alt="Arc Top Handle Bag">
+        <h3 class="product-name">Arc Top Handle Bag</h3>
+        <p class="product-subtitle">Sustainable Art Piece</p>
+        <p class="product-price">$350</p>
+      </div>
+
+      <!-- 4 -->
+      <div class="product-card">
+        <img src="/images/products/bag4.jpg" alt="Soft Fold Tote">
+        <h3 class="product-name">Soft Fold Tote</h3>
+        <p class="product-subtitle">Limited Edition</p>
+        <p class="product-price">$260</p>
+      </div>
+
+      <!-- 5 -->
+      <div class="product-card">
+        <img src="/images/products/bag5.jpg" alt="Sculpted Leather Satchel">
+        <h3 class="product-name">Sculpted Leather Satchel</h3>
+        <p class="product-subtitle">Artisan Crafted</p>
+        <p class="product-price">$330</p>
+      </div>
+
+      <!-- 6 -->
+      <div class="product-card">
+        <img src="/images/products/bag6.jpg" alt="Nobelian Day Pack">
+        <h3 class="product-name">Nobelian Day Pack</h3>
+        <p class="product-subtitle">Urban Minimalist</p>
+        <p class="product-price">$240</p>
+      </div>
+
+      <!-- 7 -->
+      <div class="product-card">
+        <img src="/images/products/bag7.jpg" alt="Signature Crescent Bag">
+        <h3 class="product-name">Signature Crescent Bag</h3>
+        <p class="product-subtitle">Contemporary Design</p>
+        <p class="product-price">$390</p>
+      </div>
+
+      <!-- 8 -->
+      <div class="product-card">
+        <img src="/images/products/bag8.jpg" alt="Structured Carry Bag">
+        <h3 class="product-name">Structured Carry Bag</h3>
+        <p class="product-subtitle">Fine Leather Material</p>
+        <p class="product-price">$295</p>
+      </div>
+
+      <!-- 9 -->
+      <div class="product-card">
+        <img src="/images/products/bag9.jpg" alt="Vertical Box Tote">
+        <h3 class="product-name">Vertical Box Tote</h3>
+        <p class="product-subtitle">Premium Craftsmanship</p>
+        <p class="product-price">$310</p>
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- ===========================================================
+       FOOTER
+       =========================================================== -->
+  <footer class="footer extended-footer">
+
+    <div class="footer-logo">
+      <a href="#top"><img src="/images/nobelian_logo1.jpg" alt="Nobelian Logo"></a>
+    </div>
+
+    <div class="footer-rights">
+      <p>&copy; 2025 Nobelian | All rights reserved.</p>
+    </div>
+
+    <div class="footer-columns">
+      <div class="footer-col left">
+        <a href="/contact/">Contact</a>
+        <a href="/shipping/">Shipping</a>
+        <a href="/returns/">Returns</a>
+      </div>
+
+      <div class="footer-col center">
+        <div class="social-icons">
+          <a href="#">📸</a>
+          <a href="#">🐦</a>
+          <a href="#">🌐</a>
+        </div>
+      </div>
+    </div>
+
+  </footer>
+
+</body>
+</html>
