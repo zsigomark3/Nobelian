@@ -1,0 +1,109 @@
+{
+  "common": {
+    "nav": {
+      "shop": "Vásárlás",
+      "stories": "Történetek",
+      "searchPlaceholder": "Keresés...",
+      "searchAriaLabel": "Termékek keresése",
+      "languageSelectAria": "Nyelv kiválasztása",
+      "myAccount": "Fiókom",
+      "login": "Bejelentkezés",
+      "register": "Regisztráció"
+    },
+    "overlay": {
+      "shopByStyle": "Stílus szerint",
+      "shopByCollection": "Kollekció szerint",
+      "storiesTitle": "Történetek",
+      "links": {
+        "bag": "Táska",
+        "scarf": "Sál",
+        "gloves": "Kesztyű",
+        "charm": "Charm",
+        "artCollection": "Művészeti kollekció",
+        "basicCollection": "Alap kollekció",
+        "about": "Rólunk",
+        "material": "Anyagok"
+      }
+    },
+    "images": {
+      "shopOverlayAlt": "Nobelian kollekció előnézet",
+      "storiesOverlayAlt": "Nobelian történetek gyűjtemény",
+      "logoAlt": "Nobelian logó"
+    },
+    "footer": {
+      "contact": "Kapcsolat",
+      "shipping": "Szállítás",
+      "returns": "Visszaküldés",
+      "rights": "© 2025 Nobelian | Minden jog fenntartva."
+    }
+  },
+  "pages": {
+    "home": {
+      "hero": {
+        "imageAlt": "Nobelian luxuskollekció - kézműves táskák és kiegészítők"
+      },
+      "grid": {
+        "bagAlt": "Nobelian luxustáska kollekció - kézzel készült bőr táskák",
+        "bagAria": "Táska kollekció megnyitása",
+        "scarfAlt": "Nobelian prémium sál kollekció - kézműves sálak",
+        "scarfAria": "Sál kollekció megnyitása"
+      }
+    },
+    "bag": {
+      "hero": {
+        "title": "Táska kollekció",
+        "subtitle": "Fedezd fel modern, kézműves táskáink válogatását."
+      }
+    },
+    "artcollection": {
+      "hero": {
+        "title": "Művészeti kollekció",
+        "subtitle": "Gondosan összeállított, művészi és kifejező darabok.",
+        "placeholder": "Művészeti kollekció hős kép helyőrző"
+      },
+      "content": {
+        "placeholder": "Művészeti kollekció termékrács helyőrző."
+      }
+    },
+    "scarf": {
+      "hero": {
+        "title": "Sálak",
+        "subtitle": "Prémium sálak művészi részletekkel.",
+        "placeholder": "Sálak hero/banner helyőrző"
+      },
+      "content": {
+        "placeholder": "A termékrács hamarosan elérhető."
+      }
+    },
+    "gloves": {
+      "hero": {
+        "title": "Kesztyűk",
+        "subtitle": "Kézzel készült kesztyűk időtlen eleganciával.",
+        "placeholder": "Kesztyűk hero/banner"
+      },
+      "content": {
+        "placeholder": "A termékrács hamarosan elérhető."
+      }
+    },
+    "charm": {
+      "hero": {
+        "title": "Charmok",
+        "subtitle": "Személyre szabhatod kiegészítőidet egyedi charmjainkkal.",
+        "placeholder": "Charm oldal hero vagy banner"
+      },
+      "content": {
+        "placeholder": "Itt fog megjelenni a termékrács."
+      }
+    },
+    "basic": {
+      "hero": {
+        "title": "Alap kollekció",
+        "subtitle": "Időtlen alapdarabok letisztult, minimál formában.",
+        "placeholder": "Alap kollekció hero / banner helyőrző"
+      },
+      "content": {
+        "placeholder": "Alap kollekció termékrács helyőrző."
+      }
+    }
+  }
+}

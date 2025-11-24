@@ -45,26 +45,31 @@
   </script>
 </head>
 
-<body id="top">
+<body id="top" data-page="scarf">
 
   <!-- NAVBAR -->
   <header class="navbar sticky">
     <div class="nav-left">
-      <button class="nav-btn" onclick="toggleOverlay('shop-overlay')">Shop</button>
-      <button class="nav-btn" onclick="toggleOverlay('stories-overlay')">Stories</button>
+      <button class="nav-btn" onclick="toggleOverlay('shop-overlay')" data-i18n="common.nav.shop">Shop</button>
+      <button class="nav-btn" onclick="toggleOverlay('stories-overlay')" data-i18n="common.nav.stories">Stories</button>
     </div>
 
     <div class="logo">
-      <a href="/"><img src="/images/nobelian_logo1.jpg" class="logo-img" alt="Nobelian Logo"></a>
+      <a href="/"><img src="/images/nobelian_logo1.jpg" class="logo-img" alt="Nobelian Logo" data-i18n-alt="common.images.logoAlt"></a>
     </div>
 
     <div class="nav-right">
-      <input type="text" class="search-bar" placeholder="Search..." aria-label="Search products">
+      <input type="text" class="search-bar" placeholder="Search..." aria-label="Search products" data-i18n-placeholder="common.nav.searchPlaceholder" data-i18n-aria-label="common.nav.searchAriaLabel">
+      <select id="language-select" class="language-select" aria-label="Change language" data-i18n-aria-label="common.nav.languageSelectAria">
+        <option value="en">EN</option>
+        <option value="hu">HU</option>
+        <option value="de">DE</option>
+      </select>
       <div class="dropdown">
-        <button class="nav-btn">My Account</button>
+        <button class="nav-btn" data-i18n="common.nav.myAccount">My Account</button>
         <div class="dropdown-content">
-          <a href="/login/">Login</a>
-          <a href="/register/">Register</a>
+          <a href="/login/" data-i18n="common.nav.login">Login</a>
+          <a href="/register/" data-i18n="common.nav.register">Register</a>
         </div>
       </div>
     </div>
@@ -74,19 +79,19 @@
   <div id="shop-overlay" class="overlay">
     <div class="overlay-inner">
       <div class="overlay-column">
-        <h3>Shop by Style</h3>
-        <a href="/bag/">Bag</a>
-        <a href="/scarf/">Scarf</a>
-        <a href="/gloves/">Gloves</a>
-        <a href="/charm/">Charm</a>
+        <h3 data-i18n="common.overlay.shopByStyle">Shop by Style</h3>
+        <a href="/bag/" data-i18n="common.overlay.links.bag">Bag</a>
+        <a href="/scarf/" data-i18n="common.overlay.links.scarf">Scarf</a>
+        <a href="/gloves/" data-i18n="common.overlay.links.gloves">Gloves</a>
+        <a href="/charm/" data-i18n="common.overlay.links.charm">Charm</a>
       </div>
       <div class="overlay-column">
-        <h3>Shop by Collection</h3>
-        <a href="/artcollection/">Art Collection</a>
-        <a href="/basiccollection/">Basic Collection</a>
+        <h3 data-i18n="common.overlay.shopByCollection">Shop by Collection</h3>
+        <a href="/artcollection/" data-i18n="common.overlay.links.artCollection">Art Collection</a>
+        <a href="/basiccollection/" data-i18n="common.overlay.links.basicCollection">Basic Collection</a>
       </div>
       <div class="overlay-image right-image">
-        <img src="/images/overlay-img1.jpg" alt="Nobelian Shop Collection Preview">
+        <img src="/images/overlay-img1.jpg" alt="Nobelian Shop Collection Preview" data-i18n-alt="common.images.shopOverlayAlt">
       </div>
     </div>
     <button class="overlay-close" onclick="closeOverlay('shop-overlay')">✕</button>
@@ -96,12 +101,12 @@
   <div id="stories-overlay" class="overlay">
     <div class="overlay-inner">
       <div class="overlay-column">
-        <h3>Stories</h3>
-        <a href="/stories/about/">About</a>
-        <a href="/stories/material/">Material</a>
+        <h3 data-i18n="common.overlay.storiesTitle">Stories</h3>
+        <a href="/stories/about/" data-i18n="common.overlay.links.about">About</a>
+        <a href="/stories/material/" data-i18n="common.overlay.links.material">Material</a>
       </div>
       <div class="overlay-image right-image">
-        <img src="/images/overlay-img1.jpg" alt="Nobelian Stories Collection">
+        <img src="/images/overlay-img1.jpg" alt="Nobelian Stories Collection" data-i18n-alt="common.images.storiesOverlayAlt">
       </div>
     </div>
     <button class="overlay-close" onclick="closeOverlay('stories-overlay')">✕</button>
@@ -110,25 +115,25 @@
   <!-- MAIN CONTENT -->
   <main class="subpage-main">
     <section class="subpage-hero">
-      <h1>Scarves</h1>
-      <p>Premium scarves crafted with artistic detail.</p>
-      <div class="placeholder-box">Scarf hero/banner placeholder</div>
+      <h1 data-i18n="pages.scarf.hero.title">Scarves</h1>
+      <p data-i18n="pages.scarf.hero.subtitle">Premium scarves crafted with artistic detail.</p>
+      <div class="placeholder-box" data-i18n="pages.scarf.hero.placeholder">Scarf hero/banner placeholder</div>
     </section>
 
     <section class="placeholder-content">
-      <div class="placeholder-box">Product grid coming soon.</div>
+      <div class="placeholder-box" data-i18n="pages.scarf.content.placeholder">Product grid coming soon.</div>
     </section>
   </main>
 
   <!-- FOOTER -->
   <footer class="footer extended-footer">
-    <div class="footer-logo"><a href="#top"><img src="/images/nobelian_logo1.jpg" alt="Nobelian Logo"></a></div>
-    <div class="footer-rights"><p>&copy; 2025 Nobelian | All rights reserved.</p></div>
+    <div class="footer-logo"><a href="#top"><img src="/images/nobelian_logo1.jpg" alt="Nobelian Logo" data-i18n-alt="common.images.logoAlt"></a></div>
+    <div class="footer-rights"><p data-i18n="common.footer.rights">&copy; 2025 Nobelian | All rights reserved.</p></div>
     <div class="footer-columns">
       <div class="footer-col left">
-        <a href="/contact/">Contact</a>
-        <a href="/shipping/">Shipping</a>
-        <a href="/returns/">Returns</a>
+        <a href="/contact/" data-i18n="common.footer.contact">Contact</a>
+        <a href="/shipping/" data-i18n="common.footer.shipping">Shipping</a>
+        <a href="/returns/" data-i18n="common.footer.returns">Returns</a>
       </div>
       <div class="footer-col center">
         <div class="social-icons">

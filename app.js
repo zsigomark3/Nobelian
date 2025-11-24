@@ -143,3 +143,105 @@ document.querySelectorAll(".overlay-inner").forEach(inner => {
   });
 });
 
+
+/* ========================================================================
+   TRANSLATION SERVICE (TEMP JSON FALLBACK)
+   ------------------------------------------------------------------------
+   Provides client-side translations by fetching JSON files. This mimics
+   the upcoming translation API endpoint so we can swap in the network
+   call later without changing markup.
+   ======================================================================== */
+const translationService = (() => {
+  const SUPPORTED_LANGS = ["en", "hu", "de"];
+  const DEFAULT_LANG = "en";
+  const STORAGE_KEY = "nobelian-preferred-language";
+  const TRANSLATION_BASE = "/translations";
+
+  let currentLang = DEFAULT_LANG;
+  let translations = {};
+
+  function init() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    const initialLang = SUPPORTED_LANGS.includes(saved) ? saved : DEFAULT_LANG;
+    bindLanguageSwitcher();
+    loadLanguage(initialLang);
+  }
+
+  function bindLanguageSwitcher() {
+    const selector = document.getElementById("language-select");
+    if (!selector) return;
+    selector.addEventListener("change", event => {
+      loadLanguage(event.target.value);
+    });
+  }
+
+  async function loadLanguage(lang) {
+    const safeLang = SUPPORTED_LANGS.includes(lang) ? lang : DEFAULT_LANG;
+
+    try {
+      const response = await fetch(`${TRANSLATION_BASE}/${safeLang}.json`, { cache: "no-store" });
+      if (!response.ok) throw new Error(`Failed to load ${safeLang} translations`);
+
+      translations = await response.json();
+      currentLang = safeLang;
+      localStorage.setItem(STORAGE_KEY, safeLang);
+
+      updateLanguageSwitcher();
+      applyTranslations();
+    } catch (error) {
+      console.error("[i18n] Unable to load translations:", error);
+      if (safeLang !== DEFAULT_LANG) {
+        loadLanguage(DEFAULT_LANG);
+      }
+    }
+  }
+
+  function updateLanguageSwitcher() {
+    const selector = document.getElementById("language-select");
+    if (selector) {
+      selector.value = currentLang;
+    }
+  }
+
+  function applyTranslations() {
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      const value = getTranslationValue(key);
+      if (value) {
+        el.textContent = value;
+      }
+    });
+
+    applyAttributeTranslations("data-i18n-placeholder", "placeholder");
+    applyAttributeTranslations("data-i18n-aria-label", "aria-label");
+    applyAttributeTranslations("data-i18n-alt", "alt");
+  }
+
+  function applyAttributeTranslations(attributeName, targetAttribute) {
+    document.querySelectorAll(`[${attributeName}]`).forEach(el => {
+      const key = el.getAttribute(attributeName);
+      const value = getTranslationValue(key);
+      if (value) {
+        el.setAttribute(targetAttribute, value);
+      }
+    });
+  }
+
+  function getTranslationValue(path) {
+    if (!path) return "";
+    return path.split(".").reduce((acc, part) => {
+      if (acc && Object.prototype.hasOwnProperty.call(acc, part)) {
+        return acc[part];
+      }
+      return undefined;
+    }, translations);
+  }
+
+  return {
+    init,
+  };
+})();
+
+document.addEventListener("DOMContentLoaded", () => {
+  translationService.init();
+});

@@ -1,0 +1,110 @@
+{
+  "common": {
+    "nav": {
+      "shop": "Shop",
+      "stories": "Geschichten",
+      "searchPlaceholder": "Suchen...",
+      "searchAriaLabel": "Produkte durchsuchen",
+      "languageSelectAria": "Sprache ändern",
+      "myAccount": "Mein Konto",
+      "login": "Anmelden",
+      "register": "Registrieren"
+    },
+    "overlay": {
+      "shopByStyle": "Nach Stil",
+      "shopByCollection": "Nach Kollektion",
+      "storiesTitle": "Geschichten",
+      "links": {
+        "bag": "Tasche",
+        "scarf": "Schal",
+        "gloves": "Handschuhe",
+        "charm": "Charm",
+        "artCollection": "Kunstkollektion",
+        "basicCollection": "Basis-Kollektion",
+        "about": "Über uns",
+        "material": "Material"
+      }
+    },
+    "images": {
+      "shopOverlayAlt": "Nobelian Shop-Kollektion Vorschau",
+      "storiesOverlayAlt": "Nobelian Geschichten-Sammlung",
+      "logoAlt": "Nobelian Logo"
+    },
+    "footer": {
+      "contact": "Kontakt",
+      "shipping": "Versand",
+      "returns": "Rücksendungen",
+      "rights": "© 2025 Nobelian | Alle Rechte vorbehalten."
+    }
+  },
+  "pages": {
+    "home": {
+      "hero": {
+        "imageAlt": "Nobelian Luxus-Kollektion - Handgefertigte Taschen und Accessoires"
+      },
+      "grid": {
+        "bagAlt": "Nobelian Luxus-Taschenkollektion - Handgefertigte Ledertaschen",
+        "bagAria": "Taschenkollektion anzeigen",
+        "scarfAlt": "Nobelian Premium-Schalkollektion - Handwerklich gefertigte Schals",
+        "scarfAria": "Schalkollektion anzeigen"
+      }
+    },
+    "bag": {
+      "hero": {
+        "title": "Taschenkollektion",
+        "subtitle": "Entdecken Sie unsere kuratierte Auswahl moderner handgefertigter Taschen."
+      }
+    },
+    "artcollection": {
+      "hero": {
+        "title": "Kunstkollektion",
+        "subtitle": "Eine kuratierte Auswahl künstlerischer, ausdrucksstarker Designs.",
+        "placeholder": "Kunstkollektion Hero / Banner Platzhalter"
+      },
+      "content": {
+        "placeholder": "Kunstkollektion Produktgrid Platzhalter."
+      }
+    },
+    "scarf": {
+      "hero": {
+        "title": "Schals",
+        "subtitle": "Premium-Schals mit künstlerischen Details gefertigt.",
+        "placeholder": "Schal Hero/Banner Platzhalter"
+      },
+      "content": {
+        "placeholder": "Produktgrid kommt bald."
+      }
+    },
+    "gloves": {
+      "hero": {
+        "title": "Handschuhe",
+        "subtitle": "Handgefertigte Handschuhe für Komfort und zeitlose Eleganz.",
+        "placeholder": "Handschuhe Seite Hero/Banner"
+      },
+      "content": {
+        "placeholder": "Produktgrid kommt bald."
+      }
+    },
+    "charm": {
+      "hero": {
+        "title": "Charm",
+        "subtitle": "Personalisieren Sie Ihre Accessoires mit einzigartigen handgefertigten Charms.",
+        "placeholder": "Charm Seite Hero oder Banner"
+      },
+      "content": {
+        "placeholder": "Produktgrid wird hier angezeigt."
+      }
+    },
+    "basic": {
+      "hero": {
+        "title": "Basis-Kollektion",
+        "subtitle": "Zeitlose Essentials mit sauberem, minimalistischem Design.",
+        "placeholder": "Basis-Kollektion Hero / Banner Platzhalter"
+      },
+      "content": {
+        "placeholder": "Basis-Kollektion Produktgrid Platzhalter."
+      }
+    }
+  }
+}
+

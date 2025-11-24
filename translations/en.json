@@ -1,0 +1,109 @@
+{
+  "common": {
+    "nav": {
+      "shop": "Shop",
+      "stories": "Stories",
+      "searchPlaceholder": "Search...",
+      "searchAriaLabel": "Search products",
+      "languageSelectAria": "Change language",
+      "myAccount": "My Account",
+      "login": "Login",
+      "register": "Register"
+    },
+    "overlay": {
+      "shopByStyle": "Shop by Style",
+      "shopByCollection": "Shop by Collection",
+      "storiesTitle": "Stories",
+      "links": {
+        "bag": "Bag",
+        "scarf": "Scarf",
+        "gloves": "Gloves",
+        "charm": "Charm",
+        "artCollection": "Art Collection",
+        "basicCollection": "Basic Collection",
+        "about": "About",
+        "material": "Material"
+      }
+    },
+    "images": {
+      "shopOverlayAlt": "Nobelian Shop Collection Preview",
+      "storiesOverlayAlt": "Nobelian Stories Collection",
+      "logoAlt": "Nobelian Logo"
+    },
+    "footer": {
+      "contact": "Contact",
+      "shipping": "Shipping",
+      "returns": "Returns",
+      "rights": "© 2025 Nobelian | All rights reserved."
+    }
+  },
+  "pages": {
+    "home": {
+      "hero": {
+        "imageAlt": "Nobelian Luxury Collection - Handcrafted Bags and Accessories"
+      },
+      "grid": {
+        "bagAlt": "Nobelian Luxury Bag Collection - Handcrafted Leather Bags",
+        "bagAria": "View Bag Collection",
+        "scarfAlt": "Nobelian Premium Scarf Collection - Artisan Crafted Scarves",
+        "scarfAria": "View Scarf Collection"
+      }
+    },
+    "bag": {
+      "hero": {
+        "title": "Bag Collection",
+        "subtitle": "Explore our curated selection of modern handcrafted bags."
+      }
+    },
+    "artcollection": {
+      "hero": {
+        "title": "Art Collection",
+        "subtitle": "A curated selection of artistic, expressive designs.",
+        "placeholder": "Art Collection hero / banner placeholder"
+      },
+      "content": {
+        "placeholder": "Art Collection product grid placeholder."
+      }
+    },
+    "scarf": {
+      "hero": {
+        "title": "Scarves",
+        "subtitle": "Premium scarves crafted with artistic detail.",
+        "placeholder": "Scarf hero/banner placeholder"
+      },
+      "content": {
+        "placeholder": "Product grid coming soon."
+      }
+    },
+    "gloves": {
+      "hero": {
+        "title": "Gloves",
+        "subtitle": "Handcrafted gloves designed for comfort and timeless elegance.",
+        "placeholder": "Gloves page hero/banner"
+      },
+      "content": {
+        "placeholder": "Product grid coming soon."
+      }
+    },
+    "charm": {
+      "hero": {
+        "title": "Charm",
+        "subtitle": "Personalise your accessories with unique handmade charms.",
+        "placeholder": "Charm page hero or banner"
+      },
+      "content": {
+        "placeholder": "Product grid will be displayed here."
+      }
+    },
+    "basic": {
+      "hero": {
+        "title": "Basic Collection",
+        "subtitle": "Timeless essentials crafted with clean, minimal design.",
+        "placeholder": "Basic Collection hero / banner placeholder"
+      },
+      "content": {
+        "placeholder": "Basic Collection product grid placeholder."
+      }
+    }
+  }
+}

@@ -65,6 +65,21 @@ body {
   border-radius: 4px;
 }
 
+.language-select {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: transparent;
+  font-size: 0.95em;
+  padding: 6px 8px;
+  color: #333;
+  cursor: pointer;
+}
+
+.language-select:focus {
+  outline: none;
+  border-color: #888;
+}
+
 
 
 /* ============================================================
