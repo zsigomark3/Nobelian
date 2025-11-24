@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.nobelian.com/sitemap.xml
+
+# Disallow admin/login pages if they exist
+Disallow: /login/
+Disallow: /register/
+Disallow: /admin/
+

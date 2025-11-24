@@ -3,13 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nobelian</title>
+  
+  <!-- Primary Meta Tags -->
+  <title>Nobelian - Luxury Handcrafted Bags, Scarves & Accessories</title>
+  <meta name="title" content="Nobelian - Luxury Handcrafted Bags, Scarves & Accessories" />
+  <meta name="description" content="Discover Nobelian's curated collection of handcrafted luxury bags, scarves, gloves, and charms. Premium Italian craftsmanship meets contemporary design. Shop Art Collection and Basic Collection." />
+  <meta name="keywords" content="luxury bags, handcrafted accessories, designer scarves, premium gloves, luxury charms, Italian leather, artisan bags, Nobelian" />
+  <meta name="author" content="Nobelian" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="English" />
+  <link rel="canonical" href="https://www.nobelian.com/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.nobelian.com/" />
+  <meta property="og:title" content="Nobelian - Luxury Handcrafted Bags, Scarves & Accessories" />
+  <meta property="og:description" content="Discover Nobelian's curated collection of handcrafted luxury bags, scarves, gloves, and charms. Premium Italian craftsmanship meets contemporary design." />
+  <meta property="og:image" content="https://www.nobelian.com/images/nobelian_logo1.jpg" />
+  <meta property="og:site_name" content="Nobelian" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://www.nobelian.com/" />
+  <meta name="twitter:title" content="Nobelian - Luxury Handcrafted Bags, Scarves & Accessories" />
+  <meta name="twitter:description" content="Discover Nobelian's curated collection of handcrafted luxury bags, scarves, gloves, and charms. Premium Italian craftsmanship meets contemporary design." />
+  <meta name="twitter:image" content="https://www.nobelian.com/images/nobelian_logo1.jpg" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="images/nobelian_logo1.jpg" />
 
   <!-- Main stylesheet -->
   <link rel="stylesheet" href="style.css" />
 
   <!-- Main JS logic -->
   <script src="app.js" defer></script>
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Nobelian",
+    "url": "https://www.nobelian.com",
+    "logo": "https://www.nobelian.com/images/nobelian_logo1.jpg",
+    "description": "Luxury handcrafted bags, scarves, gloves, and charms with premium Italian craftsmanship",
+    "sameAs": [
+      "https://www.instagram.com/atelier.nobelian",
+      "https://tiktok.com/@atelier.nobelian"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "Customer Service",
+      "url": "https://www.nobelian.com/contact/"
+    }
+  }
+  </script>
 </head>
 
 <body id="top">
@@ -77,7 +125,7 @@
 
       <!-- Right-side image -->
       <div class="overlay-image right-image">
-        <img src="images/overlay-img1.jpg" alt="Overlay Image">
+        <img src="images/overlay-img1.jpg" alt="Nobelian Collection Preview">
       </div>
 
     </div>
@@ -102,7 +150,7 @@
       </div>
 
       <div class="overlay-image right-image">
-        <img src="images/overlay-img1.jpg" alt="Overlay Image">
+        <img src="images/overlay-img1.jpg" alt="Nobelian Stories Collection">
       </div>
 
     </div>
@@ -120,17 +168,17 @@
 
     <!-- Hero section -->
     <section class="hero-section">
-      <img src="images/nagy-kep.jpg" alt="Main Image" class="hero-image">
+      <img src="images/nagy-kep.jpg" alt="Nobelian Luxury Collection - Handcrafted Bags and Accessories" class="hero-image">
     </section>
 
     <!-- Image grid -->
     <section class="image-grid">
       <div class="grid-item">
-        <a href="/bag/"><img src="images/kep1.jpg" alt="Bag preview"></a>
+        <a href="/bag/" aria-label="View Bag Collection"><img src="images/kep1.jpg" alt="Nobelian Luxury Bag Collection - Handcrafted Leather Bags"></a>
       </div>
 
       <div class="grid-item">
-        <a href="/scarf/"><img src="images/kep2.jpg" alt="Scarf preview"></a>
+        <a href="/scarf/" aria-label="View Scarf Collection"><img src="images/kep2.jpg" alt="Nobelian Premium Scarf Collection - Artisan Crafted Scarves"></a>
       </div>
     </section>
 
