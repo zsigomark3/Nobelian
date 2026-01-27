@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Nobelian</title>
+  <link rel="stylesheet" href="../style.css" />
+  <script src="../auth.js"></script>
+  <style>
+    .auth-container {
+      max-width: 400px;
+      margin: 80px auto;
+      padding: 40px;
+      background: #fff;
+      border: 1px solid #eee;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .auth-container h1 {
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 1.8em;
+      font-weight: normal;
+    }
+
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-size: 0.9em;
+      color: #666;
+    }
+
+    .form-group input {
+      padding: 12px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #888;
+    }
+
+    .auth-button {
+      padding: 12px;
+      font-size: 1em;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .auth-button:hover {
+      opacity: 0.8;
+    }
+
+    .auth-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .error-message {
+      padding: 12px;
+      background: #fee;
+      color: #c33;
+      border: 1px solid #fcc;
+      border-radius: 4px;
+      font-size: 0.9em;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .success-message {
+      padding: 12px;
+      background: #efe;
+      color: #3c3;
+      border: 1px solid #cfc;
+      border-radius: 4px;
+      font-size: 0.9em;
+      display: none;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    .auth-links {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.9em;
+    }
+
+    .auth-links a {
+      color: #333;
+      text-decoration: none;
+    }
+
+    .auth-links a:hover {
+      opacity: 0.6;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #333;
+      text-decoration: none;
+      font-size: 0.9em;
+    }
+
+    .back-link:hover {
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <a href="/" class="back-link">← Back to Home</a>
+    
+    <h1>Login</h1>
+
+    <div id="error-message" class="error-message"></div>
+    <div id="success-message" class="success-message"></div>
+
+    <form id="login-form" class="auth-form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email" />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required autocomplete="current-password" />
+      </div>
+
+      <button type="submit" class="auth-button" id="submit-btn">Login</button>
+    </form>
+
+    <div class="auth-links">
+      Don't have an account? <a href="/register/">Register here</a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Wait for authService to be available
+      if (typeof authService === 'undefined') {
+        // If authService is not loaded yet, wait a bit and try again
+        setTimeout(() => {
+          if (typeof authService !== 'undefined' && authService.isAuthenticated()) {
+            window.location.href = "/";
+          }
+        }, 100);
+      } else {
+        // If already logged in, redirect to home
+        if (authService.isAuthenticated()) {
+          window.location.href = "/";
+        }
+      }
+
+      document.getElementById("login-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Ensure authService is available
+        if (typeof authService === 'undefined') {
+          document.getElementById("error-message").textContent = "Authentication service not loaded. Please refresh the page.";
+          document.getElementById("error-message").classList.add("show");
+          return;
+        }
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const submitBtn = document.getElementById("submit-btn");
+        const errorDiv = document.getElementById("error-message");
+        const successDiv = document.getElementById("success-message");
+
+        // Clear previous messages
+        errorDiv.classList.remove("show");
+        successDiv.classList.remove("show");
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Logging in...";
+
+        const result = await authService.login(email, password);
+
+        if (result.success) {
+          successDiv.textContent = "Login successful! Redirecting...";
+          successDiv.classList.add("show");
+          
+          // Redirect to home page after a short delay
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 1000);
+        } else {
+          errorDiv.textContent = result.error || "Login failed. Please try again.";
+          errorDiv.classList.add("show");
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Login";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

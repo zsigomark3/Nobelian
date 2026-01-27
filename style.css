@@ -58,12 +58,6 @@ body {
 /* ============================================================
    SEARCH BAR
 ============================================================ */
-.search-bar {
-  padding: 6px 10px;
-  font-size: 0.95em;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
 
 .language-select {
   border: 1px solid #ccc;
@@ -425,10 +419,6 @@ body {
 
   .nav-left, .nav-right {
     gap: 10px;
-  }
-
-  .search-bar {
-    width: 100px;
   }
 
   .overlay-inner {
