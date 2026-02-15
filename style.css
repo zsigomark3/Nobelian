@@ -230,12 +230,326 @@ body {
 
 
 /* ============================================================
+   AUTH PAGES (Login / Register)
+============================================================ */
+.auth-page .main-content {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.auth-container {
+  max-width: 400px;
+  width: 100%;
+  padding: 40px;
+  background: #fff;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.auth-container h1 {
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 1.8em;
+  font-weight: normal;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.form-group input {
+  padding: 12px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #888;
+}
+
+.auth-button {
+  padding: 12px;
+  font-size: 1em;
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.auth-button:hover {
+  opacity: 0.8;
+}
+
+.auth-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.error-message {
+  padding: 12px;
+  background: #fee;
+  color: #c33;
+  border: 1px solid #fcc;
+  border-radius: 4px;
+  font-size: 0.9em;
+  display: none;
+}
+
+.error-message.show {
+  display: block;
+}
+
+.success-message {
+  padding: 12px;
+  background: #efe;
+  color: #3c3;
+  border: 1px solid #cfc;
+  border-radius: 4px;
+  font-size: 0.9em;
+  display: none;
+}
+
+.success-message.show {
+  display: block;
+}
+
+.auth-links {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.9em;
+}
+
+.auth-links a {
+  color: #333;
+  text-decoration: none;
+}
+
+.auth-links a:hover {
+  opacity: 0.6;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #333;
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+.back-link:hover {
+  opacity: 0.6;
+}
+
+.password-hint {
+  font-size: 0.85em;
+  color: #666;
+  margin-top: -10px;
+}
+
+
+/* ============================================================
+   SUBPAGE LAYOUT (Collection pages)
+============================================================ */
+.subpage-main {
+  padding-bottom: 80px;
+}
+
+.subpage-hero {
+  text-align: center;
+  padding: 50px 10% 30px;
+}
+
+.subpage-hero h1 {
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin: 0 0 12px;
+  letter-spacing: 0.5px;
+  color: #222;
+}
+
+.subpage-hero p {
+  font-size: 1rem;
+  font-weight: 300;
+  color: #555;
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+
+.placeholder-content {
+  padding: 20px 10%;
+  text-align: center;
+}
+
+.placeholder-box {
+  padding: 40px 20px;
+  background: #f8f8f8;
+  border: 1px dashed #ddd;
+  border-radius: 4px;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/* Prose / about page content */
+.page-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 10% 40px;
+  line-height: 1.7;
+  color: #444;
+  font-size: 1rem;
+}
+
+.page-content p {
+  margin: 0 0 1.25em;
+}
+
+.page-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Material page — product materials showcase */
+.material-intro {
+  max-width: 640px;
+  margin: 0 auto 48px;
+  padding: 0 10%;
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: #555;
+}
+
+.material-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 10% 60px;
+}
+
+.material-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.material-card:hover {
+  border-color: #ddd;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.material-swatch {
+  height: 120px;
+  width: 100%;
+  background: var(--material-color, #f0ebe3);
+}
+
+.material-card-body {
+  padding: 24px;
+}
+
+.material-name {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #222;
+  margin: 0 0 8px;
+  letter-spacing: 0.3px;
+}
+
+.material-desc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #555;
+  margin: 0 0 14px;
+}
+
+.material-used-in {
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.material-used-in strong {
+  font-weight: 500;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .material-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 0 6% 50px;
+  }
+
+  .material-swatch {
+    height: 100px;
+  }
+
+  .material-card-body {
+    padding: 20px;
+  }
+}
+
+
+/* ============================================================
    NEW FOOTER LAYOUT — 3 columns (horizontal)
 ============================================================ */
 
+.footer.extended-footer {
+  width: 100%;
+  padding: 40px 10% 30px;
+  box-sizing: border-box;
+  border-top: 1px solid #eee;
+  background: #fff;
+}
+
+.footer-logo {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.footer-logo a {
+  display: inline-block;
+}
+
+.footer-logo img {
+  height: 38px;
+  width: auto;
+  opacity: 0.9;
+}
+
+.footer-logo img:hover {
+  opacity: 1;
+}
+
 .footer-row-3col {
   width: 100%;
-  padding: 0 10%;
+  padding: 0;
   box-sizing: border-box;
 
   display: flex;
@@ -437,15 +751,14 @@ body {
   }
 
   /* MOBILE FOOTER */
-  .footer-row {
+  .footer-row-3col {
     flex-direction: column !important;
     gap: 25px;
-    padding: 0 6%;
   }
 
-  .footer-col.left,
-  .footer-col.center,
-  .footer-col.right {
+  .footer-left,
+  .footer-center,
+  .footer-right {
     text-align: center;
   }
 
