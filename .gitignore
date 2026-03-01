@@ -1,1 +1,24 @@
-nohup.out.DS_Store
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Logs
+*.log
+nohup.out
+
+# Rust
+/target
+**/*.rs.bk
+Cargo.lock
+
+# VS Code
+.vscode/
+
+# Env
+.env
+.env.local
+
+# Node (ha később build tool jön)
+node_modules/
+dist/
+Nobelian_Design_System_v1.docx
