@@ -6,7 +6,8 @@
    ======================================================================== */
 
 const authService = (() => {
-  const API_BASE_URL = "http://localhost:3000/api";
+  // Backend API (Fly.io). For local dev use: "http://localhost:8080/api"
+  const API_BASE_URL = "https://nobelian-be.fly.dev/api";
   const TOKEN_KEY = "nobelian-auth-token";
   const USER_KEY = "nobelian-user";
 
@@ -168,7 +169,7 @@ const authService = (() => {
   };
 })();
 
-// Initialize on page load
-document.addEventListener("DOMContentLoaded", () => {
+// Initialize when navbar/footer components are loaded (so account dropdown exists)
+document.addEventListener("componentsLoaded", () => {
   authService.init();
 });

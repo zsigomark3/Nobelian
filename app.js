@@ -10,12 +10,14 @@
 
 
 /* ------------------------------------------------------------------------
-   Cache overlay elements
+   Overlay refs (lazy: navbar/overlays are injected by components.js)
    ------------------------------------------------------------------------ */
-const overlays = {
-  shop: document.getElementById("shop-overlay"),
-  stories: document.getElementById("stories-overlay"),
-};
+function getOverlays() {
+  return {
+    shop: document.getElementById("shop-overlay"),
+    stories: document.getElementById("stories-overlay"),
+  };
+}
 
 
 /* ------------------------------------------------------------------------
@@ -25,17 +27,10 @@ const overlays = {
    ------------------------------------------------------------------------ */
 function openOverlay(id) {
   const overlay = document.getElementById(id);
-
-  // Close all other overlays
+  if (!overlay) return;
   closeAllOverlays(id);
-
-  // If already open → do nothing
   if (overlay.classList.contains("active")) return;
-
-  // Show overlay using CSS class
   overlay.classList.add("active");
-
-  // Prevent page from scrolling in background
   document.body.style.overflow = "hidden";
 }
 
@@ -46,10 +41,8 @@ function openOverlay(id) {
    ------------------------------------------------------------------------ */
 function closeOverlay(id) {
   const overlay = document.getElementById(id);
-
+  if (!overlay) return;
   overlay.classList.remove("active");
-
-  // Allow scrolling again if no overlays are open
   if (!anyOverlayOpen()) {
     document.body.style.overflow = "auto";
   }
@@ -62,8 +55,9 @@ function closeOverlay(id) {
    Used when switching between navbar menu items.
    ------------------------------------------------------------------------ */
 function closeAllOverlays(except = null) {
+  const overlays = getOverlays();
   Object.values(overlays).forEach(overlay => {
-    if (overlay.id !== except) {
+    if (overlay && overlay.id !== except) {
       overlay.classList.remove("active");
     }
   });
@@ -83,7 +77,7 @@ function closeAllOverlays(except = null) {
    ------------------------------------------------------------------------ */
 function toggleOverlay(id) {
   const overlay = document.getElementById(id);
-
+  if (!overlay) return;
   if (overlay.classList.contains("active")) {
     closeOverlay(id);
   } else {
@@ -98,50 +92,38 @@ function toggleOverlay(id) {
    Returns true if any overlay is currently active.
    ------------------------------------------------------------------------ */
 function anyOverlayOpen() {
-  return Object.values(overlays).some(ov => ov.classList.contains("active"));
+  const overlays = getOverlays();
+  return Object.values(overlays).some(ov => ov && ov.classList.contains("active"));
 }
 
 
 
 /* ========================================================================
-   EVENT HANDLING
+   EVENT HANDLING (bound after components are injected)
    ======================================================================== */
 
-
-/* ------------------------------------------------------------------------
-   Close overlays when clicking OUTSIDE overlay-inner
-   (but not when clicking on the overlay content)
-   ------------------------------------------------------------------------ */
-document.addEventListener("click", function (event) {
-  const clickedInsideOverlay = event.target.closest(".overlay-inner");
-  const clickedOverlay = event.target.closest(".overlay");
-
-  // If click happened outside overlays → close all
-  if (!clickedInsideOverlay && clickedOverlay) {
-    closeAllOverlays();
-  }
-});
-
-
-/* ------------------------------------------------------------------------
-   Close overlays with ESC key
-   ------------------------------------------------------------------------ */
-document.addEventListener("keydown", function (event) {
-  if (event.key === "Escape") {
-    closeAllOverlays();
-  }
-});
-
-
-/* ------------------------------------------------------------------------
-   Prevent closing overlay when clicking inside the content
-   (Stops propagation from inside elements)
-   ------------------------------------------------------------------------ */
-document.querySelectorAll(".overlay-inner").forEach(inner => {
-  inner.addEventListener("click", event => {
-    event.stopPropagation();
+function bindOverlayEvents() {
+  /* Close overlays when clicking OUTSIDE overlay-inner */
+  document.addEventListener("click", function (event) {
+    const clickedInsideOverlay = event.target.closest(".overlay-inner");
+    const clickedOverlay = event.target.closest(".overlay");
+    if (!clickedInsideOverlay && clickedOverlay) {
+      closeAllOverlays();
+    }
   });
-});
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeAllOverlays();
+    }
+  });
+
+  document.querySelectorAll(".overlay-inner").forEach(inner => {
+    inner.addEventListener("click", event => {
+      event.stopPropagation();
+    });
+  });
+}
 
 
 /* ========================================================================
@@ -243,5 +225,9 @@ const translationService = (() => {
 })();
 
 document.addEventListener("DOMContentLoaded", () => {
-  translationService.init();
+  /* Wait for navbar/footer components to be injected, then init i18n and overlay events */
+  document.addEventListener("componentsLoaded", () => {
+    translationService.init();
+    bindOverlayEvents();
+  });
 });

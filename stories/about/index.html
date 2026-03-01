@@ -31,74 +31,13 @@
   <link rel="icon" type="image/jpeg" href="https://assets.nobelian.com/icons/favicon1.png" />
 
   <link rel="stylesheet" href="/style.css">
+  <script src="/components.js" defer></script>
   <script src="/app.js" defer></script>
 </head>
 
 <body id="top" data-page="about">
 
-  <!-- NAVBAR -->
-  <header class="navbar sticky">
-    <div class="nav-left">
-      <button class="nav-btn" onclick="toggleOverlay('shop-overlay')" data-i18n="common.nav.shop">Shop</button>
-      <button class="nav-btn" onclick="toggleOverlay('stories-overlay')" data-i18n="common.nav.stories">Stories</button>
-    </div>
-
-    <div class="logo">
-      <a href="/"><img src="https://assets.nobelian.com/logos/nobelian_logo1.jpg" class="logo-img" alt="Nobelian Logo" data-i18n-alt="common.images.logoAlt"></a>
-    </div>
-
-    <div class="nav-right">
-      <select id="language-select" class="language-select" aria-label="Change language" data-i18n-aria-label="common.nav.languageSelectAria">
-        <option value="en">EN</option>
-        <option value="hu">HU</option>
-        <option value="de">DE</option>
-      </select>
-      <div class="dropdown">
-        <button class="nav-btn" data-i18n="common.nav.myAccount">My Account</button>
-        <div class="dropdown-content">
-          <a href="/login/" data-i18n="common.nav.login">Login</a>
-          <a href="/register/" data-i18n="common.nav.register">Register</a>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- SHOP OVERLAY -->
-  <div id="shop-overlay" class="overlay">
-    <div class="overlay-inner">
-      <div class="overlay-column">
-        <h3 data-i18n="common.overlay.shopByStyle">Shop by Style</h3>
-        <a href="/bag/" data-i18n="common.overlay.links.bag">Bag</a>
-        <a href="/scarf/" data-i18n="common.overlay.links.scarf">Scarf</a>
-        <a href="/gloves/" data-i18n="common.overlay.links.gloves">Gloves</a>
-        <a href="/charm/" data-i18n="common.overlay.links.charm">Charm</a>
-      </div>
-      <div class="overlay-column">
-        <h3 data-i18n="common.overlay.shopByCollection">Shop by Collection</h3>
-        <a href="/artcollection/" data-i18n="common.overlay.links.artCollection">Art Collection</a>
-        <a href="/basiccollection/" data-i18n="common.overlay.links.basicCollection">Basic Collection</a>
-      </div>
-      <div class="overlay-image right-image">
-        <img src="/images/overlay-img1.jpg" alt="Nobelian Shop Collection Preview" data-i18n-alt="common.images.shopOverlayAlt">
-      </div>
-    </div>
-    <button class="overlay-close" onclick="closeOverlay('shop-overlay')">✕</button>
-  </div>
-
-  <!-- STORIES OVERLAY -->
-  <div id="stories-overlay" class="overlay">
-    <div class="overlay-inner">
-      <div class="overlay-column">
-        <h3 data-i18n="common.overlay.storiesTitle">Stories</h3>
-        <a href="/stories/about/" data-i18n="common.overlay.links.about">About</a>
-        <a href="/stories/material/" data-i18n="common.overlay.links.material">Material</a>
-      </div>
-      <div class="overlay-image right-image">
-        <img src="/images/overlay-img1.jpg" alt="Nobelian Stories Collection" data-i18n-alt="common.images.storiesOverlayAlt">
-      </div>
-    </div>
-    <button class="overlay-close" onclick="closeOverlay('stories-overlay')">✕</button>
-  </div>
+  <div data-component="navbar"></div>
 
   <!-- MAIN CONTENT -->
   <main class="subpage-main">
@@ -116,45 +55,7 @@
     </section>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="footer extended-footer">
-    <div class="footer-logo">
-      <a href="/"><img src="https://assets.nobelian.com/logos/nobelian_logo1.jpg" alt="Nobelian Logo" data-i18n-alt="common.images.logoAlt"></a>
-    </div>
-    <div class="footer-row-3col">
-      <div class="footer-left">
-        <a href="/contact/" data-i18n="common.footer.contact">Contact</a>
-        <span>·</span>
-        <a href="/shipping/" data-i18n="common.footer.shipping">Shipping</a>
-        <span>·</span>
-        <a href="/returns/" data-i18n="common.footer.returns">Returns</a>
-      </div>
-      <div class="footer-center" data-i18n="common.footer.rights">
-        © 2026 Nobelian | All rights reserved.
-      </div>
-      <div class="footer-right">
-        <a href="https://www.instagram.com/atelier.nobelian" target="_blank" aria-label="Instagram">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="4" y="4" width="16" height="16" rx="5"></rect>
-            <circle cx="12" cy="12" r="3.5"></circle>
-            <circle cx="17" cy="7" r="1.2"></circle>
-          </svg>
-        </a>
-        <a href="https://tiktok.com/@atelier.nobelian" target="_blank" aria-label="TikTok">
-          <svg width="22" height="22" viewBox="0 0 48 48" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M32 6c0 5 4 9 9 9"></path>
-            <path d="M21 16v15a7 7 0 1 1-7-7"></path>
-            <path d="M21 16a7 7 0 0 0 7 7"></path>
-          </svg>
-        </a>
-        <a href="https://facebook.com" target="_blank" aria-label="Facebook">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M15 2h-3a5 5 0 0 0-5 5v3H5v4h2v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-          </svg>
-        </a>
-      </div>
-    </div>
-  </footer>
+  <div data-component="footer"></div>
 
 </body>
 </html>

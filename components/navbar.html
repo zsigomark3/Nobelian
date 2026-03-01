@@ -1,0 +1,59 @@
+<!-- Reusable navbar + shop & stories overlays (inject into data-component="navbar") -->
+<header class="navbar sticky">
+  <div class="nav-left">
+    <button class="nav-btn" onclick="toggleOverlay('shop-overlay')" data-i18n="common.nav.shop">Shop</button>
+    <button class="nav-btn" onclick="toggleOverlay('stories-overlay')" data-i18n="common.nav.stories">Stories</button>
+  </div>
+  <div class="logo">
+    <a href="/"><img src="https://assets.nobelian.com/logos/nobelian_logo1.jpg" alt="Nobelian Logo" class="logo-img" data-i18n-alt="common.images.logoAlt"></a>
+  </div>
+  <div class="nav-right">
+    <select id="language-select" class="language-select" aria-label="Change language" data-i18n-aria-label="common.nav.languageSelectAria">
+      <option value="en">EN</option>
+      <option value="hu">HU</option>
+      <option value="de">DE</option>
+    </select>
+    <div class="dropdown">
+      <button class="nav-btn" data-i18n="common.nav.myAccount">My Account</button>
+      <div class="dropdown-content">
+        <a href="/login/" data-i18n="common.nav.login">Login</a>
+        <a href="/register/" data-i18n="common.nav.register">Register</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div id="shop-overlay" class="overlay">
+  <div class="overlay-inner">
+    <div class="overlay-column">
+      <h3 data-i18n="common.overlay.shopByStyle">Shop by Style</h3>
+      <a href="/bag/" data-i18n="common.overlay.links.bag">Bag</a>
+      <a href="/scarf/" data-i18n="common.overlay.links.scarf">Scarf</a>
+      <a href="/gloves/" data-i18n="common.overlay.links.gloves">Gloves</a>
+      <a href="/charm/" data-i18n="common.overlay.links.charm">Charm</a>
+    </div>
+    <div class="overlay-column">
+      <h3 data-i18n="common.overlay.shopByCollection">Shop by Collection</h3>
+      <a href="/artcollection/" data-i18n="common.overlay.links.artCollection">Art Collection</a>
+      <a href="/basiccollection/" data-i18n="common.overlay.links.basicCollection">Basic Collection</a>
+    </div>
+    <div class="overlay-image right-image">
+      <img src="https://assets.nobelian.com/images/hero/overlay-img1.jpg" alt="Nobelian Shop Collection Preview" data-i18n-alt="common.images.shopOverlayAlt">
+    </div>
+  </div>
+  <button class="overlay-close" onclick="closeOverlay('shop-overlay')">✕</button>
+</div>
+
+<div id="stories-overlay" class="overlay">
+  <div class="overlay-inner">
+    <div class="overlay-column">
+      <h3 data-i18n="common.overlay.storiesTitle">Stories</h3>
+      <a href="/stories/about/" data-i18n="common.overlay.links.about">About</a>
+      <a href="/stories/material/" data-i18n="common.overlay.links.material">Material</a>
+    </div>
+    <div class="overlay-image right-image">
+      <img src="https://assets.nobelian.com/images/hero/overlay-img1.jpg" alt="Nobelian Stories Collection" data-i18n-alt="common.images.storiesOverlayAlt">
+    </div>
+  </div>
+  <button class="overlay-close" onclick="closeOverlay('stories-overlay')">✕</button>
+</div>
