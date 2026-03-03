@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" class="auth-page">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nobelian – Contact</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div data-component="navbar"></div>
+
+  <main class="main-content">
+    <section class="auth-page">
+      <div class="auth-container">
+        <a href="/" class="back-link">&larr; Back to home</a>
+        <h1>Contact us</h1>
+
+        <div id="contact-error" class="error-message"></div>
+        <div id="contact-success" class="success-message"></div>
+
+        <form id="contact-form" class="auth-form" novalidate>
+          <div class="form-group">
+            <label for="contact-name">Name</label>
+            <input id="contact-name" name="name" type="text" required />
+          </div>
+          <div class="form-group">
+            <label for="contact-email">Email</label>
+            <input id="contact-email" name="email" type="email" required />
+          </div>
+          <div class="form-group">
+            <label for="contact-subject">Subject</label>
+            <input id="contact-subject" name="subject" type="text" />
+          </div>
+          <div class="form-group">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="message" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="auth-button" id="contact-submit">Send message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div data-component="footer"></div>
+
+  <script src="/components.js"></script>
+  <script>
+    (function () {
+      function showMessage(el, msg) {
+        el.textContent = msg;
+        el.classList.add("show");
+      }
+      function hideMessage(el) {
+        el.textContent = "";
+        el.classList.remove("show");
+      }
+
+      document.addEventListener("componentsLoaded", function () {
+        var form = document.getElementById("contact-form");
+        if (!form) return;
+
+        var errorEl = document.getElementById("contact-error");
+        var successEl = document.getElementById("contact-success");
+        var submitBtn = document.getElementById("contact-submit");
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          hideMessage(errorEl);
+          hideMessage(successEl);
+
+          var name = document.getElementById("contact-name").value.trim();
+          var email = document.getElementById("contact-email").value.trim();
+          var subject = document.getElementById("contact-subject").value.trim();
+          var message = document.getElementById("contact-message").value.trim();
+
+          if (!name || !email || !message) {
+            showMessage(errorEl, "Please fill in your name, email and message.");
+            return;
+          }
+
+          submitBtn.disabled = true;
+
+          fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: name, email: email, subject: subject, message: message }),
+          })
+            .then(function (res) {
+              if (!res.ok) {
+                return res.json().catch(function () {
+                  throw new Error("Failed to send message.");
+                }).then(function (body) {
+                  throw new Error(body && body.error ? body.error : "Failed to send message.");
+                });
+              }
+              return res.json();
+            })
+            .then(function (body) {
+              showMessage(
+                successEl,
+                (body && body.message) ||
+                  "Thank you for your message. We'll get back to you soon."
+              );
+              form.reset();
+            })
+            .catch(function (err) {
+              showMessage(errorEl, err.message || "Something went wrong. Please try again.");
+            })
+            .finally(function () {
+              submitBtn.disabled = false;
+            });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
+
