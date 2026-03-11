@@ -1,26 +1,51 @@
 <!-- Reusable navbar + shop & stories overlays (inject into data-component="navbar") -->
 <header class="navbar sticky">
-  <div class="nav-left">
-    <button class="nav-btn" onclick="toggleOverlay('shop-overlay')" data-i18n="common.nav.shop">Shop</button>
-    <button class="nav-btn" onclick="toggleOverlay('stories-overlay')" data-i18n="common.nav.stories">Stories</button>
-  </div>
-  <div class="logo">
-    <a href="/"><img src="https://assets.nobelian.com/logos/nobelian_logo1.jpg" alt="Nobelian Logo" class="logo-img" data-i18n-alt="common.images.logoAlt"></a>
-  </div>
-  <div class="nav-right">
-    <select id="language-select" class="language-select" aria-label="Change language" data-i18n-aria-label="common.nav.languageSelectAria">
-      <option value="en">EN</option>
-      <option value="hu">HU</option>
-      <option value="de">DE</option>
-    </select>
-    <div class="dropdown">
-      <button class="nav-btn" data-i18n="common.nav.myAccount">My Account</button>
-      <div class="dropdown-content">
-        <a href="/login/" data-i18n="common.nav.login">Login</a>
-        <a href="/register/" data-i18n="common.nav.register">Register</a>
+  <div class="navbar-inner">
+    <button
+      class="nav-toggle nav-btn"
+      type="button"
+      aria-controls="navbar-menu"
+      aria-expanded="false"
+      aria-label="Open menu"
+    >
+      <span class="nav-toggle-icon" aria-hidden="true"></span>
+    </button>
+
+    <div class="nav-left" aria-label="Primary">
+      <button class="nav-btn" onclick="toggleOverlay('shop-overlay')" data-i18n="common.nav.shop">Shop</button>
+      <button class="nav-btn" onclick="toggleOverlay('stories-overlay')" data-i18n="common.nav.stories">Stories</button>
+    </div>
+
+    <div class="logo">
+      <a href="/"><img src="https://assets.nobelian.com/logos/nobelian_logo1.jpg" alt="Nobelian Logo" class="logo-img" data-i18n-alt="common.images.logoAlt"></a>
+    </div>
+
+    <div class="nav-right">
+      <select id="language-select" class="language-select" aria-label="Change language" data-i18n-aria-label="common.nav.languageSelectAria">
+        <option value="en">EN</option>
+        <option value="hu">HU</option>
+        <option value="de">DE</option>
+      </select>
+      <div class="dropdown">
+        <button class="nav-btn" data-i18n="common.nav.myAccount">My Account</button>
+        <div class="dropdown-content">
+          <a href="/login/" data-i18n="common.nav.login">Login</a>
+          <a href="/register/" data-i18n="common.nav.register">Register</a>
+        </div>
       </div>
     </div>
   </div>
+
+  <nav id="navbar-menu" class="nav-menu" hidden aria-label="Menu">
+    <div class="nav-menu-section">
+      <button class="nav-btn nav-menu-item" type="button" onclick="toggleOverlay('shop-overlay')" data-i18n="common.nav.shop">Shop</button>
+      <button class="nav-btn nav-menu-item" type="button" onclick="toggleOverlay('stories-overlay')" data-i18n="common.nav.stories">Stories</button>
+    </div>
+    <div class="nav-menu-section nav-menu-links">
+      <a class="nav-menu-link" href="/login/" data-i18n="common.nav.login">Login</a>
+      <a class="nav-menu-link" href="/register/" data-i18n="common.nav.register">Register</a>
+    </div>
+  </nav>
 </header>
 
 <div id="shop-overlay" class="overlay">

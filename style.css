@@ -10,6 +10,19 @@ body {
   overflow-x: hidden;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 
 
 /* ============================================================
@@ -21,17 +34,113 @@ body {
   z-index: 200;
   background-color: #fff;
   border-bottom: 1px solid #eee;
-  padding: 12px 24px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: 10px 16px;
 }
 
-.nav-left, .nav-right {
+.navbar-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  justify-self: center;
+  text-align: center;
+}
+
+/* Mobile-first: collapse primary links into a menu */
+.nav-left {
+  display: none;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
+}
+
+.nav-right .dropdown {
+  display: none;
+}
+
+.nav-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: 8px;
+}
+
+.nav-toggle:focus-visible {
+  outline: 2px solid #222;
+  outline-offset: 2px;
+}
+
+.nav-toggle-icon {
+  width: 18px;
+  height: 12px;
+  position: relative;
+  display: block;
+  background: linear-gradient(#222, #222) center/100% 2px no-repeat;
+}
+
+.nav-toggle-icon::before,
+.nav-toggle-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #222;
+  border-radius: 2px;
+}
+
+.nav-toggle-icon::before { top: 0; }
+.nav-toggle-icon::after { bottom: 0; }
+
+.nav-menu {
+  padding: 8px 0 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nav-menu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 2px;
+}
+
+.nav-menu-item {
+  text-align: left;
+  padding: 10px 4px;
+}
+
+.nav-menu-links {
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+.nav-menu-link {
+  display: block;
+  text-decoration: none;
+  color: #333;
+  padding: 10px 4px;
+  transition: opacity 0.2s ease;
+}
+
+.nav-menu-link:hover {
+  opacity: 0.6;
+}
+
+[hidden] {
+  display: none !important;
 }
 
 .nav-btn {
@@ -140,8 +249,9 @@ body {
   width: 100%;
   height: 100%;
   display: flex;
-  gap: 80px;
-  padding: 60px 80px;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 16px;
   box-sizing: border-box;
   position: relative;
 }
@@ -177,7 +287,7 @@ body {
 }
 
 .overlay-image img {
-  max-height: 70vh;
+  max-height: 45vh;
   object-fit: cover;
 }
 
@@ -202,24 +312,28 @@ body {
    MAIN CONTENT
 ============================================================ */
 .main-content {
-  padding-bottom: 80px;
+  padding-bottom: 40px;
+  min-height: calc(100vh - 170px); /* leave room for navbar + footer */
 }
 
 .hero-section {
   text-align: center;
-  padding: 40px 0;
+  padding: 16px 0 12px;
+  margin-bottom: 16px;
 }
 
 .hero-image {
-  max-width: 90%;
+  width: min(1100px, 92vw);
+  margin: 0 auto;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .image-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  padding: 40px 10%;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 16px 16px 24px;
+  margin-bottom: 24px;
 }
 
 .image-grid img {
@@ -232,18 +346,19 @@ body {
 /* ============================================================
    AUTH PAGES (Login / Register)
 ============================================================ */
-.auth-page .main-content {
+.auth-page .main-content,
+.main-content.auth-page {
   min-height: 60vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
+  padding: 32px 16px;
 }
 
 .auth-container {
   max-width: 400px;
   width: 100%;
-  padding: 40px;
+  padding: 28px 18px;
   background: #fff;
   border: 1px solid #eee;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -383,12 +498,14 @@ body {
    SUBPAGE LAYOUT (Collection pages)
 ============================================================ */
 .subpage-main {
-  padding-bottom: 80px;
+  padding-bottom: 48px;
+  min-height: calc(100vh - 170px); /* leave room for navbar + footer */
 }
 
 .subpage-hero {
   text-align: center;
-  padding: 50px 10% 30px;
+  padding: 28px 16px 16px;
+  margin-bottom: 16px;
 }
 
 .subpage-hero h1 {
@@ -408,12 +525,12 @@ body {
 }
 
 .placeholder-content {
-  padding: 20px 10%;
+  padding: 12px 16px 24px;
   text-align: center;
 }
 
 .placeholder-box {
-  padding: 40px 20px;
+  padding: 32px 18px;
   background: #f8f8f8;
   border: 1px dashed #ddd;
   border-radius: 4px;
@@ -425,7 +542,7 @@ body {
 .page-content {
   max-width: 720px;
   margin: 0 auto;
-  padding: 0 10% 40px;
+  padding: 0 16px 40px;
   line-height: 1.7;
   color: #444;
   font-size: 1rem;
@@ -443,7 +560,7 @@ body {
 .material-intro {
   max-width: 640px;
   margin: 0 auto 48px;
-  padding: 0 10%;
+  padding: 0 16px;
   text-align: center;
   font-size: 1rem;
   line-height: 1.65;
@@ -452,11 +569,11 @@ body {
 
 .material-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px;
+  grid-template-columns: 1fr;
+  gap: 24px;
   max-width: 1000px;
   margin: 0 auto;
-  padding: 0 10% 60px;
+  padding: 0 16px 60px;
 }
 
 .material-card {
@@ -473,13 +590,39 @@ body {
 }
 
 .material-swatch {
-  height: 120px;
+  height: 110px;
   width: 100%;
   background: var(--material-color, #f0ebe3);
 }
 
 .material-card-body {
-  padding: 24px;
+  padding: 20px;
+}
+
+@media (min-width: 769px) {
+  .subpage-hero {
+    padding: 50px 10% 30px;
+  }
+
+  .placeholder-content {
+    padding: 20px 10%;
+  }
+
+  .page-content {
+    padding: 0 10% 40px;
+  }
+
+  .material-intro {
+    padding: 0 10%;
+  }
+
+  .material-swatch {
+    height: 120px;
+  }
+
+  .material-card-body {
+    padding: 24px;
+  }
 }
 
 .material-name {
@@ -510,19 +653,11 @@ body {
   color: #666;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 769px) {
   .material-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    padding: 0 6% 50px;
-  }
-
-  .material-swatch {
-    height: 100px;
-  }
-
-  .material-card-body {
-    padding: 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+    padding: 0 10% 60px;
   }
 }
 
@@ -537,6 +672,7 @@ body {
   box-sizing: border-box;
   border-top: 1px solid #eee;
   background: #fff;
+  margin-top: auto; /* push footer to bottom when content is short */
 }
 
 .footer-logo {
@@ -564,12 +700,13 @@ body {
   box-sizing: border-box;
 
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 
   margin-top: 10px;
   gap: 20px;
+  text-align: center;
 }
 
 /* Left CS links (one horizontal line) */
@@ -617,21 +754,21 @@ body {
   transform: translateY(-2px);
 }
 
-/* Mobile stacking */
-@media (max-width: 768px) {
+@media (min-width: 769px) {
   .footer-row-3col {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
     gap: 20px;
-    padding: 0 6%;
-    text-align: center;
   }
 
   .footer-left {
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .footer-right {
-    justify-content: center;
+    justify-content: flex-end;
   }
 }
 
@@ -656,11 +793,11 @@ body {
 ============================================================ */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important; /* always 3 on desktop */
+  grid-template-columns: 1fr;
   max-width: 1600px;
   margin: 0 auto;
-  gap: 60px;
-  padding: 60px 10%;
+  gap: 28px;
+  padding: 28px 16px 60px;
 }
 
 .product-card {
@@ -672,7 +809,9 @@ body {
 
 .product-card img {
   width: 100%;
-  height: 500px;
+  aspect-ratio: 4 / 5;
+  height: auto;
+  max-height: 520px;
   object-fit: cover;
   background: #f2f2f2;
   transition: opacity 0.3s ease;
@@ -712,42 +851,57 @@ body {
    RESPONSIVE BREAKPOINTS
 ============================================================ */
 
-/* Tablet */
-@media (max-width: 1024px) {
-
-  .overlay-inner {
-    padding: 40px 50px;
-    gap: 40px;
-  }
-
-  .overlay-image img {
-    max-height: 50vh;
+@media (min-width: 601px) {
+  .image-grid {
+    padding-left: 6%;
+    padding-right: 6%;
   }
 
   .product-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 50px;
-    padding: 40px 6%;
+    padding: 40px 6% 70px;
+  }
+}
+
+@media (min-width: 769px) {
+  .image-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    padding: 40px 10%;
   }
 
-  .product-card img {
-    height: 420px;
+  .hero-section {
+    padding: 40px 0;
+  }
+
+  .overlay-inner {
+    flex-direction: row;
+    gap: 80px;
+    padding: 60px 80px;
+  }
+
+  .overlay-image img {
+    max-height: 70vh;
+  }
+}
+
+@media (min-width: 1025px) {
+  .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 60px;
+    padding: 60px 10%;
   }
 }
 
 /* Mobile */
 @media (max-width: 600px) {
 
-  .navbar.sticky {
-    padding: 10px 16px;
-  }
-
-  .nav-left, .nav-right {
+  .nav-right {
     gap: 10px;
   }
 
   .overlay-inner {
-    flex-direction: column;
     gap: 30px;
     padding: 30px 20px;
   }
@@ -761,26 +915,53 @@ body {
     width: 90%;
   }
 
-  /* MOBILE FOOTER */
-  .footer-row-3col {
-    flex-direction: column !important;
-    gap: 25px;
-  }
-
-  .footer-left,
-  .footer-center,
-  .footer-right {
-    text-align: center;
-  }
-
   /* MOBILE PRODUCT GRID */
   .product-grid {
-    grid-template-columns: 1fr !important;
     padding: 30px 5%;
     gap: 40px;
   }
+}
 
-  .product-card img {
-    height: 380px;
+/* Desktop / tablet: show full navbar row, hide hamburger + mobile menu */
+@media (min-width: 769px) {
+  .navbar.sticky {
+    padding: 12px 24px;
+  }
+
+  .navbar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .nav-toggle {
+    display: none;
+  }
+
+  .nav-left {
+    display: flex;
+    gap: 20px;
+  }
+
+  .nav-right {
+    gap: 20px;
+  }
+
+  .nav-right .dropdown {
+    display: block;
+  }
+
+  .nav-menu {
+    display: none;
+  }
+}
+
+/* Overlays: on very small screens, let them cover from the top */
+@media (max-width: 768px) {
+  .overlay {
+    top: 0;
+    height: 100dvh;
+    margin-top: 56px;
   }
 }

@@ -50,17 +50,6 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      if (typeof authService === 'undefined') {
-        setTimeout(() => {
-          if (typeof authService !== 'undefined' && authService.isAuthenticated()) {
-            window.location.href = "/";
-          }
-        }, 100);
-      } else {
-        if (authService.isAuthenticated()) {
-          window.location.href = "/";
-        }
-      }
       document.getElementById("register-form").addEventListener("submit", async (e) => {
         e.preventDefault();
         if (typeof authService === 'undefined') {

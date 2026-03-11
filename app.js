@@ -125,6 +125,59 @@ function bindOverlayEvents() {
   });
 }
 
+/* ========================================================================
+   MOBILE NAV MENU (hamburger)
+   ======================================================================== */
+function bindNavMenu() {
+  const header = document.querySelector(".navbar.sticky");
+  if (!header) return;
+
+  const toggle = header.querySelector(".nav-toggle");
+  const menu = header.querySelector("#navbar-menu");
+  if (!toggle || !menu) return;
+
+  function setOpen(nextOpen) {
+    const isOpen = Boolean(nextOpen);
+    toggle.setAttribute("aria-expanded", String(isOpen));
+    toggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+    menu.hidden = !isOpen;
+  }
+
+  function isMenuOpen() {
+    return toggle.getAttribute("aria-expanded") === "true" && !menu.hidden;
+  }
+
+  toggle.addEventListener("click", () => {
+    setOpen(!isMenuOpen());
+  });
+
+  // Close menu when clicking a link or menu item inside it
+  menu.addEventListener("click", event => {
+    const clickedLink = event.target.closest("a, button");
+    if (clickedLink) setOpen(false);
+  });
+
+  // Close on outside click (only if open)
+  document.addEventListener("click", event => {
+    if (!isMenuOpen()) return;
+    const clickedInside = event.target.closest(".navbar.sticky");
+    if (!clickedInside) setOpen(false);
+  });
+
+  // Close on ESC (coexists with overlay ESC handler)
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") setOpen(false);
+  });
+
+  // When switching to desktop, ensure menu isn't stuck open
+  window.addEventListener("resize", () => {
+    if (window.matchMedia("(min-width: 769px)").matches) setOpen(false);
+  });
+
+  // Default closed
+  setOpen(false);
+}
+
 
 /* ========================================================================
    TRANSLATION SERVICE (TEMP JSON FALLBACK)
@@ -229,5 +282,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("componentsLoaded", () => {
     translationService.init();
     bindOverlayEvents();
+    bindNavMenu();
   });
 });
