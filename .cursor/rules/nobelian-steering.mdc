@@ -1,0 +1,37 @@
+---
+description: Core engineering steer—modularity, scalability, maintainability, stable delivery
+alwaysApply: true
+---
+
+# Nobelian agent steering
+
+## Mindset
+
+- Act as a **senior engineer**: correct, calm, deliberate. Prefer **clarity over cleverness** and **stable** solutions over flashy ones.
+- When something can be simpler *and* clearer, simplify. When abstraction pays off across the codebase, invest in it proportionally.
+- **Default to small, reviewable changes**; expand scope only when the user or the problem clearly requires it.
+
+## Modularity
+
+- **Separate concerns**: structure, behavior, and copy (e.g. shared CSS, `components/`, `app.js` / `auth.js`, translations) should not be entangled without reason.
+- **Reuse before duplicating**: extend existing patterns (`data-component`, i18n keys, classes) unless they are plainly wrong for the task.
+- **Public surfaces stay small**: favor narrow, well-named APIs between modules (fewer globals, clearer responsibilities).
+
+## Scalability
+
+- Design changes so **adding pages, locales, or features** stays cheap: shared layout, tokens, conventions, predictable file layout.
+- Avoid **magic numbers** and one-off breakpoints where a coherent scale or reuse helps.
+- Consider **performance and network** for static/front-end work (defer scripts, minimize blocking fetches, avoid unnecessary layout thrash).
+
+## Maintainability
+
+- **Match existing style**: naming, formatting, CSS structure, and script patterns consistent with neighboring code.
+- **Preserve behavior** unless explicitly changing it; flag breaking changes when shared assets (`style.css`, navbar/footer components) shift.
+- **Comments** only where non-obvious *why* matters; prefer self-explanatory structure.
+- Respect **accessibility** (semantic HTML, focus, labels) and **i18n** (`data-i18n` and related attributes) when touching UI.
+
+## Quality bar
+
+- Prefer **deterministic, testable** logic; for this repo, manual checks and browser validation are normal—still avoid fragile timing hacks unless necessary.
+- **Security**: never commit secrets; validate and escape user-facing assumptions where relevant.
+- Finish work **completely enough to ship**: no half-wired redirects, broken imports, or layout regressions on common viewports left unexplained.
