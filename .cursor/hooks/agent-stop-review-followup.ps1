@@ -51,16 +51,16 @@ if ($paths.Count -eq 0) {
 
 $uniq = @($paths | Sort-Object -Unique)
 
-$bullets = ($uniq | ForEach-Object { "`n• $_" }) -join ''
+$bullets = ($uniq | ForEach-Object { "`n- $_" }) -join ''
 
 $msg =
 @"
 
 
-**Mandatory review pass** — You modified $($uniq.Count) tracked file(s). Before closing the turn:
+**Mandatory review pass** - You modified $($uniq.Count) tracked file(s). Before closing the turn:
 
-1. Re-read each path and remove or justify **surplus `function`s, helpers, wrappers,** and **dead exports** you introduced.
-2. For each helper: **used** (say where) → keep | **unused** → delete now, or reply *defer:* with a brief reason.
+1. Re-read each path and remove or justify surplus functions, helpers, wrappers, and dead exports you introduced.
+2. For each helper: say where it is used (keep), or delete it now, or reply with defer: and a brief reason.
 3. No new features in this pass unless required to delete dead code.
 
 Paths to verify:$bullets

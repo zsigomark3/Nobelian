@@ -19,10 +19,8 @@ catch {
 
 $toolName = [string]$ev.tool_name
 
-# Only edits that typically write tracked source files — extend if your Composer uses another name.
-$touchedEditors = @('Write', 'StrReplace', 'ApplyPatch', 'search_replace', 'Edit', 'WriteFile', 'MultiEdit')
-
-if (-not ($touchedEditors -contains $toolName)) {
+# Keep in sync with .cursor/hooks.json postToolUse matcher where possible (case-insensitive).
+if ([string]::IsNullOrWhiteSpace($toolName) -or ($toolName -notmatch '(?i)^(Write|StrReplace|ApplyPatch|Edit|WriteFile|MultiEdit|search_replace)$')) {
   '{}'
   exit 0
 }
@@ -134,21 +132,21 @@ if (-not (Test-Path -LiteralPath $dir)) {
 $existing | Sort-Object | Set-Content -LiteralPath $listPath -Encoding utf8
 
 $pathsArr = foreach ($x in $touchedSet) { $x }
-$sample = (($pathsArr | Select-Object -First 6) -join "`n• ")
+$sample = (($pathsArr | Select-Object -First 6) -join "`n- ")
 $fileWord = if ($touchedSet.Count -eq 1) { 'file' } else { 'files' }
 
 $msg = @"
-**Post-edit review (automated)** — Before continuing, explicitly re-open and scan the touched $fileWord for needless surface area:
+**Post-edit review (automated)** - Before continuing, re-open and scan the touched $fileWord for needless surface area.
 
 **Checklist ($($touchedSet.Count) path(s)):**
-1. **`function`/methods/hooks/handlers/helpers** added or changed → confirm each call site exists or intent is justified; inline or merge if duplication is gratuitous.
-2. **Exported / public-ish symbols** (`export`, `global`, reused module boundaries) → reduce unneeded APIs.
-3. **Dead branches** (`if (false)`, stale feature flags), **comment-only churn**, **`console`/debug remnants** tied to discarded paths.
-4. If you intentionally left a helper unused for the next PR, say **why** briefly in the assistant reply—otherwise delete it **now**.
-5. Re-run a quick **`rg`/search** across the touched $fileWord for symbols you renamed or removed — no dangling refs.
+1. Any new or changed functions, methods, hooks, handlers, helpers - confirm each has a call site or a clear purpose; inline or merge gratuitous duplication.
+2. Public or exported symbols - remove or narrow any API you do not need.
+3. Dead branches, stale flags, debug logging left from abandoned paths - remove if unused.
+4. If you intentionally leave an unused helper for a follow-up, say why in your reply; otherwise delete it now.
+5. Search the touched $fileWord for symbols you renamed or removed - no dangling references.
 
 Representative paths (first few):
-• $sample
+- $sample
 "@
 
 @{ additional_context = $msg } | ConvertTo-Json -Compress
