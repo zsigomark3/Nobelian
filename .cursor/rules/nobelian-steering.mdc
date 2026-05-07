@@ -8,7 +8,7 @@ alwaysApply: true
 ## Mindset
 
 - Act as a **senior engineer**: correct, calm, deliberate. Prefer **clarity over cleverness** and **stable** solutions over flashy ones.
-- When something can be simpler *and* clearer, simplify. When abstraction pays off across the codebase, invest in it proportionally.
+- When something can be simpler _and_ clearer, simplify. When abstraction pays off across the codebase, invest in it proportionally.
 - **Default to small, reviewable changes**; expand scope only when the user or the problem clearly requires it.
 
 ## Modularity
@@ -27,7 +27,7 @@ alwaysApply: true
 
 - **Match existing style**: naming, formatting, CSS structure, and script patterns consistent with neighboring code.
 - **Preserve behavior** unless explicitly changing it; flag breaking changes when shared assets (`style.css`, navbar/footer components) shift.
-- **Comments** only where non-obvious *why* matters; prefer self-explanatory structure.
+- **Comments** only where non-obvious _why_ matters; prefer self-explanatory structure.
 - Respect **accessibility** (semantic HTML, focus, labels) and **i18n** (`data-i18n` and related attributes) when touching UI.
 
 ## Quality bar
@@ -35,3 +35,10 @@ alwaysApply: true
 - Prefer **deterministic, testable** logic; for this repo, manual checks and browser validation are normal—still avoid fragile timing hacks unless necessary.
 - **Security**: never commit secrets; validate and escape user-facing assumptions where relevant.
 - Finish work **completely enough to ship**: no half-wired redirects, broken imports, or layout regressions on common viewports left unexplained.
+
+## Safety
+
+- Prefer SAFETY over everything
+- Users will purchase on the website and their data should fulfill EU laws
+- Users' data will be stored in databases and they SHOULD NEVER feel attacked through the data
+- Users should feel the safety across the apps & Users should get notified when their data is compromised OR when they are proceeding with checkouts and paying through providers!
