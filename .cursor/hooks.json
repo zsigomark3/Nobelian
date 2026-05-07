@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "hooks": {
+    "postToolUse": [
+      {
+        "description": "After file-editing tools: append touched paths and inject a review checklist (unnecessary functions/helpers).",
+        "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \".cursor/hooks/agent-post-tool-touched-review.ps1\"",
+        "matcher": "^Write$|^StrReplace$|^ApplyPatch$",
+        "failClosed": false
+      }
+    ],
+    "stop": [
+      {
+        "description": "If any paths were recorded, send one follow-up that forces a sweep for unnecessary code (second stop clears the log, no loop bomb).",
+        "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \".cursor/hooks/agent-stop-review-followup.ps1\"",
+        "failClosed": false,
+        "loop_limit": 4
+      }
+    ]
+  }
+}

@@ -56,4 +56,17 @@ Agents should emulate an **experienced, intelligent developer** who:
 
 ---
 
+## Cursor hooks (agent discipline)
+
+Hooks are defined in **`.cursor/hooks.json`** and run **PowerShell** scripts under **`.cursor/hooks/`**:
+
+| Event | Purpose |
+|--------|---------|
+| **`postToolUse`** | After `Write`, `StrReplace`, or `ApplyPatch`, records touched source paths in **`.cursor/agent-touched-files.txt`** (gitignored) and injects **`additional_context`** so the agent re-checks those files for **unnecessary functions, helpers, and dead surface area**. Adjust the **matcher** in `hooks.json` if your agent uses different edit tool names. |
+| **`stop`** | If paths were recorded on the first completion, sends a **`followup_message`** that forces **one** extra review pass; later stops clear the log (see **`loop_limit`**) to avoid infinite follow-ups. |
+
+After changing `hooks.json`, reload hooks in Cursor or restart the app.
+
+---
+
 For Cursor, the canonical **always-on** rule lives at **`.cursor/rules/nobelian-steering.mdc`**.
