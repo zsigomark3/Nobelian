@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Shopping Cart | Nobelian</title>
+  <meta name="description" content="View and manage your Nobelian shopping cart." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="https://assets.nobelian.com/icons/favicon1.png" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.css" />
+  <link rel="stylesheet" href="/style.css">
+  <script src="/components.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.umd.js" defer></script>
+  <script src="/cookieconsent-config.js" defer></script>
+  <script src="/app.js" defer></script>
+  <script src="/auth.js" defer></script>
+  <script src="/cart.js" defer></script>
+</head>
+
+<body id="top" data-page="cart">
+
+  <div data-component="navbar"></div>
+
+  <main class="subpage-main">
+    <section class="subpage-hero">
+      <h1 data-i18n="pages.cart.title">Shopping Cart</h1>
+    </section>
+
+    <section class="cart-container">
+      <!-- Login prompt (shown when not authenticated) -->
+      <div id="cart-login-prompt" class="cart-empty" style="display:none;">
+        <p>Please <a href="/login/">log in</a> to view your cart.</p>
+      </div>
+
+      <!-- Loading state -->
+      <div id="cart-loading" class="cart-loading">
+        <p>Loading your cart...</p>
+      </div>
+
+      <!-- Empty cart -->
+      <div id="cart-empty" class="cart-empty" style="display:none;">
+        <p>Your cart is empty.</p>
+        <a href="/" class="cart-continue-btn">Continue Shopping</a>
+      </div>
+
+      <!-- Cart items -->
+      <div id="cart-content" style="display:none;">
+        <div id="cart-items" class="cart-items" aria-label="Cart items"></div>
+
+        <div class="cart-summary">
+          <div class="cart-total">
+            <span>Total:</span>
+            <span id="cart-total-amount">€0.00</span>
+          </div>
+          <div class="cart-actions">
+            <a href="/" class="cart-continue-btn">Continue Shopping</a>
+            <a href="/checkout/" class="cart-checkout-btn" id="checkout-btn">Proceed to Checkout</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div data-component="footer"></div>
+
+  <script>
+    document.addEventListener("componentsLoaded", async function () {
+      const loginPrompt = document.getElementById("cart-login-prompt");
+      const loading = document.getElementById("cart-loading");
+      const emptyState = document.getElementById("cart-empty");
+      const content = document.getElementById("cart-content");
+      const itemsContainer = document.getElementById("cart-items");
+      const totalAmount = document.getElementById("cart-total-amount");
+
+      if (!authService.isAuthenticated()) {
+        loading.style.display = "none";
+        loginPrompt.style.display = "block";
+        return;
+      }
+
+      try {
+        const cart = await cartService.getCart();
+        loading.style.display = "none";
+
+        if (!cart.items || cart.items.length === 0) {
+          emptyState.style.display = "block";
+          return;
+        }
+
+        renderCartItems(cart);
+        content.style.display = "block";
+      } catch (err) {
+        loading.style.display = "none";
+        emptyState.style.display = "block";
+      }
+
+      function renderCartItems(cart) {
+        itemsContainer.innerHTML = cart.items.map(function (item) {
+          var image = item.image || "https://assets.nobelian.com/images/products/placeholder.jpg";
+          var itemTotal = (item.price * item.quantity).toFixed(2);
+          return '<div class="cart-item" data-product-id="' + item.product_id + '">' +
+            '<img src="' + image + '" alt="' + item.name + '" class="cart-item-image">' +
+            '<div class="cart-item-details">' +
+              '<h3 class="cart-item-name">' + item.name + '</h3>' +
+              '<p class="cart-item-price">€' + item.price.toFixed(2) + '</p>' +
+            '</div>' +
+            '<div class="cart-item-quantity">' +
+              '<button class="qty-btn qty-minus" aria-label="Decrease quantity">−</button>' +
+              '<span class="qty-value">' + item.quantity + '</span>' +
+              '<button class="qty-btn qty-plus" aria-label="Increase quantity">+</button>' +
+            '</div>' +
+            '<div class="cart-item-total">€' + itemTotal + '</div>' +
+            '<button class="cart-item-remove" aria-label="Remove ' + item.name + ' from cart">✕</button>' +
+          '</div>';
+        }).join("");
+
+        totalAmount.textContent = "€" + cart.total.toFixed(2);
+        bindCartEvents();
+      }
+
+      function bindCartEvents() {
+        itemsContainer.querySelectorAll(".qty-minus").forEach(function (btn) {
+          btn.addEventListener("click", async function () {
+            var item = btn.closest(".cart-item");
+            var productId = item.dataset.productId;
+            var qty = parseInt(item.querySelector(".qty-value").textContent, 10);
+            if (qty <= 1) {
+              var cart = await cartService.removeItem(productId);
+              refreshCart(cart);
+            } else {
+              var cart = await cartService.updateItem(productId, qty - 1);
+              refreshCart(cart);
+            }
+          });
+        });
+
+        itemsContainer.querySelectorAll(".qty-plus").forEach(function (btn) {
+          btn.addEventListener("click", async function () {
+            var item = btn.closest(".cart-item");
+            var productId = item.dataset.productId;
+            var qty = parseInt(item.querySelector(".qty-value").textContent, 10);
+            var cart = await cartService.updateItem(productId, qty + 1);
+            refreshCart(cart);
+          });
+        });
+
+        itemsContainer.querySelectorAll(".cart-item-remove").forEach(function (btn) {
+          btn.addEventListener("click", async function () {
+            var item = btn.closest(".cart-item");
+            var productId = item.dataset.productId;
+            var cart = await cartService.removeItem(productId);
+            refreshCart(cart);
+          });
+        });
+      }
+
+      function refreshCart(cart) {
+        if (!cart.items || cart.items.length === 0) {
+          content.style.display = "none";
+          emptyState.style.display = "block";
+        } else {
+          renderCartItems(cart);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

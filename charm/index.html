@@ -30,9 +30,15 @@
   <!-- Favicon -->
   <link rel="icon" type="image/jpeg" href="https://assets.nobelian.com/icons/favicon1.png" />
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.css" />
   <link rel="stylesheet" href="/style.css">
   <script src="/components.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.umd.js" defer></script>
+  <script src="/cookieconsent-config.js" defer></script>
   <script src="/app.js" defer></script>
+  <script src="/auth.js" defer></script>
+  <script src="/cart.js" defer></script>
+  <script src="/products.js" defer></script>
 
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
@@ -55,11 +61,10 @@
     <section class="subpage-hero">
       <h1 data-i18n="pages.charm.hero.title">Charm</h1>
       <p data-i18n="pages.charm.hero.subtitle">Personalise your accessories with unique handmade charms.</p>
-      <div class="placeholder-box" data-i18n="pages.charm.hero.placeholder">Charm page hero or banner</div>
     </section>
 
-    <section class="placeholder-content">
-      <div class="placeholder-box" data-i18n="pages.charm.content.placeholder">Product grid will be displayed here.</div>
+    <section class="product-grid" aria-label="Charm products">
+      <!-- Products loaded dynamically from API -->
     </section>
   </main>
 

@@ -8,7 +8,10 @@
       "languageSelectAria": "Sprache ändern",
       "myAccount": "Mein Konto",
       "login": "Anmelden",
-      "register": "Registrieren"
+      "register": "Registrieren",
+      "logout": "Abmelden",
+      "orders": "Meine Bestellungen",
+      "cart": "Warenkorb"
     },
     "overlay": {
       "shopByStyle": "Nach Stil",
@@ -34,6 +37,8 @@
       "contact": "Kontakt",
       "shipping": "Versand",
       "returns": "Rücksendungen",
+      "cookiePolicy": "Cookie-Richtlinie",
+      "cookies": "Cookie-Einstellungen",
       "rights": "© 2025 Nobelian | Alle Rechte vorbehalten."
     }
   },
@@ -98,12 +103,29 @@
     "basic": {
       "hero": {
         "title": "Basis-Kollektion",
-        "subtitle": "Zeitlose Essentials mit sauberem, minimalistischem Design.",
-        "placeholder": "Basis-Kollektion Hero / Banner Platzhalter"
+        "subtitle": "Zeitlose Essentials mit sauberem, minimalistischem Design."
       },
       "content": {
         "placeholder": "Basis-Kollektion Produktgrid Platzhalter."
       }
+    },
+    "cart": {
+      "title": "Warenkorb"
+    },
+    "checkout": {
+      "title": "Kasse"
+    },
+    "orders": {
+      "title": "Meine Bestellungen",
+      "subtitle": "Verfolgen und überprüfen Sie Ihre vergangenen Bestellungen."
+    },
+    "shipping": {
+      "title": "Versand",
+      "subtitle": "Lieferinformationen und Versandoptionen."
+    },
+    "returns": {
+      "title": "Rücksendungen & Umtausch",
+      "subtitle": "Unsere Rückgaberichtlinie und wie Sie eine Rücksendung einleiten."
     }
   }
 }

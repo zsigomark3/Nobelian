@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>My Orders | Nobelian</title>
+  <meta name="description" content="View your Nobelian order history." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="https://assets.nobelian.com/icons/favicon1.png" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.css" />
+  <link rel="stylesheet" href="/style.css">
+  <script src="/components.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.umd.js" defer></script>
+  <script src="/cookieconsent-config.js" defer></script>
+  <script src="/app.js" defer></script>
+  <script src="/auth.js" defer></script>
+  <script src="/cart.js" defer></script>
+</head>
+
+<body id="top" data-page="orders">
+
+  <div data-component="navbar"></div>
+
+  <main class="subpage-main">
+    <section class="subpage-hero">
+      <h1 data-i18n="pages.orders.title">My Orders</h1>
+      <p data-i18n="pages.orders.subtitle">Track and review your past orders.</p>
+    </section>
+
+    <section class="orders-container">
+      <!-- Not authenticated -->
+      <div id="orders-login" class="cart-empty" style="display:none;">
+        <p>Please <a href="/login/">log in</a> to view your orders.</p>
+      </div>
+
+      <!-- Loading -->
+      <div id="orders-loading" class="cart-loading">
+        <p>Loading your orders...</p>
+      </div>
+
+      <!-- No orders -->
+      <div id="orders-empty" class="cart-empty" style="display:none;">
+        <p>You haven't placed any orders yet.</p>
+        <a href="/" class="cart-continue-btn">Start Shopping</a>
+      </div>
+
+      <!-- Orders list -->
+      <div id="orders-list" class="orders-list" style="display:none;"></div>
+    </section>
+  </main>
+
+  <div data-component="footer"></div>
+
+  <script>
+    document.addEventListener("componentsLoaded", async function () {
+      var loginEl = document.getElementById("orders-login");
+      var loadingEl = document.getElementById("orders-loading");
+      var emptyEl = document.getElementById("orders-empty");
+      var listEl = document.getElementById("orders-list");
+
+      if (!authService.isAuthenticated()) {
+        loadingEl.style.display = "none";
+        loginEl.style.display = "block";
+        return;
+      }
+
+      try {
+        var token = authService.getToken();
+        var res = await fetch("https://nobelian-be.fly.dev/api/orders/my", {
+          headers: { "Authorization": "Bearer " + token },
+        });
+
+        if (!res.ok) throw new Error("Failed to fetch orders");
+        var orders = await res.json();
+
+        loadingEl.style.display = "none";
+
+        if (!orders || orders.length === 0) {
+          emptyEl.style.display = "block";
+          return;
+        }
+
+        renderOrders(orders);
+        listEl.style.display = "block";
+      } catch (err) {
+        loadingEl.style.display = "none";
+        emptyEl.style.display = "block";
+      }
+
+      function renderOrders(orders) {
+        // Sort by date descending (newest first)
+        orders.sort(function (a, b) {
+          return new Date(b.created_at) - new Date(a.created_at);
+        });
+
+        listEl.innerHTML = orders.map(function (order) {
+          var date = new Date(order.created_at).toLocaleDateString("en-GB", {
+            year: "numeric", month: "short", day: "numeric"
+          });
+          var statusClass = "order-status-" + order.status;
+          var statusLabel = order.status.charAt(0).toUpperCase() + order.status.slice(1);
+
+          var itemsHtml = order.items.map(function (item) {
+            var image = item.image || "https://assets.nobelian.com/images/products/placeholder.jpg";
+            return '<div class="order-item">' +
+              '<img src="' + image + '" alt="' + item.name + '" class="order-item-image">' +
+              '<div class="order-item-details">' +
+                '<span class="order-item-name">' + item.name + '</span>' +
+                '<span class="order-item-qty">Qty: ' + item.quantity + '</span>' +
+              '</div>' +
+              '<span class="order-item-price">€' + (item.price * item.quantity).toFixed(2) + '</span>' +
+            '</div>';
+          }).join("");
+
+          var shippingHtml = order.shipping_address
+            ? '<div class="order-shipping">' +
+                '<strong>Ships to:</strong> ' +
+                order.shipping_address.name + ', ' +
+                order.shipping_address.street + ', ' +
+                order.shipping_address.city + ' ' +
+                order.shipping_address.zip + ', ' +
+                order.shipping_address.country +
+              '</div>'
+            : "";
+
+          return '<article class="order-card">' +
+            '<div class="order-header">' +
+              '<div class="order-meta">' +
+                '<span class="order-id">Order #' + order.id.slice(-8).toUpperCase() + '</span>' +
+                '<span class="order-date">' + date + '</span>' +
+              '</div>' +
+              '<span class="order-status ' + statusClass + '">' + statusLabel + '</span>' +
+            '</div>' +
+            '<div class="order-items">' + itemsHtml + '</div>' +
+            shippingHtml +
+            '<div class="order-footer">' +
+              '<span class="order-total">Total: €' + order.total.toFixed(2) + '</span>' +
+            '</div>' +
+          '</article>';
+        }).join("");
+      }
+    });
+  </script>
+</body>
+</html>

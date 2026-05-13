@@ -8,7 +8,10 @@
       "languageSelectAria": "Change language",
       "myAccount": "My Account",
       "login": "Login",
-      "register": "Register"
+      "register": "Register",
+      "logout": "Logout",
+      "orders": "My Orders",
+      "cart": "Cart"
     },
     "overlay": {
       "shopByStyle": "Shop by Style",
@@ -34,6 +37,8 @@
       "contact": "Contact",
       "shipping": "Shipping",
       "returns": "Returns",
+      "cookiePolicy": "Cookie Policy",
+      "cookies": "Cookie Settings",
       "rights": "© 2025 Nobelian | All rights reserved."
     }
   },
@@ -98,12 +103,29 @@
     "basic": {
       "hero": {
         "title": "Basic Collection",
-        "subtitle": "Timeless essentials crafted with clean, minimal design.",
-        "placeholder": "Basic Collection hero / banner placeholder"
+        "subtitle": "Timeless essentials crafted with clean, minimal design."
       },
       "content": {
         "placeholder": "Basic Collection product grid placeholder."
       }
+    },
+    "cart": {
+      "title": "Shopping Cart"
+    },
+    "checkout": {
+      "title": "Checkout"
+    },
+    "orders": {
+      "title": "My Orders",
+      "subtitle": "Track and review your past orders."
+    },
+    "shipping": {
+      "title": "Shipping",
+      "subtitle": "Delivery information and shipping options."
+    },
+    "returns": {
+      "title": "Returns & Exchanges",
+      "subtitle": "Our return policy and how to initiate a return."
     }
   }
 }

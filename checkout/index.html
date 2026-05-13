@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Checkout | Nobelian</title>
+  <meta name="description" content="Complete your Nobelian order." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="https://assets.nobelian.com/icons/favicon1.png" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.css" />
+  <link rel="stylesheet" href="/style.css">
+  <script src="/components.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.umd.js" defer></script>
+  <script src="/cookieconsent-config.js" defer></script>
+  <script src="/app.js" defer></script>
+  <script src="/auth.js" defer></script>
+  <script src="/cart.js" defer></script>
+</head>
+
+<body id="top" data-page="checkout">
+
+  <div data-component="navbar"></div>
+
+  <main class="subpage-main">
+    <section class="subpage-hero">
+      <h1 data-i18n="pages.checkout.title">Checkout</h1>
+    </section>
+
+    <section class="checkout-container">
+      <!-- Not authenticated -->
+      <div id="checkout-login" class="cart-empty" style="display:none;">
+        <p>Please <a href="/login/">log in</a> to complete your order.</p>
+      </div>
+
+      <!-- Loading -->
+      <div id="checkout-loading" class="cart-loading">
+        <p>Loading order details...</p>
+      </div>
+
+      <!-- Empty cart redirect -->
+      <div id="checkout-empty" class="cart-empty" style="display:none;">
+        <p>Your cart is empty. <a href="/">Continue shopping</a>.</p>
+      </div>
+
+      <!-- Checkout form -->
+      <div id="checkout-content" style="display:none;">
+        <div class="checkout-layout">
+          <!-- Order summary -->
+          <div class="checkout-summary">
+            <h2>Order Summary</h2>
+            <div id="checkout-items" class="checkout-items"></div>
+            <div class="checkout-total">
+              <strong>Total:</strong>
+              <span id="checkout-total-amount">€0.00</span>
+            </div>
+          </div>
+
+          <!-- Shipping form -->
+          <div class="checkout-form-section">
+            <h2>Shipping Address</h2>
+            <div id="checkout-error" class="error-message"></div>
+            <div id="checkout-success" class="success-message"></div>
+
+            <form id="checkout-form" class="auth-form" novalidate>
+              <div class="form-group">
+                <label for="ship-name">Full Name</label>
+                <input type="text" id="ship-name" name="name" required autocomplete="name" />
+              </div>
+              <div class="form-group">
+                <label for="ship-street">Street Address</label>
+                <input type="text" id="ship-street" name="street" required autocomplete="street-address" />
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="ship-city">City</label>
+                  <input type="text" id="ship-city" name="city" required autocomplete="address-level2" />
+                </div>
+                <div class="form-group">
+                  <label for="ship-zip">Postal Code</label>
+                  <input type="text" id="ship-zip" name="zip" required autocomplete="postal-code" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="ship-country">Country</label>
+                <input type="text" id="ship-country" name="country" required autocomplete="country-name" />
+              </div>
+              <div class="form-group">
+                <label for="ship-phone">Phone (optional)</label>
+                <input type="tel" id="ship-phone" name="phone" autocomplete="tel" />
+              </div>
+              <div class="form-group">
+                <label for="ship-notes">Order Notes (optional)</label>
+                <textarea id="ship-notes" name="notes" rows="3"></textarea>
+              </div>
+
+              <div class="checkout-notice">
+                <p>⚠️ By placing this order you agree to our <a href="/returns/">returns policy</a> and <a href="/shipping/">shipping terms</a>. Your data is processed securely in accordance with EU regulations.</p>
+              </div>
+
+              <button type="submit" class="auth-button checkout-submit-btn" id="checkout-submit">Place Order</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order confirmation -->
+      <div id="checkout-confirmation" class="checkout-confirmation" style="display:none;">
+        <div class="confirmation-icon" aria-hidden="true">✓</div>
+        <h2>Order Placed Successfully</h2>
+        <p>Thank you for your order. You will receive a confirmation email shortly.</p>
+        <p>Order ID: <strong id="confirmation-order-id"></strong></p>
+        <div class="confirmation-actions">
+          <a href="/orders/" class="cart-continue-btn">View My Orders</a>
+          <a href="/" class="cart-continue-btn">Continue Shopping</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div data-component="footer"></div>
+
+  <script>
+    document.addEventListener("componentsLoaded", async function () {
+      var loginEl = document.getElementById("checkout-login");
+      var loadingEl = document.getElementById("checkout-loading");
+      var emptyEl = document.getElementById("checkout-empty");
+      var contentEl = document.getElementById("checkout-content");
+      var confirmEl = document.getElementById("checkout-confirmation");
+      var itemsEl = document.getElementById("checkout-items");
+      var totalEl = document.getElementById("checkout-total-amount");
+      var errorEl = document.getElementById("checkout-error");
+      var successEl = document.getElementById("checkout-success");
+      var form = document.getElementById("checkout-form");
+      var submitBtn = document.getElementById("checkout-submit");
+
+      if (!authService.isAuthenticated()) {
+        loadingEl.style.display = "none";
+        loginEl.style.display = "block";
+        return;
+      }
+
+      try {
+        var cart = await cartService.getCart();
+        loadingEl.style.display = "none";
+
+        if (!cart.items || cart.items.length === 0) {
+          emptyEl.style.display = "block";
+          return;
+        }
+
+        renderSummary(cart);
+        contentEl.style.display = "block";
+      } catch (err) {
+        loadingEl.style.display = "none";
+        emptyEl.style.display = "block";
+        return;
+      }
+
+      function renderSummary(cart) {
+        itemsEl.innerHTML = cart.items.map(function (item) {
+          return '<div class="checkout-item">' +
+            '<span class="checkout-item-name">' + item.name + ' × ' + item.quantity + '</span>' +
+            '<span class="checkout-item-price">€' + (item.price * item.quantity).toFixed(2) + '</span>' +
+          '</div>';
+        }).join("");
+        totalEl.textContent = "€" + cart.total.toFixed(2);
+      }
+
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        errorEl.classList.remove("show");
+        successEl.classList.remove("show");
+
+        var name = document.getElementById("ship-name").value.trim();
+        var street = document.getElementById("ship-street").value.trim();
+        var city = document.getElementById("ship-city").value.trim();
+        var zip = document.getElementById("ship-zip").value.trim();
+        var country = document.getElementById("ship-country").value.trim();
+        var phone = document.getElementById("ship-phone").value.trim() || null;
+        var notes = document.getElementById("ship-notes").value.trim() || null;
+
+        if (!name || !street || !city || !zip || !country) {
+          errorEl.textContent = "Please fill in all required shipping fields.";
+          errorEl.classList.add("show");
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Placing order...";
+
+        try {
+          var token = authService.getToken();
+          var res = await fetch("https://nobelian-be.fly.dev/api/orders", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + token,
+            },
+            body: JSON.stringify({
+              shipping_address: {
+                name: name,
+                street: street,
+                city: city,
+                zip: zip,
+                country: country,
+                phone: phone,
+              },
+              notes: notes,
+            }),
+          });
+
+          if (!res.ok) {
+            var data = await res.json().catch(function () { return {}; });
+            throw new Error(data.error || "Failed to place order");
+          }
+
+          var order = await res.json();
+
+          // Update cart badge
+          cartService.updateBadge({ items: [] });
+
+          // Show confirmation
+          contentEl.style.display = "none";
+          document.getElementById("confirmation-order-id").textContent = order.id;
+          confirmEl.style.display = "block";
+
+        } catch (err) {
+          errorEl.textContent = err.message || "Something went wrong. Please try again.";
+          errorEl.classList.add("show");
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Place Order";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

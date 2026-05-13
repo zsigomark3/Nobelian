@@ -8,7 +8,10 @@
       "languageSelectAria": "Nyelv kiválasztása",
       "myAccount": "Fiókom",
       "login": "Bejelentkezés",
-      "register": "Regisztráció"
+      "register": "Regisztráció",
+      "logout": "Kijelentkezés",
+      "orders": "Rendeléseim",
+      "cart": "Kosár"
     },
     "overlay": {
       "shopByStyle": "Stílus szerint",
@@ -34,6 +37,8 @@
       "contact": "Kapcsolat",
       "shipping": "Szállítás",
       "returns": "Visszaküldés",
+      "cookiePolicy": "Cookie szabályzat",
+      "cookies": "Cookie beállítások",
       "rights": "© 2025 Nobelian | Minden jog fenntartva."
     }
   },
@@ -98,12 +103,29 @@
     "basic": {
       "hero": {
         "title": "Alap kollekció",
-        "subtitle": "Időtlen alapdarabok letisztult, minimál formában.",
-        "placeholder": "Alap kollekció hero / banner helyőrző"
+        "subtitle": "Időtlen alapdarabok letisztult, minimál formában."
       },
       "content": {
         "placeholder": "Alap kollekció termékrács helyőrző."
       }
+    },
+    "cart": {
+      "title": "Kosár"
+    },
+    "checkout": {
+      "title": "Fizetés"
+    },
+    "orders": {
+      "title": "Rendeléseim",
+      "subtitle": "Korábbi rendeléseid nyomon követése."
+    },
+    "shipping": {
+      "title": "Szállítás",
+      "subtitle": "Szállítási információk és lehetőségek."
+    },
+    "returns": {
+      "title": "Visszaküldés és csere",
+      "subtitle": "Visszaküldési szabályzatunk és a visszaküldés menete."
     }
   }
 }

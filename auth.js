@@ -137,6 +137,7 @@ const authService = (() => {
         // User is logged in
         accountBtn.textContent = user.username || "My Account";
         dropdown.innerHTML = `
+          <a href="/orders/" data-i18n="common.nav.orders">My Orders</a>
           <a href="#" onclick="authService.logout(); return false;" data-i18n="common.nav.logout">Logout</a>
         `;
       } else {

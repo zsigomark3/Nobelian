@@ -30,9 +30,15 @@
   <!-- Favicon -->
   <link rel="icon" type="image/jpeg" href="https://assets.nobelian.com/icons/favicon1.png" />
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.css" />
   <link rel="stylesheet" href="/style.css">
   <script src="/components.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.umd.js" defer></script>
+  <script src="/cookieconsent-config.js" defer></script>
   <script src="/app.js" defer></script>
+  <script src="/auth.js" defer></script>
+  <script src="/cart.js" defer></script>
+  <script src="/products.js" defer></script>
 
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
@@ -55,11 +61,10 @@
     <section class="subpage-hero">
       <h1 data-i18n="pages.basic.hero.title">Basic Collection</h1>
       <p data-i18n="pages.basic.hero.subtitle">Timeless essentials crafted with clean, minimal design.</p>
-      <div class="placeholder-box" data-i18n="pages.basic.hero.placeholder">Basic Collection hero / banner placeholder</div>
     </section>
 
-    <section class="placeholder-content">
-      <div class="placeholder-box" data-i18n="pages.basic.content.placeholder">Basic Collection product grid placeholder.</div>
+    <section class="product-grid" aria-label="Basic Collection products">
+      <!-- Products loaded dynamically from API -->
     </section>
   </main>
 
