@@ -62,10 +62,6 @@ video {
   gap: 12px;
 }
 
-.nav-right .dropdown {
-  display: none;
-}
-
 .nav-toggle {
   display: inline-flex;
   align-items: center;
@@ -388,37 +384,161 @@ video {
 
 
 /* ============================================================
-   DROPDOWN (MY ACCOUNT)
+   DROPDOWN (MY ACCOUNT) — REMOVED, replaced by slide-in panel
 ============================================================ */
-.dropdown {
-  position: relative;
+
+
+/* ============================================================
+   ACCOUNT SLIDE-IN PANEL
+============================================================ */
+.account-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 900;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.dropdown-content {
-  position: absolute;
-  top: 100%;
+.account-panel-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.account-panel {
+  position: fixed;
+  top: 0;
   right: 0;
-  min-width: 140px;
+  width: min(400px, 90vw);
+  height: 100%;
   background: #fff;
-  border: 1px solid #eee;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  z-index: 950;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+}
+
+.account-panel.active {
+  transform: translateX(0);
+}
+
+.account-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 28px 16px;
+}
+
+.account-panel-title {
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  color: #222;
+}
+
+.account-panel-close {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #333;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+  padding: 4px 8px;
+}
+
+.account-panel-close:hover {
+  opacity: 1;
+}
+
+.account-panel-tabs {
+  display: flex;
+  gap: 0;
+  padding: 0 28px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 24px;
+}
+
+.account-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.account-tab:hover {
+  color: #222;
+}
+
+.account-tab.active {
+  color: #222;
+  border-bottom-color: #222;
+}
+
+.account-tab-content {
   display: none;
-  z-index: 500;
+  padding: 0 28px 28px;
 }
 
-.dropdown:hover .dropdown-content {
+.account-tab-content.active {
   display: block;
 }
 
-.dropdown-content a {
-  padding: 10px;
-  display: block;
+.account-panel-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.account-panel-form .form-group label {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.account-panel-form .form-group input {
+  padding: 12px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  width: 100%;
+}
+
+.account-panel-form .form-group input:focus {
+  outline: none;
+  border-color: #888;
+}
+
+.account-panel-form .auth-button {
+  margin-top: 4px;
+}
+
+.account-panel-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 28px;
+}
+
+.account-panel-nav a {
   text-decoration: none;
   color: #333;
+  font-size: 1rem;
+  padding: 8px 0;
+  transition: opacity 0.2s ease;
 }
 
-.dropdown-content a:hover {
-  background: #f5f5f5;
+.account-panel-nav a:hover {
+  opacity: 0.6;
 }
 
 
@@ -1287,10 +1407,6 @@ body[data-page="home"] .navbar.sticky.home-scrolled .nav-toggle-icon {
     gap: 20px;
   }
 
-  .nav-right .dropdown {
-    display: block;
-  }
-
   .nav-menu {
     display: none;
   }
@@ -1302,10 +1418,6 @@ body[data-page="home"] .navbar.sticky.home-scrolled .nav-toggle-icon {
     top: 0;
     height: 100dvh;
     margin-top: 56px;
-  }
-
-  .nav-right .dropdown {
-    display: block;
   }
 }
 
