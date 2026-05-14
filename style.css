@@ -167,11 +167,6 @@ video {
   width: 24px;
   height: 24px;
   display: block;
-  filter:
-    drop-shadow(0.2px 0 0 #555)
-    drop-shadow(-0.2px 0 0 #555)
-    drop-shadow(0 0.2px 0 #555)
-    drop-shadow(0 -0.2px 0 #555);
 }
 
 .logo-img {
@@ -544,16 +539,17 @@ video {
   align-items: center;
   justify-content: center;
   pointer-events: none; /* let clicks pass through */
-  transition: opacity 0.15s ease-out;
 }
 
 .home-brand-logo {
-  width: clamp(280px, 50vw, 700px);
+  width: clamp(560px, 90vw, 1400px);
   height: auto;
   opacity: 0.92;
-  /* subtle mix-blend so it interacts with the hero image */
   mix-blend-mode: normal;
   filter: drop-shadow(0 2px 12px rgba(255,255,255,0.4));
+  /* Smooth transition for JS-driven scroll animation */
+  will-change: transform, width, opacity;
+  transition: none; /* JS handles frame-by-frame */
 }
 
 /* Full-viewport hero for home */
@@ -578,29 +574,40 @@ video.hero-image--home {
   display: block;
 }
 
-/* Hide navbar logo on home page */
+/* Hide navbar logo on home page (the overlay logo replaces it) */
 body[data-page="home"] .logo {
   visibility: hidden;
 }
 
-/* Transparent navbar on home page (hero visible behind) */
+/* Transparent navbar on home page — initial state (hero visible behind) */
 body[data-page="home"] .navbar.sticky {
   background-color: transparent;
   border-bottom: none;
+  transition: background-color 0.3s ease, border-bottom-color 0.3s ease;
 }
 
+/* Scrolled state: navbar gets white background */
+body[data-page="home"] .navbar.sticky.home-scrolled {
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+/* Nav elements: white initially */
 body[data-page="home"] .nav-btn,
 body[data-page="home"] .nav-cart-link,
 body[data-page="home"] .nav-search-btn {
   color: #fff;
+  transition: color 0.3s ease;
 }
 
 body[data-page="home"] .nav-search-btn svg {
   stroke: #fff;
+  transition: stroke 0.3s ease;
 }
 
 body[data-page="home"] .nav-cart-link svg {
   stroke: #fff;
+  transition: stroke 0.3s ease;
 }
 
 body[data-page="home"] .nav-account-icon {
@@ -610,21 +617,51 @@ body[data-page="home"] .nav-account-icon {
     drop-shadow(-0.2px 0 0 rgba(255,255,255,0.8))
     drop-shadow(0 0.2px 0 rgba(255,255,255,0.8))
     drop-shadow(0 -0.2px 0 rgba(255,255,255,0.8));
+  transition: filter 0.3s ease;
 }
 
 body[data-page="home"] .nav-toggle-icon,
 body[data-page="home"] .nav-toggle-icon::before,
 body[data-page="home"] .nav-toggle-icon::after {
   background: #fff;
+  transition: background 0.3s ease;
 }
 
 body[data-page="home"] .nav-toggle-icon {
   background: linear-gradient(#fff, #fff) center/100% 2px no-repeat;
 }
 
-/* Hide footer logo on home page */
-body[data-page="home"] .footer-logo {
-  display: none;
+/* Scrolled state: nav elements revert to dark */
+body[data-page="home"] .navbar.sticky.home-scrolled .nav-btn,
+body[data-page="home"] .navbar.sticky.home-scrolled .nav-cart-link,
+body[data-page="home"] .navbar.sticky.home-scrolled .nav-search-btn {
+  color: #333;
+}
+
+body[data-page="home"] .navbar.sticky.home-scrolled .nav-search-btn svg {
+  stroke: #333;
+}
+
+body[data-page="home"] .navbar.sticky.home-scrolled .nav-cart-link svg {
+  stroke: #333;
+}
+
+body[data-page="home"] .navbar.sticky.home-scrolled .nav-account-icon {
+  filter:
+    drop-shadow(0.2px 0 0 #555)
+    drop-shadow(-0.2px 0 0 #555)
+    drop-shadow(0 0.2px 0 #555)
+    drop-shadow(0 -0.2px 0 #555);
+}
+
+body[data-page="home"] .navbar.sticky.home-scrolled .nav-toggle-icon,
+body[data-page="home"] .navbar.sticky.home-scrolled .nav-toggle-icon::before,
+body[data-page="home"] .navbar.sticky.home-scrolled .nav-toggle-icon::after {
+  background: #222;
+}
+
+body[data-page="home"] .navbar.sticky.home-scrolled .nav-toggle-icon {
+  background: linear-gradient(#222, #222) center/100% 2px no-repeat;
 }
 
 .image-grid {
@@ -967,30 +1004,11 @@ body[data-page="home"] .footer-logo {
 
 .footer.extended-footer {
   width: 100%;
-  padding: 40px 10% 30px;
+  padding: 14px 10%;
   box-sizing: border-box;
   border-top: 1px solid #eee;
   background: #fff;
   margin-top: auto; /* push footer to bottom when content is short */
-}
-
-.footer-logo {
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.footer-logo a {
-  display: inline-block;
-}
-
-.footer-logo img {
-  height: 38px;
-  width: auto;
-  opacity: 0.9;
-}
-
-.footer-logo img:hover {
-  opacity: 1;
 }
 
 .footer-row-3col {
@@ -1277,6 +1295,10 @@ body[data-page="home"] .footer-logo {
     top: 0;
     height: 100dvh;
     margin-top: 56px;
+  }
+
+  .nav-right .dropdown {
+    display: block;
   }
 }
 

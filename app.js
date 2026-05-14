@@ -309,32 +309,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 /* ========================================================================
-   HOME PAGE — BRAND OVERLAY SCROLL FADE
+   HOME PAGE — BRAND OVERLAY SCROLL ANIMATION
    ------------------------------------------------------------------------
-   The fixed brand logo fades out as the user scrolls past the hero section.
+   The fixed brand logo starts large & centered over the hero video.
+   As the user scrolls, it shrinks and moves up into the sticky navbar center.
+   The navbar transitions from transparent to white background.
    ======================================================================== */
 function initHomeBrandOverlay() {
   const overlay = document.querySelector(".home-brand-overlay");
+  const logo = document.querySelector(".home-brand-logo");
   const hero = document.querySelector(".hero-section--home");
-  if (!overlay || !hero) return;
+  const navbar = document.querySelector(".navbar.sticky");
+  if (!overlay || !logo || !hero || !navbar) return;
+
+  // Measurements
+  const navbarHeight = navbar.offsetHeight;
+  // The scroll distance over which the animation plays (first 35% of hero)
+  const animationRange = hero.offsetHeight * 0.35;
+
+  // Logo sizes
+  const logoStartWidth = logo.offsetWidth; // large initial size
+  const logoEndWidth = 140; // navbar logo size (px)
+
+  // Positions: start = viewport center, end = navbar center
+  const viewportCenterY = window.innerHeight / 2;
+  const navbarCenterY = navbarHeight / 2;
 
   function onScroll() {
-    const heroBottom = hero.offsetTop + hero.offsetHeight;
     const scrollY = window.scrollY || window.pageYOffset;
-    // Start fading at 30% of hero height, fully gone at hero bottom
-    const fadeStart = heroBottom * 0.3;
-    const fadeEnd = heroBottom * 0.85;
+    const progress = Math.min(Math.max(scrollY / animationRange, 0), 1);
 
-    if (scrollY <= fadeStart) {
-      overlay.style.opacity = "1";
-    } else if (scrollY >= fadeEnd) {
-      overlay.style.opacity = "0";
+    // Scale: interpolate from 1 to (endWidth / startWidth)
+    const targetScale = 1 - progress * (1 - logoEndWidth / logoStartWidth);
+
+    // Translate Y: from center of viewport to center of navbar
+    // The overlay is fixed with align-items:center, so logo is at viewportCenterY.
+    // We need to move it up by (viewportCenterY - navbarCenterY) * progress
+    const translateY = -(viewportCenterY - navbarCenterY) * progress;
+
+    logo.style.transform = `translateY(${translateY}px) scale(${targetScale})`;
+
+    // Navbar state
+    if (progress >= 1) {
+      navbar.classList.add("home-scrolled");
+      // Switch logo filter from white glow to none when in navbar
+      logo.style.filter = "none";
+      logo.style.opacity = "0.9";
     } else {
-      const progress = (scrollY - fadeStart) / (fadeEnd - fadeStart);
-      overlay.style.opacity = String(1 - progress);
+      navbar.classList.remove("home-scrolled");
+      logo.style.filter = "drop-shadow(0 2px 12px rgba(255,255,255,0.4))";
+      logo.style.opacity = "0.92";
     }
   }
 
   window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", () => {
+    // Recalculate on resize — simple approach: reload measurements not needed
+    // since we use relative progress. But we can just re-run.
+    onScroll();
+  });
   onScroll(); // initial state
 }
