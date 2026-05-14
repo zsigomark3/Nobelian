@@ -226,7 +226,17 @@ function initCookieConsent() {
 function getInitialLanguage() {
   const saved = localStorage.getItem('nobelian-preferred-language');
   const supported = ['en', 'hu', 'de'];
-  return supported.includes(saved) ? saved : 'en';
+  if (supported.includes(saved)) return saved;
+
+  // Detect from browser language
+  const candidates = navigator.languages
+    ? Array.from(navigator.languages)
+    : [navigator.language || ''];
+  for (const lang of candidates) {
+    const code = lang.toLowerCase().split('-')[0];
+    if (supported.includes(code)) return code;
+  }
+  return 'en';
 }
 
 function handleConsentChange(acceptedCategories) {

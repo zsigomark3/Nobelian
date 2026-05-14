@@ -197,9 +197,29 @@ const translationService = (() => {
 
   function init() {
     const saved = localStorage.getItem(STORAGE_KEY);
-    const initialLang = SUPPORTED_LANGS.includes(saved) ? saved : DEFAULT_LANG;
+    const initialLang = SUPPORTED_LANGS.includes(saved) ? saved : detectBrowserLanguage();
     bindLanguageSwitcher();
     loadLanguage(initialLang);
+  }
+
+  /**
+   * Detect the user's preferred language from the browser.
+   * Checks navigator.language and navigator.languages for a supported match.
+   * Falls back to DEFAULT_LANG if no match is found.
+   */
+  function detectBrowserLanguage() {
+    const candidates = navigator.languages
+      ? Array.from(navigator.languages)
+      : [navigator.language || ""];
+
+    for (const lang of candidates) {
+      // Check exact match first (e.g. "hu", "de")
+      const code = lang.toLowerCase().split("-")[0];
+      if (SUPPORTED_LANGS.includes(code)) {
+        return code;
+      }
+    }
+    return DEFAULT_LANG;
   }
 
   function bindLanguageSwitcher() {

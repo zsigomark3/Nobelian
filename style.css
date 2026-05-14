@@ -351,6 +351,7 @@ video {
 
 .language-select {
   border: none;
+  border-bottom: 1px solid transparent;
   border-radius: 0;
   background: transparent;
   font-size: 0.85em;
@@ -358,13 +359,16 @@ video {
   color: #333;
   cursor: pointer;
   letter-spacing: 0.5px;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  font-family: inherit;
+}
+
+.language-select:hover {
+  border-bottom-color: #333;
 }
 
 .language-select:focus {
   outline: none;
+  border-bottom-color: #333;
 }
 
 
