@@ -167,6 +167,11 @@ video {
   width: 24px;
   height: 24px;
   display: block;
+  filter:
+    drop-shadow(0.4px 0 0 #333)
+    drop-shadow(-0.4px 0 0 #333)
+    drop-shadow(0 0.4px 0 #333)
+    drop-shadow(0 -0.4px 0 #333);
 }
 
 .logo-img {
