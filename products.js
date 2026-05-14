@@ -154,20 +154,28 @@ const productService = (() => {
       ? product.images[0]
       : "https://assets.nobelian.com/images/products/placeholder.jpg";
 
-    const price = new Intl.NumberFormat("de-DE", {
-      style: "currency",
-      currency: product.currency || "EUR",
-    }).format(product.price);
+    // Format price: if product.price is a number, format it; otherwise use raw string
+    let priceDisplay;
+    if (typeof product.price === "number" && product.price > 0) {
+      priceDisplay = new Intl.NumberFormat("de-DE", {
+        style: "currency",
+        currency: product.currency || "EUR",
+      }).format(product.price);
+    } else if (product.priceText) {
+      priceDisplay = product.priceText;
+    } else {
+      priceDisplay = "";
+    }
 
     modal.querySelector(".product-modal-image").src = image;
     modal.querySelector(".product-modal-image").alt = product.name;
     modal.querySelector(".product-modal-name").textContent = product.name;
     modal.querySelector(".product-modal-description").textContent = product.description || "";
-    modal.querySelector(".product-modal-price").textContent = price;
+    modal.querySelector(".product-modal-price").textContent = priceDisplay;
 
     const addBtn = modal.querySelector(".product-modal-add-btn");
-    addBtn.dataset.productId = product.id;
-    if (product.in_stock) {
+    addBtn.dataset.productId = product.id || "";
+    if (product.in_stock && product.id) {
       addBtn.disabled = false;
       addBtn.textContent = "Add to Cart";
       addBtn.style.display = "";
@@ -176,7 +184,13 @@ const productService = (() => {
     }
 
     // Update "View Details" link
-    modal.querySelector(".product-modal-details-link").href = `/product/?id=${product.id}`;
+    const detailsLink = modal.querySelector(".product-modal-details-link");
+    if (product.id) {
+      detailsLink.href = `/product/?id=${product.id}`;
+      detailsLink.style.display = "";
+    } else {
+      detailsLink.style.display = "none";
+    }
 
     modal.classList.add("active");
     document.body.style.overflow = "hidden";
@@ -314,11 +328,49 @@ const productService = (() => {
       // Only replace grid content if we got products from the API
       if (products && products.length > 0) {
         renderGrid(grid, products);
+      } else {
+        // Fallback: bind click handlers on existing static cards
+        bindStaticCards(grid);
       }
     } catch (err) {
       console.error("[products] Failed to load products:", err);
-      // Keep existing static content as fallback
+      // Keep existing static content as fallback, but still bind clicks
+      bindStaticCards(grid);
     }
+  }
+
+  /**
+   * Bind click handlers on static (server-rendered) product cards.
+   * Extracts visible data from the DOM to populate the quick view modal.
+   */
+  function bindStaticCards(container) {
+    const cards = container.querySelectorAll(".product-card");
+    if (!cards.length) return;
+
+    cards.forEach((card) => {
+      card.addEventListener("click", (e) => {
+        if (e.target.closest(".product-add-btn")) return;
+
+        const img = card.querySelector("img");
+        const name = card.querySelector(".product-name");
+        const subtitle = card.querySelector(".product-subtitle");
+        const price = card.querySelector(".product-price");
+
+        // Build a minimal product object from static DOM content
+        const staticProduct = {
+          id: card.dataset.productId || null,
+          name: name ? name.textContent : "",
+          description: subtitle ? subtitle.textContent : "",
+          price: 0,
+          priceText: price ? price.textContent : "",
+          currency: "EUR",
+          images: img ? [img.src] : [],
+          in_stock: !card.classList.contains("out-of-stock"),
+        };
+
+        openModal(staticProduct);
+      });
+    });
   }
 
   return {
