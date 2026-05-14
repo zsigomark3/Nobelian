@@ -85,7 +85,7 @@ const productService = (() => {
       : "";
 
     return `
-      <article class="product-card${stockClass}">
+      <article class="product-card${stockClass}" data-product-id="${product.id}">
         <img src="${image}" alt="${product.name} - ${product.description}" loading="lazy">
         <h3 class="product-name">${product.name}</h3>
         <p class="product-subtitle">${product.description}</p>
@@ -94,6 +94,133 @@ const productService = (() => {
         ${addToCartBtn}
       </article>
     `;
+  }
+
+  /* ====================================================================
+     PRODUCT VIEW MODAL (Quick View)
+     ==================================================================== */
+
+  let modalElement = null;
+
+  /**
+   * Create the modal DOM element (once)
+   */
+  function ensureModal() {
+    if (modalElement) return modalElement;
+
+    const backdrop = document.createElement("div");
+    backdrop.className = "product-modal-backdrop";
+    backdrop.setAttribute("role", "dialog");
+    backdrop.setAttribute("aria-modal", "true");
+    backdrop.setAttribute("aria-label", "Product details");
+    backdrop.innerHTML = `
+      <div class="product-modal">
+        <button class="product-modal-close" aria-label="Close">&times;</button>
+        <img class="product-modal-image" src="" alt="">
+        <div class="product-modal-info">
+          <h2 class="product-modal-name"></h2>
+          <p class="product-modal-description"></p>
+          <p class="product-modal-price"></p>
+          <button class="product-modal-add-btn">Add to Cart</button>
+          <a class="product-modal-details-link" href="#">View Full Details →</a>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(backdrop);
+    modalElement = backdrop;
+
+    // Close handlers
+    backdrop.querySelector(".product-modal-close").addEventListener("click", closeModal);
+    backdrop.addEventListener("click", (e) => {
+      if (e.target === backdrop) closeModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modalElement.classList.contains("active")) closeModal();
+    });
+
+    // Add to cart from modal
+    backdrop.querySelector(".product-modal-add-btn").addEventListener("click", handleModalAddToCart);
+
+    return modalElement;
+  }
+
+  /**
+   * Open the product view modal
+   */
+  function openModal(product) {
+    const modal = ensureModal();
+
+    const image = product.images && product.images.length > 0
+      ? product.images[0]
+      : "https://assets.nobelian.com/images/products/placeholder.jpg";
+
+    const price = new Intl.NumberFormat("de-DE", {
+      style: "currency",
+      currency: product.currency || "EUR",
+    }).format(product.price);
+
+    modal.querySelector(".product-modal-image").src = image;
+    modal.querySelector(".product-modal-image").alt = product.name;
+    modal.querySelector(".product-modal-name").textContent = product.name;
+    modal.querySelector(".product-modal-description").textContent = product.description || "";
+    modal.querySelector(".product-modal-price").textContent = price;
+
+    const addBtn = modal.querySelector(".product-modal-add-btn");
+    addBtn.dataset.productId = product.id;
+    if (product.in_stock) {
+      addBtn.disabled = false;
+      addBtn.textContent = "Add to Cart";
+      addBtn.style.display = "";
+    } else {
+      addBtn.style.display = "none";
+    }
+
+    // Update "View Details" link
+    modal.querySelector(".product-modal-details-link").href = `/product/?id=${product.id}`;
+
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  /**
+   * Close the product view modal
+   */
+  function closeModal() {
+    if (!modalElement) return;
+    modalElement.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+
+  /**
+   * Handle "Add to Cart" from the modal
+   */
+  async function handleModalAddToCart(event) {
+    const btn = event.currentTarget;
+    const productId = btn.dataset.productId;
+
+    if (!authService.isAuthenticated()) {
+      closeModal();
+      window.location.href = "/login/";
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = "Adding...";
+
+    try {
+      await cartService.addItem(productId);
+      btn.textContent = "Added ✓";
+      setTimeout(() => {
+        btn.textContent = "Add to Cart";
+        btn.disabled = false;
+      }, 1500);
+    } catch (err) {
+      btn.textContent = "Error";
+      setTimeout(() => {
+        btn.textContent = "Add to Cart";
+        btn.disabled = false;
+      }, 2000);
+    }
   }
 
   /**
@@ -113,7 +240,21 @@ const productService = (() => {
 
     // Bind "Add to Cart" buttons
     container.querySelectorAll(".product-add-btn").forEach((btn) => {
-      btn.addEventListener("click", handleAddToCart);
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        handleAddToCart(e);
+      });
+    });
+
+    // Bind product card clicks to open modal
+    container.querySelectorAll(".product-card").forEach((card) => {
+      card.addEventListener("click", (e) => {
+        // Don't open modal if clicking the Add to Cart button
+        if (e.target.closest(".product-add-btn")) return;
+        const productId = card.dataset.productId;
+        const product = products.find((p) => p.id === productId);
+        if (product) openModal(product);
+      });
     });
   }
 

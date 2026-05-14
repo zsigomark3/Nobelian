@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary Meta Tags (dynamic via JS) -->
+  <title>Product | Nobelian</title>
+  <meta name="description" content="Discover this handcrafted luxury accessory from Nobelian." />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="https://assets.nobelian.com/icons/favicon1.png" />
+
+  <!-- Global styles + layout -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.css" />
+  <link rel="stylesheet" href="/style.css">
+
+  <!-- Components (navbar/footer) then overlay / navbar logic -->
+  <script src="/components.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.umd.js" defer></script>
+  <script src="/cookieconsent-config.js" defer></script>
+  <script src="/app.js" defer></script>
+  <script src="/auth.js" defer></script>
+  <script src="/cart.js" defer></script>
+  <script src="/products.js" defer></script>
+</head>
+
+<body id="top" data-page="product">
+
+  <div data-component="navbar"></div>
+
+  <!-- ===========================================================
+       PRODUCT DETAIL PAGE (PDP)
+       =========================================================== -->
+  <main class="subpage-main">
+
+    <!-- Loading state -->
+    <div class="pdp-loading" id="pdp-loading">
+      <p>Loading product…</p>
+    </div>
+
+    <!-- Error state (hidden by default) -->
+    <div class="pdp-error" id="pdp-error" hidden>
+      <p>Product not found.</p>
+      <a href="/" class="pdp-back-link">← Back to Home</a>
+    </div>
+
+    <!-- Product content (hidden until loaded) -->
+    <article class="pdp-container" id="pdp-container" hidden>
+
+      <!-- Gallery -->
+      <section class="pdp-gallery" aria-label="Product images">
+        <div class="pdp-gallery-main">
+          <img class="pdp-main-image" id="pdp-main-image" src="" alt="">
+        </div>
+        <div class="pdp-gallery-thumbs" id="pdp-thumbs"></div>
+      </section>
+
+      <!-- Details -->
+      <section class="pdp-details">
+        <h1 class="pdp-name" id="pdp-name"></h1>
+        <p class="pdp-price" id="pdp-price"></p>
+        <p class="pdp-description" id="pdp-description"></p>
+
+        <!-- Materials -->
+        <div class="pdp-materials" id="pdp-materials" hidden>
+          <h3 class="pdp-section-title">Materials</h3>
+          <ul class="pdp-materials-list" id="pdp-materials-list"></ul>
+        </div>
+
+        <!-- Stock + Add to Cart -->
+        <div class="pdp-actions" id="pdp-actions">
+          <button class="pdp-add-btn" id="pdp-add-btn" aria-label="Add to cart">Add to Cart</button>
+          <span class="pdp-stock-label" id="pdp-stock-label" hidden>Out of Stock</span>
+        </div>
+
+        <!-- Back link -->
+        <a class="pdp-back-link" id="pdp-back-link" href="javascript:history.back()">← Back</a>
+      </section>
+
+    </article>
+
+  </main>
+
+  <div data-component="footer"></div>
+
+  <!-- PDP initialization script -->
+  <script>
+    document.addEventListener("componentsLoaded", () => {
+      initPDP();
+    });
+
+    async function initPDP() {
+      const params = new URLSearchParams(window.location.search);
+      const productId = params.get("id");
+
+      const loadingEl = document.getElementById("pdp-loading");
+      const errorEl = document.getElementById("pdp-error");
+      const containerEl = document.getElementById("pdp-container");
+
+      if (!productId) {
+        loadingEl.hidden = true;
+        errorEl.hidden = false;
+        return;
+      }
+
+      try {
+        const product = await productService.getById(productId);
+        renderPDP(product);
+        loadingEl.hidden = true;
+        containerEl.hidden = false;
+
+        // Update page title
+        document.title = `${product.name} | Nobelian`;
+      } catch (err) {
+        console.error("[PDP] Failed to load product:", err);
+        loadingEl.hidden = true;
+        errorEl.hidden = false;
+      }
+    }
+
+    function renderPDP(product) {
+      const images = product.images && product.images.length > 0
+        ? product.images
+        : ["https://assets.nobelian.com/images/products/placeholder.jpg"];
+
+      const price = new Intl.NumberFormat("de-DE", {
+        style: "currency",
+        currency: product.currency || "EUR",
+      }).format(product.price);
+
+      // Main image
+      const mainImg = document.getElementById("pdp-main-image");
+      mainImg.src = images[0];
+      mainImg.alt = product.name;
+
+      // Thumbnails
+      const thumbsContainer = document.getElementById("pdp-thumbs");
+      if (images.length > 1) {
+        thumbsContainer.innerHTML = images.map((img, i) => `
+          <button class="pdp-thumb${i === 0 ? " active" : ""}" data-index="${i}" aria-label="View image ${i + 1}">
+            <img src="${img}" alt="${product.name} - image ${i + 1}" loading="lazy">
+          </button>
+        `).join("");
+
+        thumbsContainer.addEventListener("click", (e) => {
+          const thumb = e.target.closest(".pdp-thumb");
+          if (!thumb) return;
+          const index = parseInt(thumb.dataset.index, 10);
+          mainImg.src = images[index];
+          thumbsContainer.querySelectorAll(".pdp-thumb").forEach(t => t.classList.remove("active"));
+          thumb.classList.add("active");
+        });
+      } else {
+        thumbsContainer.hidden = true;
+      }
+
+      // Text details
+      document.getElementById("pdp-name").textContent = product.name;
+      document.getElementById("pdp-price").textContent = price;
+      document.getElementById("pdp-description").textContent = product.description || "";
+
+      // Materials
+      if (product.materials && product.materials.length > 0) {
+        const materialsSection = document.getElementById("pdp-materials");
+        const materialsList = document.getElementById("pdp-materials-list");
+        materialsList.innerHTML = product.materials.map(m => `<li>${m}</li>`).join("");
+        materialsSection.hidden = false;
+      }
+
+      // Stock & Add to Cart
+      const addBtn = document.getElementById("pdp-add-btn");
+      const stockLabel = document.getElementById("pdp-stock-label");
+
+      if (product.in_stock) {
+        addBtn.hidden = false;
+        stockLabel.hidden = true;
+        addBtn.addEventListener("click", () => handlePDPAddToCart(product.id, addBtn));
+      } else {
+        addBtn.hidden = true;
+        stockLabel.hidden = false;
+      }
+    }
+
+    async function handlePDPAddToCart(productId, btn) {
+      if (!authService.isAuthenticated()) {
+        window.location.href = "/login/";
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Adding...";
+
+      try {
+        await cartService.addItem(productId);
+        btn.textContent = "Added ✓";
+        setTimeout(() => {
+          btn.textContent = "Add to Cart";
+          btn.disabled = false;
+        }, 1500);
+      } catch (err) {
+        btn.textContent = "Error";
+        setTimeout(() => {
+          btn.textContent = "Add to Cart";
+          btn.disabled = false;
+        }, 2000);
+      }
+    }
+  </script>
+
+</body>
+</html>

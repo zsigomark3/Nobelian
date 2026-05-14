@@ -109,6 +109,19 @@
         "placeholder": "Basis-Kollektion Produktgrid Platzhalter."
       }
     },
+    "about": {
+      "hero": {
+        "title": "Über uns",
+        "subtitle": "Unsere Geschichte, unser Handwerk und unser Engagement für zeitloses Design."
+      },
+      "content": {
+        "intro": "Jedes Nobelian-Stück beginnt mit einer Vision — Accessoires zu schaffen, die über Trends hinausgehen und zu beständigen Begleitern im Alltag werden.",
+        "origin": "Gegründet mit tiefem Respekt vor traditioneller Handwerkskunst, entstand Nobelian aus der Überzeugung, dass wahrer Luxus im Detail liegt. Jede Tasche, jeder Schal und jedes Accessoire wird im eigenen Haus entworfen und von erfahrenen Kunsthandwerkern zum Leben erweckt, die unsere Leidenschaft für Qualität teilen.",
+        "craft": "Wir verwenden ausschließlich die feinsten Materialien — geschmeidiges Leder, edle Textilien und sorgfältig ausgewählte Beschläge — damit jedes Produkt nicht nur schön aussieht, sondern sich auch außergewöhnlich anfühlt. Unser Prozess ist bedacht und bewusst, denn wir glauben, dass großartige Dinge Zeit brauchen.",
+        "philosophy": "Bei Nobelian jagen wir keinen Saisons hinterher. Unsere Kollektionen basieren auf zeitlosen Silhouetten und zurückhaltender Eleganz, die Ihren persönlichen Stil über Jahre hinweg ergänzen. Wir fertigen weniger Stücke, aber jedes einzelne ist auf Langlebigkeit ausgelegt.",
+        "closing": "Vielen Dank, dass Sie sich für Handwerkskunst statt Massenproduktion entscheiden und Teil unserer Geschichte sind. Jedes Mal, wenn Sie ein Nobelian-Stück bei sich tragen, tragen Sie ein kleines Stück unseres Herzens mit sich."
+      }
+    },
     "cart": {
       "title": "Warenkorb"
     },

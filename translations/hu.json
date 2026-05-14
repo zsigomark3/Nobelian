@@ -109,6 +109,19 @@
         "placeholder": "Alap kollekció termékrács helyőrző."
       }
     },
+    "about": {
+      "hero": {
+        "title": "Rólunk",
+        "subtitle": "Történetünk, mesterségünk és elkötelezettségünk az időtlen design iránt."
+      },
+      "content": {
+        "intro": "Minden Nobelian darab egy vízióval kezdődik — olyan kiegészítőket alkotni, amelyek túlmutatnak a trendeken, és a mindennapok hűséges társaivá válnak.",
+        "origin": "A hagyományos kézművesség iránti mély tisztelettel alapítva, a Nobelian abból a meggyőződésből született, hogy az igazi luxus a részletekben rejlik. Minden táskát, sálat és kiegészítőt házon belül tervezünk, és olyan képzett mesteremberek keltenek életre, akik osztják a minőség iránti szenvedélyünket.",
+        "craft": "Kizárólag a legfinomabb alapanyagokat használjuk — puha bőröket, gazdag textíliákat és gondosan válogatott vasalatokat — biztosítva, hogy minden termékünk ne csak gyönyörű legyen, hanem rendkívüli érzést nyújtson a kézben. Folyamatunk türelmes és tudatos, mert hisszük, hogy a nagyszerű dolgoknak időre van szükségük.",
+        "philosophy": "A Nobeliannál nem futunk a szezonok után. Kollekcióinkat időtlen sziluettek és visszafogott elegancia köré építjük, amelyek éveken át kiegészítik személyes stílusodat. Kevesebb darabot készítünk, de mindegyiket úgy, hogy tartós legyen.",
+        "closing": "Köszönjük, hogy a kézművességet választod a tömegtermelés helyett, és hogy részese vagy történetünknek. Valahányszor magaddal viszel egy Nobelian darabot, egy kis részünket is magaddal viszed."
+      }
+    },
     "cart": {
       "title": "Kosár"
     },
