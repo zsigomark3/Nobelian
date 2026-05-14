@@ -156,6 +156,19 @@ video {
   opacity: 0.6;
 }
 
+.nav-account-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.nav-account-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
 .logo-img {
   height: 42px;
   width: auto;

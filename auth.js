@@ -129,22 +129,18 @@ const authService = (() => {
    */
   function updateUI() {
     const user = getUser();
-    const accountBtn = document.querySelector(".nav-btn[data-i18n='common.nav.myAccount']");
+    const accountBtn = document.querySelector(".nav-account-btn");
     const dropdown = document.querySelector(".dropdown-content");
 
     if (accountBtn && dropdown) {
       if (user) {
-        // User is logged in — show username and remove i18n so translation won't overwrite it
-        accountBtn.textContent = user.username || "My Account";
-        accountBtn.removeAttribute("data-i18n");
+        // User is logged in
         dropdown.innerHTML = `
           <a href="/orders/" data-i18n="common.nav.orders">My Orders</a>
           <a href="#" onclick="authService.logout(); return false;" data-i18n="common.nav.logout">Logout</a>
         `;
       } else {
-        // User is not logged in — restore i18n attribute
-        accountBtn.textContent = "My Account";
-        accountBtn.setAttribute("data-i18n", "common.nav.myAccount");
+        // User is not logged in
         dropdown.innerHTML = `
           <a href="/login/" data-i18n="common.nav.login">Login</a>
           <a href="/register/" data-i18n="common.nav.register">Register</a>
