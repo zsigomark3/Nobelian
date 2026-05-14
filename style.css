@@ -168,10 +168,10 @@ video {
   height: 24px;
   display: block;
   filter:
-    drop-shadow(0.2px 0 0 #333)
-    drop-shadow(-0.2px 0 0 #333)
-    drop-shadow(0 0.2px 0 #333)
-    drop-shadow(0 -0.2px 0 #333);
+    drop-shadow(0.2px 0 0 #555)
+    drop-shadow(-0.2px 0 0 #555)
+    drop-shadow(0 0.2px 0 #555)
+    drop-shadow(0 -0.2px 0 #555);
 }
 
 .logo-img {
@@ -532,6 +532,99 @@ video {
   width: min(1100px, 92vw);
   margin: 0 auto;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* ---- HOME PAGE: Brand overlay + full-bleed hero ---- */
+
+.home-brand-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100; /* above content, below navbar (200) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* let clicks pass through */
+  transition: opacity 0.15s ease-out;
+}
+
+.home-brand-logo {
+  width: clamp(280px, 50vw, 700px);
+  height: auto;
+  opacity: 0.92;
+  /* subtle mix-blend so it interacts with the hero image */
+  mix-blend-mode: normal;
+  filter: drop-shadow(0 2px 12px rgba(255,255,255,0.4));
+}
+
+/* Full-viewport hero for home */
+.hero-section--home {
+  padding: 0;
+  margin-bottom: 0;
+  margin-top: -62px; /* pull behind transparent sticky navbar */
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.hero-image--home {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: none;
+}
+
+video.hero-image--home {
+  display: block;
+}
+
+/* Hide navbar logo on home page */
+body[data-page="home"] .logo {
+  visibility: hidden;
+}
+
+/* Transparent navbar on home page (hero visible behind) */
+body[data-page="home"] .navbar.sticky {
+  background-color: transparent;
+  border-bottom: none;
+}
+
+body[data-page="home"] .nav-btn,
+body[data-page="home"] .nav-cart-link,
+body[data-page="home"] .nav-search-btn {
+  color: #fff;
+}
+
+body[data-page="home"] .nav-search-btn svg {
+  stroke: #fff;
+}
+
+body[data-page="home"] .nav-cart-link svg {
+  stroke: #fff;
+}
+
+body[data-page="home"] .nav-account-icon {
+  filter:
+    brightness(0) invert(1)
+    drop-shadow(0.2px 0 0 rgba(255,255,255,0.8))
+    drop-shadow(-0.2px 0 0 rgba(255,255,255,0.8))
+    drop-shadow(0 0.2px 0 rgba(255,255,255,0.8))
+    drop-shadow(0 -0.2px 0 rgba(255,255,255,0.8));
+}
+
+body[data-page="home"] .nav-toggle-icon,
+body[data-page="home"] .nav-toggle-icon::before,
+body[data-page="home"] .nav-toggle-icon::after {
+  background: #fff;
+}
+
+body[data-page="home"] .nav-toggle-icon {
+  background: linear-gradient(#fff, #fff) center/100% 2px no-repeat;
+}
+
+/* Hide footer logo on home page */
+body[data-page="home"] .footer-logo {
+  display: none;
 }
 
 .image-grid {
@@ -1090,6 +1183,10 @@ video {
 
   .hero-section {
     padding: 40px 0;
+  }
+
+  .hero-section--home {
+    padding: 0;
   }
 
   .overlay-inner {

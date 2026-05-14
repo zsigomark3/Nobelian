@@ -303,5 +303,38 @@ document.addEventListener("DOMContentLoaded", () => {
     translationService.init();
     bindOverlayEvents();
     bindNavMenu();
+    initHomeBrandOverlay();
   });
 });
+
+
+/* ========================================================================
+   HOME PAGE — BRAND OVERLAY SCROLL FADE
+   ------------------------------------------------------------------------
+   The fixed brand logo fades out as the user scrolls past the hero section.
+   ======================================================================== */
+function initHomeBrandOverlay() {
+  const overlay = document.querySelector(".home-brand-overlay");
+  const hero = document.querySelector(".hero-section--home");
+  if (!overlay || !hero) return;
+
+  function onScroll() {
+    const heroBottom = hero.offsetTop + hero.offsetHeight;
+    const scrollY = window.scrollY || window.pageYOffset;
+    // Start fading at 30% of hero height, fully gone at hero bottom
+    const fadeStart = heroBottom * 0.3;
+    const fadeEnd = heroBottom * 0.85;
+
+    if (scrollY <= fadeStart) {
+      overlay.style.opacity = "1";
+    } else if (scrollY >= fadeEnd) {
+      overlay.style.opacity = "0";
+    } else {
+      const progress = (scrollY - fadeStart) / (fadeEnd - fadeStart);
+      overlay.style.opacity = String(1 - progress);
+    }
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll(); // initial state
+}
