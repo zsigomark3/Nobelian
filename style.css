@@ -167,6 +167,7 @@ video {
   width: 24px;
   height: 24px;
   display: block;
+  opacity: 0.7;
 }
 
 .logo-img {
@@ -542,7 +543,7 @@ video {
 }
 
 .home-brand-logo {
-  width: clamp(560px, 90vw, 1400px);
+  width: clamp(504px, 81vw, 1260px);
   height: auto;
   opacity: 0.92;
   mix-blend-mode: normal;
@@ -577,6 +578,12 @@ video.hero-image--home {
 /* Hide navbar logo on home page (the overlay logo replaces it) */
 body[data-page="home"] .logo {
   visibility: hidden;
+  transition: visibility 0s 0s;
+}
+
+/* When scrolled: show the navbar logo */
+body[data-page="home"] .navbar.sticky.home-scrolled .logo {
+  visibility: visible;
 }
 
 /* Transparent navbar on home page — initial state (hero visible behind) */

@@ -352,11 +352,11 @@ function initHomeBrandOverlay() {
     // Navbar state
     if (progress >= 1) {
       navbar.classList.add("home-scrolled");
-      // Switch logo filter from white glow to none when in navbar
-      logo.style.filter = "none";
-      logo.style.opacity = "0.9";
+      // Hide overlay logo, navbar's own logo takes over
+      overlay.style.opacity = "0";
     } else {
       navbar.classList.remove("home-scrolled");
+      overlay.style.opacity = "1";
       logo.style.filter = "drop-shadow(0 2px 12px rgba(255,255,255,0.4))";
       logo.style.opacity = "0.92";
     }
