@@ -54,6 +54,14 @@
           <div class="checkout-summary">
             <h2>Order Summary</h2>
             <div id="checkout-items" class="checkout-items"></div>
+            <div class="checkout-subtotal">
+              <span>Subtotal:</span>
+              <span id="checkout-subtotal-amount">€0.00</span>
+            </div>
+            <div id="checkout-shipping-line" class="checkout-shipping-line" style="display:none;">
+              <span>Shipping:</span>
+              <span id="checkout-shipping-amount">—</span>
+            </div>
             <div class="checkout-total">
               <strong>Total:</strong>
               <span id="checkout-total-amount">€0.00</span>
@@ -86,12 +94,54 @@
               </div>
               <div class="form-group">
                 <label for="ship-country">Country</label>
-                <input type="text" id="ship-country" name="country" required autocomplete="country-name" />
+                <select id="ship-country" name="country" required autocomplete="country-name">
+                  <option value="">— Select country —</option>
+                  <option value="AT">Austria (Österreich)</option>
+                  <option value="DE">Germany (Deutschland)</option>
+                  <option value="HU">Hungary (Magyarország)</option>
+                  <option value="CH">Switzerland (Schweiz)</option>
+                  <option value="CZ">Czech Republic (Česko)</option>
+                  <option value="SK">Slovakia (Slovensko)</option>
+                  <option value="SI">Slovenia (Slovenija)</option>
+                  <option value="IT">Italy (Italia)</option>
+                  <option value="LI">Liechtenstein</option>
+                  <option value="FR">France</option>
+                  <option value="NL">Netherlands</option>
+                  <option value="BE">Belgium</option>
+                  <option value="PL">Poland</option>
+                  <option value="ES">Spain</option>
+                  <option value="PT">Portugal</option>
+                  <option value="SE">Sweden</option>
+                  <option value="DK">Denmark</option>
+                  <option value="FI">Finland</option>
+                  <option value="IE">Ireland</option>
+                  <option value="GR">Greece</option>
+                  <option value="RO">Romania</option>
+                  <option value="BG">Bulgaria</option>
+                  <option value="HR">Croatia</option>
+                  <option value="LU">Luxembourg</option>
+                  <option value="EE">Estonia</option>
+                  <option value="LV">Latvia</option>
+                  <option value="LT">Lithuania</option>
+                </select>
               </div>
               <div class="form-group">
                 <label for="ship-phone">Phone (optional)</label>
                 <input type="tel" id="ship-phone" name="phone" autocomplete="tel" />
               </div>
+
+              <!-- Shipping method selection -->
+              <div id="shipping-methods-section" class="shipping-methods-section" style="display:none;">
+                <h3>Shipping Method</h3>
+                <div id="shipping-methods-loading" class="shipping-loading" style="display:none;">
+                  <p>Calculating shipping options...</p>
+                </div>
+                <div id="shipping-methods-list" class="shipping-methods-list"></div>
+                <div id="shipping-free-notice" class="shipping-free-notice" style="display:none;">
+                  <span class="free-badge">✓ Free Shipping</span> Your order qualifies for free shipping!
+                </div>
+              </div>
+
               <div class="form-group">
                 <label for="ship-notes">Order Notes (optional)</label>
                 <textarea id="ship-notes" name="notes" rows="3"></textarea>
@@ -115,15 +165,25 @@
 
   <script>
     document.addEventListener("componentsLoaded", async function () {
+      var API_BASE = "https://nobelian-be.fly.dev/api";
       var loginEl = document.getElementById("checkout-login");
       var loadingEl = document.getElementById("checkout-loading");
       var emptyEl = document.getElementById("checkout-empty");
       var contentEl = document.getElementById("checkout-content");
       var itemsEl = document.getElementById("checkout-items");
+      var subtotalEl = document.getElementById("checkout-subtotal-amount");
+      var shippingLineEl = document.getElementById("checkout-shipping-line");
+      var shippingAmountEl = document.getElementById("checkout-shipping-amount");
       var totalEl = document.getElementById("checkout-total-amount");
       var errorEl = document.getElementById("checkout-error");
       var form = document.getElementById("checkout-form");
       var submitBtn = document.getElementById("checkout-submit");
+      var countrySelect = document.getElementById("ship-country");
+
+      // Shipping state
+      var shippingOptions = [];
+      var selectedShippingMethod = null;
+      var cartSubtotal = 0;
 
       if (!authService.isAuthenticated()) {
         loadingEl.style.display = "none";
@@ -141,12 +201,165 @@
           return;
         }
 
+        cartSubtotal = cart.total;
         renderSummary(cart);
         contentEl.style.display = "block";
       } catch (err) {
         loadingEl.style.display = "none";
         emptyEl.style.display = "block";
         return;
+      }
+
+      // Pre-fill shipping address from saved profile
+      try {
+        const profileRes = await fetch(API_BASE + "/profile", {
+          headers: { ...authService.getAuthHeader() },
+        });
+        if (profileRes.ok) {
+          const profile = await profileRes.json();
+          if (profile.shipping_address) {
+            const addr = profile.shipping_address;
+            if (addr.name) document.getElementById("ship-name").value = addr.name;
+            if (addr.street) document.getElementById("ship-street").value = addr.street;
+            if (addr.city) document.getElementById("ship-city").value = addr.city;
+            if (addr.zip) document.getElementById("ship-zip").value = addr.zip;
+            if (addr.country) {
+              // Try to match country code or name to select option
+              var countryVal = addr.country.trim();
+              var matched = false;
+              for (var i = 0; i < countrySelect.options.length; i++) {
+                if (countrySelect.options[i].value === countryVal ||
+                    countrySelect.options[i].textContent.toLowerCase().includes(countryVal.toLowerCase())) {
+                  countrySelect.value = countrySelect.options[i].value;
+                  matched = true;
+                  break;
+                }
+              }
+              if (!matched && countryVal) {
+                countrySelect.value = countryVal;
+              }
+              // Trigger shipping calculation if country is pre-filled
+              if (countrySelect.value) {
+                fetchShippingOptions(countrySelect.value);
+              }
+            }
+            if (addr.phone) document.getElementById("ship-phone").value = addr.phone;
+          }
+        }
+      } catch (e) {
+        // Silently fail — user can still fill manually
+      }
+
+      // Listen for country changes to recalculate shipping
+      countrySelect.addEventListener("change", function () {
+        var country = countrySelect.value;
+        if (country) {
+          fetchShippingOptions(country);
+        } else {
+          hideShippingOptions();
+        }
+      });
+
+      async function fetchShippingOptions(country) {
+        var section = document.getElementById("shipping-methods-section");
+        var loadingDiv = document.getElementById("shipping-methods-loading");
+        var listDiv = document.getElementById("shipping-methods-list");
+        var freeNotice = document.getElementById("shipping-free-notice");
+
+        section.style.display = "block";
+        loadingDiv.style.display = "block";
+        listDiv.innerHTML = "";
+        freeNotice.style.display = "none";
+        selectedShippingMethod = null;
+        updateTotals();
+
+        try {
+          var token = authService.getToken();
+          var res = await fetch(API_BASE + "/shipping/calculate", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + token,
+            },
+            body: JSON.stringify({ country: country }),
+          });
+
+          if (!res.ok) throw new Error("Failed to calculate shipping");
+
+          var data = await res.json();
+          shippingOptions = data.options;
+          loadingDiv.style.display = "none";
+
+          if (data.options.length === 0) {
+            listDiv.innerHTML = '<p class="shipping-no-options">No shipping options available for this country.</p>';
+            return;
+          }
+
+          // Show free shipping notice if eligible
+          if (data.options[0] && data.options[0].free_shipping_eligible) {
+            freeNotice.style.display = "block";
+          }
+
+          // Render shipping options
+          listDiv.innerHTML = data.options.map(function (opt, idx) {
+            var costDisplay = opt.cost === 0
+              ? '<span class="shipping-cost-free">Free</span>'
+              : '<span class="shipping-cost">€' + opt.cost.toFixed(2) + '</span>';
+            var daysDisplay = opt.estimated_days_min === opt.estimated_days_max
+              ? opt.estimated_days_min + ' business day' + (opt.estimated_days_min > 1 ? 's' : '')
+              : opt.estimated_days_min + '–' + opt.estimated_days_max + ' business days';
+
+            return '<label class="shipping-option' + (idx === 0 ? ' selected' : '') + '" data-method-id="' + opt.id + '">' +
+              '<input type="radio" name="shipping-method" value="' + opt.id + '"' + (idx === 0 ? ' checked' : '') + '>' +
+              '<div class="shipping-option-info">' +
+                '<span class="shipping-carrier">' + opt.carrier_display_name + '</span>' +
+                '<span class="shipping-speed">' + opt.speed_display_name + ' (' + daysDisplay + ')</span>' +
+              '</div>' +
+              costDisplay +
+            '</label>';
+          }).join("");
+
+          // Select first option by default
+          if (data.options.length > 0) {
+            selectedShippingMethod = data.options[0];
+            updateTotals();
+          }
+
+          // Bind radio change events
+          listDiv.querySelectorAll('input[name="shipping-method"]').forEach(function (radio) {
+            radio.addEventListener("change", function () {
+              var methodId = radio.value;
+              selectedShippingMethod = shippingOptions.find(function (o) { return o.id === methodId; });
+              // Update visual selection
+              listDiv.querySelectorAll('.shipping-option').forEach(function (el) {
+                el.classList.remove('selected');
+              });
+              radio.closest('.shipping-option').classList.add('selected');
+              updateTotals();
+            });
+          });
+
+        } catch (err) {
+          loadingDiv.style.display = "none";
+          listDiv.innerHTML = '<p class="shipping-error">Could not load shipping options. Please try again.</p>';
+        }
+      }
+
+      function hideShippingOptions() {
+        document.getElementById("shipping-methods-section").style.display = "none";
+        selectedShippingMethod = null;
+        updateTotals();
+      }
+
+      function updateTotals() {
+        var shippingCost = selectedShippingMethod ? selectedShippingMethod.cost : 0;
+        if (selectedShippingMethod) {
+          shippingLineEl.style.display = "flex";
+          shippingAmountEl.textContent = shippingCost === 0 ? "Free" : "€" + shippingCost.toFixed(2);
+        } else {
+          shippingLineEl.style.display = "none";
+        }
+        totalEl.textContent = "€" + (cartSubtotal + shippingCost).toFixed(2);
       }
 
       function renderSummary(cart) {
@@ -156,6 +369,7 @@
             '<span class="checkout-item-price">€' + (item.price * item.quantity).toFixed(2) + '</span>' +
           '</div>';
         }).join("");
+        subtotalEl.textContent = "€" + cart.total.toFixed(2);
         totalEl.textContent = "€" + cart.total.toFixed(2);
       }
 
@@ -167,7 +381,7 @@
         var street = document.getElementById("ship-street").value.trim();
         var city = document.getElementById("ship-city").value.trim();
         var zip = document.getElementById("ship-zip").value.trim();
-        var country = document.getElementById("ship-country").value.trim();
+        var country = countrySelect.value;
         var phone = document.getElementById("ship-phone").value.trim() || null;
         var notes = document.getElementById("ship-notes").value.trim() || null;
 
@@ -176,6 +390,15 @@
           errorEl.classList.add("show");
           return;
         }
+
+        if (!selectedShippingMethod) {
+          errorEl.textContent = "Please select a shipping method.";
+          errorEl.classList.add("show");
+          return;
+        }
+
+        var shippingCost = selectedShippingMethod.cost;
+        var totalWithShipping = cartSubtotal + shippingCost;
 
         // Store order data in sessionStorage and redirect to payment page
         var orderPayload = {
@@ -187,9 +410,13 @@
             country: country,
             phone: phone,
           },
+          shipping_method_id: selectedShippingMethod.id,
+          shipping_method: selectedShippingMethod,
           notes: notes,
           items: cart.items,
-          total: cart.total,
+          subtotal: cartSubtotal,
+          shipping_cost: shippingCost,
+          total: totalWithShipping,
         };
 
         sessionStorage.setItem("nobelian_pending_order", JSON.stringify(orderPayload));

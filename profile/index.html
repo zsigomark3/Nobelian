@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile - Nobelian</title>
+  <link rel="icon" type="image/svg+xml" href="https://assets.nobelian.com/icons/nobelian_pict.svg" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <script src="/components.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.umd.js" defer></script>
+  <script src="/cookieconsent-config.js" defer></script>
+  <script src="/app.js" defer></script>
+  <script src="/auth.js" defer></script>
+  <script src="/cart.js" defer></script>
+  <script src="/search.js" defer></script>
+</head>
+<body id="top" data-page="profile">
+
+  <div data-component="navbar"></div>
+
+  <main class="main-content auth-page">
+    <div class="profile-container">
+      <a href="/" class="back-link">← Back to Home</a>
+      <h1 data-i18n="pages.profile.title">My Profile</h1>
+      <p class="profile-subtitle" data-i18n="pages.profile.subtitle">Manage your account details and shipping address.</p>
+
+      <!-- Loading state -->
+      <div id="profile-loading" class="profile-loading">Loading...</div>
+
+      <!-- Not logged in -->
+      <div id="profile-login" class="profile-login" style="display:none;">
+        <p>Please <a href="/login/">log in</a> to view your profile.</p>
+      </div>
+
+      <!-- Profile content -->
+      <div id="profile-content" style="display:none;">
+
+        <!-- Personal Info Section -->
+        <section class="profile-section">
+          <h2 data-i18n="pages.profile.personalInfo">Personal Information</h2>
+          <div id="profile-info-error" class="error-message"></div>
+          <div id="profile-info-success" class="success-message"></div>
+          <form id="profile-info-form" class="auth-form" novalidate>
+            <div class="form-group">
+              <label for="profile-username" data-i18n="pages.profile.name">Name</label>
+              <input type="text" id="profile-username" name="username" required autocomplete="name" />
+            </div>
+            <div class="form-group">
+              <label for="profile-email" data-i18n="pages.profile.email">Email</label>
+              <input type="email" id="profile-email" name="email" disabled autocomplete="email" />
+              <span class="form-hint" data-i18n="pages.profile.emailHint">Email cannot be changed</span>
+            </div>
+            <div class="form-group">
+              <label for="profile-phone" data-i18n="pages.profile.phone">Phone</label>
+              <input type="tel" id="profile-phone" name="phone" autocomplete="tel" />
+            </div>
+            <button type="submit" class="auth-button" id="profile-info-btn" data-i18n="pages.profile.saveProfile">Save Profile</button>
+          </form>
+        </section>
+
+        <!-- Shipping Address Section -->
+        <section class="profile-section">
+          <h2 data-i18n="pages.profile.shippingAddress">Shipping Address</h2>
+          <p class="profile-section-desc" data-i18n="pages.profile.shippingHint">Save your address to speed up checkout.</p>
+          <div id="profile-address-error" class="error-message"></div>
+          <div id="profile-address-success" class="success-message"></div>
+          <form id="profile-address-form" class="auth-form" novalidate>
+            <div class="form-group">
+              <label for="address-name" data-i18n="pages.profile.addressName">Full Name</label>
+              <input type="text" id="address-name" name="name" autocomplete="name" />
+            </div>
+            <div class="form-group">
+              <label for="address-street" data-i18n="pages.profile.street">Street Address</label>
+              <input type="text" id="address-street" name="street" autocomplete="street-address" />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="address-city" data-i18n="pages.profile.city">City</label>
+                <input type="text" id="address-city" name="city" autocomplete="address-level2" />
+              </div>
+              <div class="form-group">
+                <label for="address-zip" data-i18n="pages.profile.zip">Postal Code</label>
+                <input type="text" id="address-zip" name="zip" autocomplete="postal-code" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="address-country" data-i18n="pages.profile.country">Country</label>
+              <input type="text" id="address-country" name="country" autocomplete="country-name" />
+            </div>
+            <div class="form-group">
+              <label for="address-phone" data-i18n="pages.profile.addressPhone">Phone (for delivery)</label>
+              <input type="tel" id="address-phone" name="phone" autocomplete="tel" />
+            </div>
+            <button type="submit" class="auth-button" id="profile-address-btn" data-i18n="pages.profile.saveAddress">Save Address</button>
+          </form>
+        </section>
+
+        <!-- Change Password Section -->
+        <section class="profile-section">
+          <h2 data-i18n="pages.profile.changePassword">Change Password</h2>
+          <div id="profile-password-error" class="error-message"></div>
+          <div id="profile-password-success" class="success-message"></div>
+          <form id="profile-password-form" class="auth-form" novalidate>
+            <div class="form-group">
+              <label for="current-password" data-i18n="pages.profile.currentPassword">Current Password</label>
+              <input type="password" id="current-password" name="current-password" required autocomplete="current-password" />
+            </div>
+            <div class="form-group">
+              <label for="new-password" data-i18n="pages.profile.newPassword">New Password</label>
+              <input type="password" id="new-password" name="new-password" required autocomplete="new-password" minlength="8" />
+              <span class="form-hint" data-i18n="pages.profile.passwordHint">Must be at least 8 characters</span>
+            </div>
+            <div class="form-group">
+              <label for="confirm-new-password" data-i18n="pages.profile.confirmPassword">Confirm New Password</label>
+              <input type="password" id="confirm-new-password" name="confirm-password" required autocomplete="new-password" />
+            </div>
+            <button type="submit" class="auth-button" id="profile-password-btn" data-i18n="pages.profile.updatePassword">Update Password</button>
+          </form>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <div data-component="footer"></div>
+
+  <script>
+    document.addEventListener("componentsLoaded", async function () {
+      const API_BASE = "https://nobelian-be.fly.dev/api";
+      const loadingEl = document.getElementById("profile-loading");
+      const loginEl = document.getElementById("profile-login");
+      const contentEl = document.getElementById("profile-content");
+
+      // Check auth
+      if (!authService.isAuthenticated()) {
+        loadingEl.style.display = "none";
+        loginEl.style.display = "block";
+        return;
+      }
+
+      // Fetch profile
+      try {
+        const res = await fetch(`${API_BASE}/profile`, {
+          headers: { ...authService.getAuthHeader() },
+        });
+
+        if (!res.ok) {
+          if (res.status === 401) {
+            authService.logout();
+            loginEl.style.display = "block";
+            loadingEl.style.display = "none";
+            return;
+          }
+          throw new Error("Failed to load profile");
+        }
+
+        const profile = await res.json();
+        populateProfile(profile);
+        loadingEl.style.display = "none";
+        contentEl.style.display = "block";
+      } catch (err) {
+        loadingEl.textContent = "Failed to load profile. Please try again.";
+        console.error("Profile load error:", err);
+      }
+
+      function populateProfile(profile) {
+        document.getElementById("profile-username").value = profile.username || "";
+        document.getElementById("profile-email").value = profile.email || "";
+        document.getElementById("profile-phone").value = profile.phone || "";
+
+        if (profile.shipping_address) {
+          document.getElementById("address-name").value = profile.shipping_address.name || "";
+          document.getElementById("address-street").value = profile.shipping_address.street || "";
+          document.getElementById("address-city").value = profile.shipping_address.city || "";
+          document.getElementById("address-zip").value = profile.shipping_address.zip || "";
+          document.getElementById("address-country").value = profile.shipping_address.country || "";
+          document.getElementById("address-phone").value = profile.shipping_address.phone || "";
+        }
+      }
+
+      // --- Personal Info Form ---
+      document.getElementById("profile-info-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("profile-info-btn");
+        const errorDiv = document.getElementById("profile-info-error");
+        const successDiv = document.getElementById("profile-info-success");
+        errorDiv.classList.remove("show");
+        successDiv.classList.remove("show");
+        btn.disabled = true;
+        btn.textContent = "Saving...";
+
+        const username = document.getElementById("profile-username").value.trim();
+        const phone = document.getElementById("profile-phone").value.trim();
+
+        try {
+          const res = await fetch(`${API_BASE}/profile`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              ...authService.getAuthHeader(),
+            },
+            body: JSON.stringify({ username, phone: phone || null }),
+          });
+
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || "Update failed");
+
+          successDiv.textContent = "Profile updated successfully!";
+          successDiv.classList.add("show");
+
+          // Update local storage user data
+          const user = authService.getUser();
+          if (user) {
+            user.username = data.username;
+            localStorage.setItem("nobelian-user", JSON.stringify(user));
+          }
+        } catch (err) {
+          errorDiv.textContent = err.message;
+          errorDiv.classList.add("show");
+        }
+
+        btn.disabled = false;
+        btn.textContent = "Save Profile";
+      });
+
+      // --- Shipping Address Form ---
+      document.getElementById("profile-address-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("profile-address-btn");
+        const errorDiv = document.getElementById("profile-address-error");
+        const successDiv = document.getElementById("profile-address-success");
+        errorDiv.classList.remove("show");
+        successDiv.classList.remove("show");
+        btn.disabled = true;
+        btn.textContent = "Saving...";
+
+        const shipping_address = {
+          name: document.getElementById("address-name").value.trim(),
+          street: document.getElementById("address-street").value.trim(),
+          city: document.getElementById("address-city").value.trim(),
+          zip: document.getElementById("address-zip").value.trim(),
+          country: document.getElementById("address-country").value.trim(),
+          phone: document.getElementById("address-phone").value.trim() || null,
+        };
+
+        try {
+          const res = await fetch(`${API_BASE}/profile`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              ...authService.getAuthHeader(),
+            },
+            body: JSON.stringify({ shipping_address }),
+          });
+
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || "Update failed");
+
+          successDiv.textContent = "Shipping address saved!";
+          successDiv.classList.add("show");
+        } catch (err) {
+          errorDiv.textContent = err.message;
+          errorDiv.classList.add("show");
+        }
+
+        btn.disabled = false;
+        btn.textContent = "Save Address";
+      });
+
+      // --- Change Password Form ---
+      document.getElementById("profile-password-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("profile-password-btn");
+        const errorDiv = document.getElementById("profile-password-error");
+        const successDiv = document.getElementById("profile-password-success");
+        errorDiv.classList.remove("show");
+        successDiv.classList.remove("show");
+
+        const currentPassword = document.getElementById("current-password").value;
+        const newPassword = document.getElementById("new-password").value;
+        const confirmPassword = document.getElementById("confirm-new-password").value;
+
+        if (newPassword !== confirmPassword) {
+          errorDiv.textContent = "New passwords do not match.";
+          errorDiv.classList.add("show");
+          return;
+        }
+
+        if (newPassword.length < 8) {
+          errorDiv.textContent = "New password must be at least 8 characters.";
+          errorDiv.classList.add("show");
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = "Updating...";
+
+        try {
+          const res = await fetch(`${API_BASE}/profile/password`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              ...authService.getAuthHeader(),
+            },
+            body: JSON.stringify({
+              current_password: currentPassword,
+              new_password: newPassword,
+            }),
+          });
+
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || "Password change failed");
+
+          successDiv.textContent = "Password updated successfully!";
+          successDiv.classList.add("show");
+
+          // Clear form
+          document.getElementById("profile-password-form").reset();
+        } catch (err) {
+          errorDiv.textContent = err.message;
+          errorDiv.classList.add("show");
+        }
+
+        btn.disabled = false;
+        btn.textContent = "Update Password";
+      });
+    });
+  </script>
+</body>
+</html>

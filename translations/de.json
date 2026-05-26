@@ -11,6 +11,7 @@
       "register": "Registrieren",
       "logout": "Abmelden",
       "orders": "Meine Bestellungen",
+      "profile": "Mein Profil",
       "cart": "Warenkorb"
     },
     "overlay": {
@@ -167,6 +168,31 @@
     "returns": {
       "title": "Rücksendungen & Umtausch",
       "subtitle": "Unsere Rückgaberichtlinie und wie Sie eine Rücksendung einleiten."
+    },
+    "profile": {
+      "title": "Mein Profil",
+      "subtitle": "Verwalten Sie Ihre Kontodaten und Lieferadresse.",
+      "personalInfo": "Persönliche Daten",
+      "name": "Name",
+      "email": "E-Mail",
+      "emailHint": "E-Mail kann nicht geändert werden",
+      "phone": "Telefon",
+      "saveProfile": "Profil speichern",
+      "shippingAddress": "Lieferadresse",
+      "shippingHint": "Speichern Sie Ihre Adresse für einen schnelleren Checkout.",
+      "addressName": "Vollständiger Name",
+      "street": "Straße und Hausnummer",
+      "city": "Stadt",
+      "zip": "Postleitzahl",
+      "country": "Land",
+      "addressPhone": "Telefon (für Lieferung)",
+      "saveAddress": "Adresse speichern",
+      "changePassword": "Passwort ändern",
+      "currentPassword": "Aktuelles Passwort",
+      "newPassword": "Neues Passwort",
+      "passwordHint": "Mindestens 8 Zeichen",
+      "confirmPassword": "Neues Passwort bestätigen",
+      "updatePassword": "Passwort aktualisieren"
     }
   }
 }

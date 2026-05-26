@@ -11,6 +11,7 @@
       "register": "Regisztráció",
       "logout": "Kijelentkezés",
       "orders": "Rendeléseim",
+      "profile": "Profilom",
       "cart": "Kosár"
     },
     "overlay": {
@@ -167,6 +168,31 @@
     "returns": {
       "title": "Visszaküldés és csere",
       "subtitle": "Visszaküldési szabályzatunk és a visszaküldés menete."
+    },
+    "profile": {
+      "title": "Profilom",
+      "subtitle": "Fiókadatok és szállítási cím kezelése.",
+      "personalInfo": "Személyes adatok",
+      "name": "Név",
+      "email": "Email",
+      "emailHint": "Az email cím nem módosítható",
+      "phone": "Telefonszám",
+      "saveProfile": "Profil mentése",
+      "shippingAddress": "Szállítási cím",
+      "shippingHint": "Mentsd el a címedet a gyorsabb fizetéshez.",
+      "addressName": "Teljes név",
+      "street": "Utca, házszám",
+      "city": "Város",
+      "zip": "Irányítószám",
+      "country": "Ország",
+      "addressPhone": "Telefonszám (kézbesítéshez)",
+      "saveAddress": "Cím mentése",
+      "changePassword": "Jelszó módosítás",
+      "currentPassword": "Jelenlegi jelszó",
+      "newPassword": "Új jelszó",
+      "passwordHint": "Legalább 8 karakter",
+      "confirmPassword": "Új jelszó megerősítése",
+      "updatePassword": "Jelszó frissítése"
     }
   }
 }

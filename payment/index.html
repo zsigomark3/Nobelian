@@ -56,6 +56,14 @@
         <div class="payment-order-summary">
           <h2 data-i18n="pages.payment.orderSummary">Order Summary</h2>
           <div id="payment-items" class="checkout-items"></div>
+          <div class="checkout-subtotal">
+            <span>Subtotal:</span>
+            <span id="payment-subtotal-amount">€0.00</span>
+          </div>
+          <div id="payment-shipping-line" class="checkout-shipping-line">
+            <span>Shipping (<span id="payment-shipping-carrier"></span>):</span>
+            <span id="payment-shipping-amount">€0.00</span>
+          </div>
           <div class="checkout-total">
             <strong>Total:</strong>
             <span id="payment-total-amount">€0.00</span>
@@ -200,6 +208,10 @@
       var errorEl = document.getElementById("payment-error");
       var submitBtn = document.getElementById("payment-submit");
       var itemsEl = document.getElementById("payment-items");
+      var subtotalEl = document.getElementById("payment-subtotal-amount");
+      var shippingLineEl = document.getElementById("payment-shipping-line");
+      var shippingCarrierEl = document.getElementById("payment-shipping-carrier");
+      var shippingAmountEl = document.getElementById("payment-shipping-amount");
       var totalEl = document.getElementById("payment-total-amount");
 
       // Stripe elements
@@ -301,7 +313,26 @@
             '<span class="checkout-item-price">€' + (item.price * item.quantity).toFixed(2) + '</span>' +
           '</div>';
         }).join("");
-        totalEl.textContent = "€" + (data.total || 0).toFixed(2);
+
+        var subtotal = data.subtotal || data.total || 0;
+        var shippingCost = data.shipping_cost || 0;
+        var total = data.total || 0;
+
+        subtotalEl.textContent = "€" + subtotal.toFixed(2);
+
+        if (data.shipping_method) {
+          shippingCarrierEl.textContent = data.shipping_method.carrier_display_name + " " + data.shipping_method.speed_display_name;
+          shippingAmountEl.textContent = shippingCost === 0 ? "Free" : "€" + shippingCost.toFixed(2);
+          shippingLineEl.style.display = "flex";
+        } else if (shippingCost > 0) {
+          shippingCarrierEl.textContent = "Delivery";
+          shippingAmountEl.textContent = "€" + shippingCost.toFixed(2);
+          shippingLineEl.style.display = "flex";
+        } else {
+          shippingLineEl.style.display = "none";
+        }
+
+        totalEl.textContent = "€" + total.toFixed(2);
       }
 
       // Submit payment
@@ -325,6 +356,7 @@
             body: JSON.stringify({
               shipping_address: orderData.shipping_address,
               payment_method: selectedMethod,
+              shipping_method_id: orderData.shipping_method_id || null,
               notes: orderData.notes || null,
             }),
           });

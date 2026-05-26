@@ -11,6 +11,7 @@
       "register": "Register",
       "logout": "Logout",
       "orders": "My Orders",
+      "profile": "My Profile",
       "cart": "Cart"
     },
     "overlay": {
@@ -167,6 +168,31 @@
     "returns": {
       "title": "Returns & Exchanges",
       "subtitle": "Our return policy and how to initiate a return."
+    },
+    "profile": {
+      "title": "My Profile",
+      "subtitle": "Manage your account details and shipping address.",
+      "personalInfo": "Personal Information",
+      "name": "Name",
+      "email": "Email",
+      "emailHint": "Email cannot be changed",
+      "phone": "Phone",
+      "saveProfile": "Save Profile",
+      "shippingAddress": "Shipping Address",
+      "shippingHint": "Save your address to speed up checkout.",
+      "addressName": "Full Name",
+      "street": "Street Address",
+      "city": "City",
+      "zip": "Postal Code",
+      "country": "Country",
+      "addressPhone": "Phone (for delivery)",
+      "saveAddress": "Save Address",
+      "changePassword": "Change Password",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "passwordHint": "Must be at least 8 characters",
+      "confirmPassword": "Confirm New Password",
+      "updatePassword": "Update Password"
     }
   }
 }
