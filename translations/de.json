@@ -123,6 +123,39 @@
         "closing": "Vielen Dank, dass Sie sich für Handwerkskunst statt Massenproduktion entscheiden und Teil unserer Geschichte sind. Jedes Mal, wenn Sie ein Nobelian-Stück bei sich tragen, tragen Sie ein kleines Stück unseres Herzens mit sich."
       }
     },
+    "material": {
+      "hero": {
+        "title": "Material",
+        "subtitle": "Qualität und Handwerk im Herzen jedes Stücks."
+      },
+      "intro": "Wir verwenden natürliche und hochwertige Materialien für unsere Taschen, Schals, Handschuhe und Charms. Jedes wird für Langlebigkeit, Komfort und zeitlose Ausstrahlung ausgewählt.",
+      "usedIn": "Verwendet in:",
+      "leather": {
+        "name": "Leder",
+        "desc": "Vollnarbiges und pflanzlich gegerbtes Leder aus vertrauenswürdigen Gerbereien. Entwickelt mit der Zeit eine edle Patina und hält dem täglichen Gebrauch stand.",
+        "usedIn": "Taschen, Riemen, Charms"
+      },
+      "silk": {
+        "name": "Seide",
+        "desc": "Maulbeerseide für Schals und Futterstoffe. Leicht, atmungsaktiv und sanft zur Haut, mit einem dezenten Schimmer.",
+        "usedIn": "Schals, Futterstoffe, Accessoires"
+      },
+      "wool": {
+        "name": "Wolle",
+        "desc": "Feine Merino- und Mischwolle für Wärme und Struktur. Natürlich temperaturregulierend und langlebig.",
+        "usedIn": "Schals, Handschuhe, Winterstücke"
+      },
+      "linen": {
+        "name": "Leinen",
+        "desc": "Europäisches Leinen für ein frisches, atmungsaktives Gefühl. Ideal für Schals und leichte Accessoires in wärmeren Jahreszeiten.",
+        "usedIn": "Schals, saisonale Accessoires"
+      },
+      "brass": {
+        "name": "Messing & Beschläge",
+        "desc": "Massive Messingbeschläge und Verschlüsse. Antike oder polierte Oberflächen, die anmutig altern und sicher halten.",
+        "usedIn": "Taschen, Charms, Verschlüsse"
+      }
+    },
     "cart": {
       "title": "Warenkorb"
     },

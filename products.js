@@ -121,6 +121,11 @@ const productService = (() => {
           <h2 class="product-modal-name"></h2>
           <p class="product-modal-description"></p>
           <p class="product-modal-price"></p>
+          <div class="product-modal-quantity">
+            <button class="product-modal-qty-btn" data-action="decrease" aria-label="Decrease quantity">−</button>
+            <span class="product-modal-qty-value">1</span>
+            <button class="product-modal-qty-btn" data-action="increase" aria-label="Increase quantity">+</button>
+          </div>
           <button class="product-modal-add-btn">Add to Cart</button>
           <a class="product-modal-details-link" href="#">View Full Details →</a>
         </div>
@@ -138,10 +143,32 @@ const productService = (() => {
       if (e.key === "Escape" && modalElement.classList.contains("active")) closeModal();
     });
 
+    // Quantity controls
+    backdrop.querySelectorAll(".product-modal-qty-btn").forEach((btn) => {
+      btn.addEventListener("click", handleQuantityChange);
+    });
+
     // Add to cart from modal
     backdrop.querySelector(".product-modal-add-btn").addEventListener("click", handleModalAddToCart);
 
     return modalElement;
+  }
+
+  /**
+   * Handle quantity +/- button clicks in the modal
+   */
+  function handleQuantityChange(event) {
+    const action = event.currentTarget.dataset.action;
+    const qtyEl = modalElement.querySelector(".product-modal-qty-value");
+    let current = parseInt(qtyEl.textContent, 10) || 1;
+
+    if (action === "increase" && current < 9) {
+      current++;
+    } else if (action === "decrease" && current > 1) {
+      current--;
+    }
+
+    qtyEl.textContent = current;
   }
 
   /**
@@ -174,13 +201,19 @@ const productService = (() => {
     modal.querySelector(".product-modal-price").textContent = priceDisplay;
 
     const addBtn = modal.querySelector(".product-modal-add-btn");
+    const qtyContainer = modal.querySelector(".product-modal-quantity");
+    const qtyValue = modal.querySelector(".product-modal-qty-value");
     addBtn.dataset.productId = product.id || "";
+    qtyValue.textContent = "1";
+
     if (product.in_stock && product.id) {
       addBtn.disabled = false;
       addBtn.textContent = "Add to Cart";
       addBtn.style.display = "";
+      qtyContainer.style.display = "";
     } else {
       addBtn.style.display = "none";
+      qtyContainer.style.display = "none";
     }
 
     // Update "View Details" link
@@ -211,6 +244,8 @@ const productService = (() => {
   async function handleModalAddToCart(event) {
     const btn = event.currentTarget;
     const productId = btn.dataset.productId;
+    const qtyEl = modalElement.querySelector(".product-modal-qty-value");
+    const quantity = parseInt(qtyEl.textContent, 10) || 1;
 
     if (!authService.isAuthenticated()) {
       closeModal();
@@ -222,7 +257,7 @@ const productService = (() => {
     btn.textContent = "Adding...";
 
     try {
-      await cartService.addItem(productId);
+      await cartService.addItem(productId, quantity);
       btn.textContent = "Added ✓";
       setTimeout(() => {
         btn.textContent = "Add to Cart";

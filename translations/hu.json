@@ -123,6 +123,39 @@
         "closing": "Köszönjük, hogy a kézművességet választod a tömegtermelés helyett, és hogy részese vagy történetünknek. Valahányszor magaddal viszel egy Nobelian darabot, egy kis részünket is magaddal viszed."
       }
     },
+    "material": {
+      "hero": {
+        "title": "Anyagok",
+        "subtitle": "Minőség és kézművesség minden darab szívében."
+      },
+      "intro": "Természetes és prémium anyagokat használunk táskáinkhoz, sáljainkhoz, kesztyűinkhez és charmjainkhoz. Mindegyiket tartósság, kényelem és időtlen megjelenés alapján választjuk.",
+      "usedIn": "Felhasználás:",
+      "leather": {
+        "name": "Bőr",
+        "desc": "Teljes szemcsés és növényi cserzésű bőr megbízható cserzőműhelyekből. Idővel gazdag patinát fejleszt, és ellenáll a mindennapi használatnak.",
+        "usedIn": "Táskák, pántok, charmok"
+      },
+      "silk": {
+        "name": "Selyem",
+        "desc": "Eperfa selyem sálakhoz és bélésekhez. Könnyű, légáteresztő és bőrbarát, finom fénnyel.",
+        "usedIn": "Sálak, bélések, kiegészítők"
+      },
+      "wool": {
+        "name": "Gyapjú",
+        "desc": "Finom merinó és kevert gyapjú melegségért és struktúráért. Természetesen hőszabályozó és tartós.",
+        "usedIn": "Sálak, kesztyűk, téli darabok"
+      },
+      "linen": {
+        "name": "Len",
+        "desc": "Európai len friss, légáteresztő tapintással. Ideális sálakhoz és könnyű kiegészítőkhöz melegebb évszakokban.",
+        "usedIn": "Sálak, szezonális kiegészítők"
+      },
+      "brass": {
+        "name": "Réz és vasalatok",
+        "desc": "Tömör réz szerelvények és zárak. Antik vagy polírozott felületek, amelyek elegánsan öregszenek és biztonságosan tartanak.",
+        "usedIn": "Táskák, charmok, zárak"
+      }
+    },
     "cart": {
       "title": "Kosár"
     },

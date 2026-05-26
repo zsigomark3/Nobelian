@@ -123,6 +123,39 @@
         "closing": "Thank you for choosing craftsmanship over mass production, and for being part of our story. Every time you carry a Nobelian piece, you carry a little bit of our heart with you."
       }
     },
+    "material": {
+      "hero": {
+        "title": "Material",
+        "subtitle": "Quality and craft at the heart of every piece."
+      },
+      "intro": "We source natural and premium materials for our bags, scarves, gloves, and charms. Each is chosen for durability, comfort, and timeless appeal.",
+      "usedIn": "Used in:",
+      "leather": {
+        "name": "Leather",
+        "desc": "Full-grain and vegetable-tanned leather from trusted tanneries. Develops a rich patina over time and stands up to daily use.",
+        "usedIn": "Bags, straps, charms"
+      },
+      "silk": {
+        "name": "Silk",
+        "desc": "Mulberry silk for scarves and linings. Light, breathable, and soft against the skin, with a subtle sheen.",
+        "usedIn": "Scarves, linings, accessories"
+      },
+      "wool": {
+        "name": "Wool",
+        "desc": "Fine merino and blended wools for warmth and structure. Naturally temperature-regulating and long-lasting.",
+        "usedIn": "Scarves, gloves, cold-weather pieces"
+      },
+      "linen": {
+        "name": "Linen",
+        "desc": "European linen for a crisp, breathable hand. Ideal for scarves and lightweight accessories in warmer seasons.",
+        "usedIn": "Scarves, seasonal accessories"
+      },
+      "brass": {
+        "name": "Brass & hardware",
+        "desc": "Solid brass fittings and closures. Antique or polished finishes that age gracefully and stay secure.",
+        "usedIn": "Bags, charms, closures"
+      }
+    },
     "cart": {
       "title": "Shopping Cart"
     },
