@@ -2471,3 +2471,188 @@ body[data-page="home"] .navbar.sticky.home-scrolled .nav-toggle-icon {
     padding: 48px 12% 100px;
   }
 }
+
+
+/* ============================================================
+   PAYMENT PAGE
+============================================================ */
+.payment-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 16px 60px;
+}
+
+.payment-order-summary {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #eee;
+}
+
+.payment-order-summary h2 {
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin: 0 0 16px;
+  color: #222;
+}
+
+.payment-options {
+  margin-bottom: 32px;
+}
+
+.payment-options h2 {
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin: 0 0 20px;
+  color: #222;
+}
+
+.payment-option {
+  border: 1px solid #eee;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.payment-option:has(input:checked) {
+  border-color: #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.payment-option-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.payment-option-radio {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.payment-option-radio input[type="radio"] {
+  margin-top: 4px;
+  width: 18px;
+  height: 18px;
+  accent-color: #333;
+  cursor: pointer;
+}
+
+.payment-option-radio label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.payment-option-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #222;
+}
+
+.payment-option-desc {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.payment-option-icon {
+  color: #555;
+  flex-shrink: 0;
+}
+
+.payment-option-body {
+  padding: 0 20px 20px;
+}
+
+/* Stripe card element */
+.stripe-card-element {
+  padding: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  transition: border-color 0.2s ease;
+}
+
+.stripe-card-element:focus-within {
+  border-color: #333;
+}
+
+/* Bank transfer details */
+.bank-transfer-info p {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+.bank-details-card {
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.bank-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.bank-detail-row:last-child {
+  border-bottom: none;
+}
+
+.bank-detail-label {
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.bank-detail-value {
+  font-size: 0.9rem;
+  color: #222;
+  font-family: monospace;
+  letter-spacing: 0.3px;
+}
+
+/* Cash on delivery info */
+.cod-info {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.6;
+  margin: 0;
+  padding: 8px 0;
+}
+
+/* Payment submit button */
+.payment-submit-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 1.05rem;
+  margin-top: 8px;
+}
+
+@media (max-width: 600px) {
+  .payment-option-header {
+    padding: 16px;
+  }
+
+  .payment-option-icon {
+    display: none;
+  }
+
+  .bank-detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .bank-detail-value {
+    font-size: 0.85rem;
+  }
+}

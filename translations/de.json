@@ -126,7 +126,35 @@
       "title": "Warenkorb"
     },
     "checkout": {
-      "title": "Kasse"
+      "title": "Kasse",
+      "proceedToPayment": "Weiter zur Zahlung"
+    },
+    "payment": {
+      "title": "Zahlung",
+      "subtitle": "Wählen Sie Ihre bevorzugte Zahlungsmethode.",
+      "orderSummary": "Bestellübersicht",
+      "chooseMethod": "Zahlungsmethode wählen",
+      "stripe": {
+        "title": "Kredit- / Debitkarte",
+        "desc": "Sichere Online-Zahlung über Stripe"
+      },
+      "bank": {
+        "title": "Banküberweisung",
+        "desc": "Überweisung auf unser Bankkonto (1-3 Werktage)",
+        "instructions": "Bitte überweisen Sie den Gesamtbetrag auf das folgende Bankkonto. Ihre Bestellung wird nach Zahlungseingang bearbeitet (1-3 Werktage).",
+        "reference": "Verwendungszweck:"
+      },
+      "cod": {
+        "title": "Nachnahme",
+        "desc": "Zahlung bei Lieferung",
+        "info": "Sie zahlen den vollen Betrag bei Lieferung an den Kurier. Bitte halten Sie den genauen Betrag bereit."
+      },
+      "submit": "Bestellung abschließen",
+      "success": {
+        "title": "Bestellung bestätigt",
+        "viewOrders": "Meine Bestellungen",
+        "continueShopping": "Weiter einkaufen"
+      }
     },
     "orders": {
       "title": "Meine Bestellungen",

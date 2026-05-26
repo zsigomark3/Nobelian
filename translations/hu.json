@@ -126,7 +126,35 @@
       "title": "Kosár"
     },
     "checkout": {
-      "title": "Fizetés"
+      "title": "Fizetés",
+      "proceedToPayment": "Tovább a fizetéshez"
+    },
+    "payment": {
+      "title": "Fizetés",
+      "subtitle": "Válaszd ki, hogyan szeretnél fizetni.",
+      "orderSummary": "Rendelés összesítő",
+      "chooseMethod": "Fizetési mód kiválasztása",
+      "stripe": {
+        "title": "Bankkártya",
+        "desc": "Biztonságos online fizetés Stripe-on keresztül"
+      },
+      "bank": {
+        "title": "Banki átutalás",
+        "desc": "Átutalás bankszámlánkra (1-3 munkanap)",
+        "instructions": "Kérjük, utald át a teljes összeget az alábbi bankszámlára. Rendelésedet a beérkezés után dolgozzuk fel (1-3 munkanap).",
+        "reference": "Közlemény:"
+      },
+      "cod": {
+        "title": "Utánvét",
+        "desc": "Fizetés a csomag átvételekor",
+        "info": "A teljes összeget a futárnak fizeted ki átvételkor. Kérjük, készítsd elő a pontos összeget."
+      },
+      "submit": "Rendelés véglegesítése",
+      "success": {
+        "title": "Rendelés megerősítve",
+        "viewOrders": "Rendeléseim megtekintése",
+        "continueShopping": "Vásárlás folytatása"
+      }
     },
     "orders": {
       "title": "Rendeléseim",

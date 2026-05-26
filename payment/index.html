@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Payment | Nobelian</title>
+  <meta name="description" content="Choose your payment method for your Nobelian order." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="https://assets.nobelian.com/icons/nobelian_pict.svg" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.css" />
+  <link rel="stylesheet" href="/style.css">
+  <script src="/components.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.umd.js" defer></script>
+  <script src="/cookieconsent-config.js" defer></script>
+  <script src="/app.js" defer></script>
+  <script src="/auth.js" defer></script>
+  <script src="/cart.js" defer></script>
+  <script src="/search.js" defer></script>
+
+  <!-- Stripe.js (test/sandbox mode) -->
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+
+<body id="top" data-page="payment">
+
+  <div data-component="navbar"></div>
+
+  <main class="subpage-main">
+    <section class="subpage-hero">
+      <h1 data-i18n="pages.payment.title">Payment</h1>
+      <p data-i18n="pages.payment.subtitle">Choose how you would like to pay for your order.</p>
+    </section>
+
+    <section class="payment-container">
+      <!-- Not authenticated -->
+      <div id="payment-login" class="cart-empty" style="display:none;">
+        <p>Please <a href="/login/">log in</a> to complete your payment.</p>
+      </div>
+
+      <!-- Loading -->
+      <div id="payment-loading" class="cart-loading">
+        <p>Loading...</p>
+      </div>
+
+      <!-- No order data -->
+      <div id="payment-no-order" class="cart-empty" style="display:none;">
+        <p>No order found. Please <a href="/checkout/">go back to checkout</a>.</p>
+      </div>
+
+      <!-- Payment method selection -->
+      <div id="payment-methods" style="display:none;">
+        <div class="payment-order-summary">
+          <h2 data-i18n="pages.payment.orderSummary">Order Summary</h2>
+          <div id="payment-items" class="checkout-items"></div>
+          <div class="checkout-total">
+            <strong>Total:</strong>
+            <span id="payment-total-amount">€0.00</span>
+          </div>
+        </div>
+
+        <div class="payment-options">
+          <h2 data-i18n="pages.payment.chooseMethod">Choose Payment Method</h2>
+
+          <!-- Option 1: Stripe -->
+          <div class="payment-option" data-method="stripe">
+            <div class="payment-option-header">
+              <div class="payment-option-radio">
+                <input type="radio" name="payment-method" id="pm-stripe" value="stripe" checked>
+                <label for="pm-stripe">
+                  <span class="payment-option-title" data-i18n="pages.payment.stripe.title">Credit / Debit Card</span>
+                  <span class="payment-option-desc" data-i18n="pages.payment.stripe.desc">Secure online payment via Stripe</span>
+                </label>
+              </div>
+              <div class="payment-option-icon" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                  <line x1="1" y1="10" x2="23" y2="10"></line>
+                </svg>
+              </div>
+            </div>
+            <div class="payment-option-body" id="stripe-form-container" style="display:none;">
+              <div id="stripe-card-element" class="stripe-card-element"></div>
+              <div id="stripe-card-errors" class="error-message" role="alert"></div>
+            </div>
+          </div>
+
+          <!-- Option 2: Bank Transfer -->
+          <div class="payment-option" data-method="bank_transfer">
+            <div class="payment-option-header">
+              <div class="payment-option-radio">
+                <input type="radio" name="payment-method" id="pm-bank" value="bank_transfer">
+                <label for="pm-bank">
+                  <span class="payment-option-title" data-i18n="pages.payment.bank.title">Bank Transfer</span>
+                  <span class="payment-option-desc" data-i18n="pages.payment.bank.desc">Transfer to our bank account (1-3 business days)</span>
+                </label>
+              </div>
+              <div class="payment-option-icon" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 21h18"></path>
+                  <path d="M3 10h18"></path>
+                  <path d="M5 6l7-3 7 3"></path>
+                  <path d="M4 10v11"></path>
+                  <path d="M20 10v11"></path>
+                  <path d="M8 14v4"></path>
+                  <path d="M12 14v4"></path>
+                  <path d="M16 14v4"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="payment-option-body" id="bank-details" style="display:none;">
+              <div class="bank-transfer-info">
+                <p data-i18n="pages.payment.bank.instructions">Please transfer the total amount to the following bank account. Your order will be processed once payment is received (1-3 business days).</p>
+                <div class="bank-details-card">
+                  <div class="bank-detail-row">
+                    <span class="bank-detail-label">Account Holder:</span>
+                    <span class="bank-detail-value">Nobelian Kft.</span>
+                  </div>
+                  <div class="bank-detail-row">
+                    <span class="bank-detail-label">IBAN:</span>
+                    <span class="bank-detail-value">HU42 1177 3016 1111 1018 0000 0000</span>
+                  </div>
+                  <div class="bank-detail-row">
+                    <span class="bank-detail-label">BIC/SWIFT:</span>
+                    <span class="bank-detail-value">OTPVHUHB</span>
+                  </div>
+                  <div class="bank-detail-row">
+                    <span class="bank-detail-label">Bank:</span>
+                    <span class="bank-detail-value">OTP Bank Nyrt.</span>
+                  </div>
+                  <div class="bank-detail-row">
+                    <span class="bank-detail-label" data-i18n="pages.payment.bank.reference">Reference:</span>
+                    <span class="bank-detail-value" id="bank-reference">—</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Option 3: Cash on Delivery -->
+          <div class="payment-option" data-method="cash_on_delivery">
+            <div class="payment-option-header">
+              <div class="payment-option-radio">
+                <input type="radio" name="payment-method" id="pm-cod" value="cash_on_delivery">
+                <label for="pm-cod">
+                  <span class="payment-option-title" data-i18n="pages.payment.cod.title">Cash on Delivery</span>
+                  <span class="payment-option-desc" data-i18n="pages.payment.cod.desc">Pay when your order arrives</span>
+                </label>
+              </div>
+              <div class="payment-option-icon" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="payment-option-body" id="cod-details" style="display:none;">
+              <p class="cod-info" data-i18n="pages.payment.cod.info">You will pay the full amount to the courier upon delivery. Please have the exact amount ready.</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="payment-error" class="error-message"></div>
+
+        <button type="button" class="auth-button payment-submit-btn" id="payment-submit">
+          <span data-i18n="pages.payment.submit">Complete Order</span>
+        </button>
+      </div>
+
+      <!-- Payment success -->
+      <div id="payment-success" class="checkout-confirmation" style="display:none;">
+        <div class="confirmation-icon" aria-hidden="true">✓</div>
+        <h2 data-i18n="pages.payment.success.title">Order Confirmed</h2>
+        <p id="payment-success-message"></p>
+        <p>Order ID: <strong id="payment-order-id"></strong></p>
+        <div class="confirmation-actions">
+          <a href="/orders/" class="cart-continue-btn" data-i18n="pages.payment.success.viewOrders">View My Orders</a>
+          <a href="/" class="cart-continue-btn" data-i18n="pages.payment.success.continueShopping">Continue Shopping</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div data-component="footer"></div>
+
+  <script>
+    document.addEventListener("componentsLoaded", async function () {
+      var API_BASE = "https://nobelian-be.fly.dev/api";
+      // Stripe publishable key (test mode)
+      var STRIPE_PK = "pk_test_51XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+
+      var loginEl = document.getElementById("payment-login");
+      var loadingEl = document.getElementById("payment-loading");
+      var noOrderEl = document.getElementById("payment-no-order");
+      var methodsEl = document.getElementById("payment-methods");
+      var successEl = document.getElementById("payment-success");
+      var errorEl = document.getElementById("payment-error");
+      var submitBtn = document.getElementById("payment-submit");
+      var itemsEl = document.getElementById("payment-items");
+      var totalEl = document.getElementById("payment-total-amount");
+
+      // Stripe elements
+      var stripe = null;
+      var cardElement = null;
+      var clientSecret = null;
+
+      if (!authService.isAuthenticated()) {
+        loadingEl.style.display = "none";
+        loginEl.style.display = "block";
+        return;
+      }
+
+      // Get order data from sessionStorage (set by checkout page)
+      var orderDataStr = sessionStorage.getItem("nobelian_pending_order");
+      if (!orderDataStr) {
+        loadingEl.style.display = "none";
+        noOrderEl.style.display = "block";
+        return;
+      }
+
+      var orderData;
+      try {
+        orderData = JSON.parse(orderDataStr);
+      } catch (e) {
+        loadingEl.style.display = "none";
+        noOrderEl.style.display = "block";
+        return;
+      }
+
+      // Render order summary
+      renderSummary(orderData);
+      loadingEl.style.display = "none";
+      methodsEl.style.display = "block";
+
+      // Payment method selection logic
+      var radios = document.querySelectorAll('input[name="payment-method"]');
+      radios.forEach(function (radio) {
+        radio.addEventListener("change", function () {
+          // Hide all bodies
+          document.getElementById("stripe-form-container").style.display = "none";
+          document.getElementById("bank-details").style.display = "none";
+          document.getElementById("cod-details").style.display = "none";
+
+          // Show selected
+          if (radio.value === "stripe") {
+            document.getElementById("stripe-form-container").style.display = "block";
+            initStripe();
+          } else if (radio.value === "bank_transfer") {
+            document.getElementById("bank-details").style.display = "block";
+          } else if (radio.value === "cash_on_delivery") {
+            document.getElementById("cod-details").style.display = "block";
+          }
+        });
+      });
+
+      // Default: show Stripe
+      document.getElementById("stripe-form-container").style.display = "block";
+      initStripe();
+
+      function initStripe() {
+        if (stripe) return; // Already initialized
+        try {
+          stripe = Stripe(STRIPE_PK);
+          var elements = stripe.elements();
+          cardElement = elements.create("card", {
+            style: {
+              base: {
+                fontSize: "16px",
+                color: "#333",
+                fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+                "::placeholder": { color: "#999" },
+              },
+              invalid: { color: "#c33" },
+            },
+          });
+          cardElement.mount("#stripe-card-element");
+
+          cardElement.on("change", function (event) {
+            var errorsEl = document.getElementById("stripe-card-errors");
+            if (event.error) {
+              errorsEl.textContent = event.error.message;
+              errorsEl.classList.add("show");
+            } else {
+              errorsEl.textContent = "";
+              errorsEl.classList.remove("show");
+            }
+          });
+        } catch (e) {
+          console.error("Stripe initialization failed:", e);
+        }
+      }
+
+      function renderSummary(data) {
+        var items = data.items || [];
+        itemsEl.innerHTML = items.map(function (item) {
+          return '<div class="checkout-item">' +
+            '<span class="checkout-item-name">' + item.name + ' × ' + item.quantity + '</span>' +
+            '<span class="checkout-item-price">€' + (item.price * item.quantity).toFixed(2) + '</span>' +
+          '</div>';
+        }).join("");
+        totalEl.textContent = "€" + (data.total || 0).toFixed(2);
+      }
+
+      // Submit payment
+      submitBtn.addEventListener("click", async function () {
+        errorEl.classList.remove("show");
+        var selectedMethod = document.querySelector('input[name="payment-method"]:checked').value;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Processing...";
+
+        try {
+          var token = authService.getToken();
+
+          // Create order with selected payment method
+          var res = await fetch(API_BASE + "/orders", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + token,
+            },
+            body: JSON.stringify({
+              shipping_address: orderData.shipping_address,
+              payment_method: selectedMethod,
+              notes: orderData.notes || null,
+            }),
+          });
+
+          if (!res.ok) {
+            var errData = await res.json().catch(function () { return {}; });
+            throw new Error(errData.error || "Failed to create order");
+          }
+
+          var result = await res.json();
+          var order = result.order;
+
+          // Update cart badge
+          cartService.updateBadge({ items: [] });
+
+          if (selectedMethod === "stripe" && result.stripe_client_secret) {
+            // Process Stripe payment
+            clientSecret = result.stripe_client_secret;
+
+            var stripeResult = await stripe.confirmCardPayment(clientSecret, {
+              payment_method: {
+                card: cardElement,
+              },
+            });
+
+            if (stripeResult.error) {
+              throw new Error(stripeResult.error.message);
+            }
+
+            if (stripeResult.paymentIntent.status === "succeeded") {
+              // Confirm payment on backend
+              await fetch(API_BASE + "/orders/" + order.id + "/confirm-payment", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": "Bearer " + token,
+                },
+              });
+
+              showSuccess(order.id, "Your payment was successful. Your order is now confirmed.");
+            }
+          } else if (selectedMethod === "bank_transfer") {
+            document.getElementById("bank-reference").textContent = order.id;
+            showSuccess(order.id, "Your order has been placed. Please transfer €" + order.total.toFixed(2) + " to our bank account using your Order ID as reference. Processing takes 1-3 business days.");
+          } else if (selectedMethod === "cash_on_delivery") {
+            showSuccess(order.id, "Your order has been placed. You will pay €" + order.total.toFixed(2) + " to the courier upon delivery.");
+          }
+
+          // Clear session data
+          sessionStorage.removeItem("nobelian_pending_order");
+
+        } catch (err) {
+          errorEl.textContent = err.message || "Something went wrong. Please try again.";
+          errorEl.classList.add("show");
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Complete Order";
+        }
+      });
+
+      function showSuccess(orderId, message) {
+        methodsEl.style.display = "none";
+        document.getElementById("payment-order-id").textContent = orderId;
+        document.getElementById("payment-success-message").textContent = message;
+        successEl.style.display = "block";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -64,7 +64,6 @@
           <div class="checkout-form-section">
             <h2>Shipping Address</h2>
             <div id="checkout-error" class="error-message"></div>
-            <div id="checkout-success" class="success-message"></div>
 
             <form id="checkout-form" class="auth-form" novalidate>
               <div class="form-group">
@@ -102,23 +101,13 @@
                 <p>⚠️ By placing this order you agree to our <a href="/returns/">returns policy</a> and <a href="/shipping/">shipping terms</a>. Your data is processed securely in accordance with EU regulations.</p>
               </div>
 
-              <button type="submit" class="auth-button checkout-submit-btn" id="checkout-submit">Place Order</button>
+              <button type="submit" class="auth-button checkout-submit-btn" id="checkout-submit">Proceed to Payment</button>
             </form>
           </div>
         </div>
       </div>
 
-      <!-- Order confirmation -->
-      <div id="checkout-confirmation" class="checkout-confirmation" style="display:none;">
-        <div class="confirmation-icon" aria-hidden="true">✓</div>
-        <h2>Order Placed Successfully</h2>
-        <p>Thank you for your order. You will receive a confirmation email shortly.</p>
-        <p>Order ID: <strong id="confirmation-order-id"></strong></p>
-        <div class="confirmation-actions">
-          <a href="/orders/" class="cart-continue-btn">View My Orders</a>
-          <a href="/" class="cart-continue-btn">Continue Shopping</a>
-        </div>
-      </div>
+      <!-- Order confirmation removed — handled by /payment/ page -->
     </section>
   </main>
 
@@ -130,11 +119,9 @@
       var loadingEl = document.getElementById("checkout-loading");
       var emptyEl = document.getElementById("checkout-empty");
       var contentEl = document.getElementById("checkout-content");
-      var confirmEl = document.getElementById("checkout-confirmation");
       var itemsEl = document.getElementById("checkout-items");
       var totalEl = document.getElementById("checkout-total-amount");
       var errorEl = document.getElementById("checkout-error");
-      var successEl = document.getElementById("checkout-success");
       var form = document.getElementById("checkout-form");
       var submitBtn = document.getElementById("checkout-submit");
 
@@ -144,8 +131,9 @@
         return;
       }
 
+      var cart;
       try {
-        var cart = await cartService.getCart();
+        cart = await cartService.getCart();
         loadingEl.style.display = "none";
 
         if (!cart.items || cart.items.length === 0) {
@@ -174,7 +162,6 @@
       form.addEventListener("submit", async function (e) {
         e.preventDefault();
         errorEl.classList.remove("show");
-        successEl.classList.remove("show");
 
         var name = document.getElementById("ship-name").value.trim();
         var street = document.getElementById("ship-street").value.trim();
@@ -190,51 +177,23 @@
           return;
         }
 
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Placing order...";
+        // Store order data in sessionStorage and redirect to payment page
+        var orderPayload = {
+          shipping_address: {
+            name: name,
+            street: street,
+            city: city,
+            zip: zip,
+            country: country,
+            phone: phone,
+          },
+          notes: notes,
+          items: cart.items,
+          total: cart.total,
+        };
 
-        try {
-          var token = authService.getToken();
-          var res = await fetch("https://nobelian-be.fly.dev/api/orders", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer " + token,
-            },
-            body: JSON.stringify({
-              shipping_address: {
-                name: name,
-                street: street,
-                city: city,
-                zip: zip,
-                country: country,
-                phone: phone,
-              },
-              notes: notes,
-            }),
-          });
-
-          if (!res.ok) {
-            var data = await res.json().catch(function () { return {}; });
-            throw new Error(data.error || "Failed to place order");
-          }
-
-          var order = await res.json();
-
-          // Update cart badge
-          cartService.updateBadge({ items: [] });
-
-          // Show confirmation
-          contentEl.style.display = "none";
-          document.getElementById("confirmation-order-id").textContent = order.id;
-          confirmEl.style.display = "block";
-
-        } catch (err) {
-          errorEl.textContent = err.message || "Something went wrong. Please try again.";
-          errorEl.classList.add("show");
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Place Order";
-        }
+        sessionStorage.setItem("nobelian_pending_order", JSON.stringify(orderPayload));
+        window.location.href = "/payment/";
       });
     });
   </script>
