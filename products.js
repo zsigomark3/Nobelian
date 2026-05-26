@@ -78,9 +78,18 @@ const productService = (() => {
       currency: product.currency || "EUR",
     }).format(product.price);
 
-    const stockClass = product.in_stock ? "" : " out-of-stock";
-    const stockLabel = product.in_stock ? "" : '<span class="product-stock-label">Out of Stock</span>';
-    const addToCartBtn = product.in_stock
+    const isInStock = product.in_stock && (product.quantity === null || product.quantity === undefined || product.quantity > 0);
+    const stockClass = isInStock ? "" : " out-of-stock";
+
+    // Quantity/stock label
+    let stockLabel = "";
+    if (!isInStock) {
+      stockLabel = '<span class="product-stock-label">Out of Stock</span>';
+    } else if (product.quantity !== null && product.quantity !== undefined && product.quantity <= 5) {
+      stockLabel = `<span class="product-stock-label low-stock">Only ${product.quantity} left</span>`;
+    }
+
+    const addToCartBtn = isInStock
       ? `<button class="product-add-btn" data-product-id="${product.id}" aria-label="Add ${product.name} to cart">Add to Cart</button>`
       : "";
 
@@ -206,12 +215,19 @@ const productService = (() => {
     addBtn.dataset.productId = product.id || "";
     qtyValue.textContent = "1";
 
-    if (product.in_stock && product.id) {
+    // Show quantity + add button if product is in stock (or stock status unknown) and has an ID
+    const isInStock = product.in_stock !== false;
+    if (isInStock && product.id) {
       addBtn.disabled = false;
       addBtn.textContent = "Add to Cart";
       addBtn.style.display = "";
       qtyContainer.style.display = "";
+    } else if (!product.id) {
+      // Static fallback card without product ID — hide cart controls
+      addBtn.style.display = "none";
+      qtyContainer.style.display = "none";
     } else {
+      // Out of stock
       addBtn.style.display = "none";
       qtyContainer.style.display = "none";
     }
